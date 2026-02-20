@@ -9,13 +9,13 @@ export default new Vuex.Store({
     fullscreenWindowHeight: window.innerHeight + "px",
 
     // Active Window State
-    activeWindow: "nil", 
+    activeWindow: "nil",
 
     // Active Windows Array State
     activeWindows: [],
 
     // Z-index State
-    zIndex: 2, 
+    zIndex: 2,
 
     windows: [
       {
@@ -29,7 +29,7 @@ export default new Vuex.Store({
           right: null,
           bottom: null,
           left: null
-        }, // Window Content Padding 
+        }, // Window Content Padding
         position: "absolute", // Window Position
         positionX: "10vw", // Window Position X (when first opened)
         positionY: "15vh", // Window Position Y (when first opened)
@@ -38,7 +38,7 @@ export default new Vuex.Store({
         fullscreen: false // Window Fullscreen State [true, false]
       },
       {
-        windowId: "MacOS", 
+        windowId: "MacOS",
         windowState: "close",
         displayName: "MacOS Theme",
         windowComponent: 'OSWindow',
@@ -57,7 +57,7 @@ export default new Vuex.Store({
         fullscreen: false
       },
       {
-        windowId: "Windows", 
+        windowId: "Windows",
         windowState: "close",
         displayName: "Windows Theme",
         windowComponent: 'OSWindow',
@@ -76,7 +76,7 @@ export default new Vuex.Store({
         fullscreen: false
       },
       {
-        windowId: "Blueprint", 
+        windowId: "Blueprint",
         windowState: "close",
         displayName: "Blueprint Theme",
         windowComponent: 'OSWindow',
@@ -95,7 +95,7 @@ export default new Vuex.Store({
         fullscreen: false
       },
       {
-        windowId: "PhotoWindow", 
+        windowId: "PhotoWindow",
         windowState: "close",
         displayName: "Photos",
         windowComponent: 'window',
@@ -191,11 +191,11 @@ export default new Vuex.Store({
           this.commit("popActiveWindow", window);
         }, 0);
         setTimeout(() => {
-          this.commit("setActiveWindow", "nil"); 
+          this.commit("setActiveWindow", "nil");
         }, 0);
       } else if (payload.windowState == "minimize") {
         window.windowState = payload.windowState;
-        this.commit("setActiveWindow", "nil"); 
+        this.commit("setActiveWindow", "nil");
       } else {
         console.log("Error: windowState not found or invalid");
       }

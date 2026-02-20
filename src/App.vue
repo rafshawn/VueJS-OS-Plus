@@ -2,23 +2,23 @@
 <div id="app">
     <top-navbar id="top-navbar"></top-navbar>
     <div class="screen" id="screen">
-        <div 
-            v-for="window in windows" 
-            :key="window.key" 
+        <div
+            v-for="window in windows"
+            :key="window.key"
             :aria-label="window.displayName"
         >
             <component
-                :is="window.windowComponent" 
-                :nameOfWindow="window.windowId" 
+                :is="window.windowComponent"
+                :nameOfWindow="window.windowId"
                 :content_padding_bottom="window.windowContentPadding['bottom']"
                 :content_padding_left="window.windowContentPadding['left']"
                 :content_padding_right="window.windowContentPadding['right']"
                 :content_padding_top="window.windowContentPadding['top']"
-                :id="window.windowId" 
-                :style="{position: window.position, left: window.positionX, top: window.positionY}" 
+                :id="window.windowId"
+                :style="{position: window.position, left: window.positionX, top: window.positionY}"
                 v-if="windowCheck(window.windowId)"
             >
-                <component 
+                <component
                     :is="window.windowContent"
                     slot="content"
                 >
@@ -46,6 +46,7 @@ import OSWindow from './components/template/OSWindow'
 import Blueprint from './components/views/Blueprint'
 import Windows from './components/views/Windows.vue'
 import MacOS from './components/views/MacOS.vue'
+
 export default {
     name: 'App',
     data: function () {
@@ -75,7 +76,7 @@ export default {
     },
     mounted() {
         /*-------------------------------------------------*\
-            This fixes height problems for mobile devices 
+            This fixes height problems for mobile devices
 
             Code is detecting height of navbar and setting
             respective heights of screen
@@ -128,6 +129,32 @@ export default {
 @import './assets/css/blueprint/window.css';
 @import './assets/css/blueprint/appgrid.css';
 
+/*
+ *   W95FA   <- Windows 95
+ *   Tahoma  <- Windows XP
+ *   Selawik <- Windows Vista and 7
+ *   DePixel <- Macintosh
+ *   Lucida Sans Unicode <- Mac OS X
+ *   Helvetica <- macOS
+ */
+
+@font-face {
+    font-family: 'W95FA';
+    src: url('~@/assets/fonts/W95FA.otf');
+}
+@font-face {
+    font-family: 'Selawik';
+    src: url('~@/assets/fonts/selawk.ttf');
+}
+@font-face {
+    font-family: 'DePixel';
+    src: url('~@/assets/fonts/DePixelHalbfett.otf');
+}
+@font-face {
+    font-family: 'Lucida Sans Unicode';
+    src: url('~@/assets/fonts/lsansuni.ttf');
+}
+
 /*-------------------------------------------*\
     Utilities
 \*-------------------------------------------*/
@@ -137,8 +164,8 @@ html {
 }
 
 #app {
-    font-family: 'Courier New', Courier, monospace;
-    font-weight: 600;
+    font-family: 'Tahoma';
+    font-weight: 40;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     display: flex;

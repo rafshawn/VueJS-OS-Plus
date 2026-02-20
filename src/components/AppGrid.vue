@@ -1,5 +1,5 @@
 <template>
-<nav 
+<nav
     class="grid-container"
     :style="{height: gridHeight}"
 >
