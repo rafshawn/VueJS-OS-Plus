@@ -1,7 +1,7 @@
 <template>
 <div id="app">
     <top-navbar id="top-navbar"></top-navbar>
-    <AboutWindow />
+    <AboutDialog />
     <div class="screen" id="screen">
         <div
             v-for="window in windows"
@@ -47,12 +47,13 @@ import OSWindow from './components/template/OSWindow'
 import Blueprint from './components/views/Blueprint'
 import Windows from './components/views/Windows.vue'
 import MacOS from './components/views/MacOS.vue'
+import AboutWindow from './components/template/AboutWindow.vue'
 import AboutMac from './components/views/AboutMac.vue'
 
 // --- macOS imports ---
 import Navbar from './components/macos/Navbar'
 import TopNavbar from './components/macos/TopNavbar.vue'
-import AboutWindow from './components/macos/AboutWindow.vue'
+import AboutDialog from './components/macos/AboutDialog.vue'
 
 export default {
     name: 'App',
@@ -72,11 +73,12 @@ export default {
         Blueprint,
         Windows,
         MacOS,
+        AboutWindow,
         AboutMac,
 
         // macOS components
         TopNavbar,
-        AboutWindow
+        AboutDialog
     },
     computed: {
         style() {

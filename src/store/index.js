@@ -18,7 +18,7 @@ export default new Vuex.Store({
     zIndex: 2,
 
     // About Dialog State
-    aboutWindowOpen: false,
+    aboutDialogOpen: false,
 
     // Menu Dropdown State
     appleMenuOpen: false,
@@ -124,7 +124,7 @@ export default new Vuex.Store({
         windowId: "AboutMac",
         windowState: "close",
         displayName: "About This Mac",
-        windowComponent: 'window',
+        windowComponent: 'AboutWindow',
         windowContent: 'AboutMac',
         windowContentPadding: {
             top: null,
@@ -173,8 +173,8 @@ export default new Vuex.Store({
     },
 
     // About Dialog Mutator
-    setAboutWindowOpen(state, isOpen) {
-      state.aboutWindowOpen = isOpen
+    setAboutDialogOpen(state, isOpen) {
+      state.aboutDialogOpen = isOpen
     },
 
     // Apple Menu Mutator

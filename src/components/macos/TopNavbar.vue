@@ -90,8 +90,8 @@ export default {
         document.removeEventListener('click', this.handleClickOutside)
     },
     methods: {
-        openAboutWindow() {
-            this.$store.commit('setAboutWindowOpen', true)
+        openAboutDialog() {
+            this.$store.commit('setAboutDialogOpen', true)
         },
 
         toggleAppleMenu(event) {
@@ -142,7 +142,7 @@ export default {
 
             // Handle special actions
             if (action === 'about') {
-                this.openAboutWindow()
+                this.openAboutDialog()
             } else if (action === 'settings') {
                 console.log('Open System Settings')
             } else if (action === 'forceQuit') {

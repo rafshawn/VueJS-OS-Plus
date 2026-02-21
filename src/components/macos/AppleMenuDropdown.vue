@@ -1,38 +1,38 @@
 <template>
 <div v-if="isOpen" class="dropdown-menu" :style="{left: positionX + 'px', top: positionY + 'px'}">
-    <div class="dropdown-item" @click="openAboutWindow">
+    <div class="dropdown-item" @click="openAboutDialog">
         <span class="item-label">About This Mac</span>
     </div>
     <div class="dropdown-divider"></div>
-    <div class="dropdown-item" @click="openAboutWindow">
+    <div class="dropdown-item" @click="openAboutDialog">
         <span class="item-label">System Settings</span>
     </div>
-    <div class="dropdown-item" @click="openAboutWindow">
+    <div class="dropdown-item" @click="openAboutDialog">
         <span class="item-label">App Store</span>
     </div>
     <div class="dropdown-divider"></div>
-    <div class="dropdown-item" @click="openAboutWindow">
+    <div class="dropdown-item" @click="openAboutDialog">
         <span class="item-label">Recent Items</span>
     </div>
     <div class="dropdown-divider"></div>
-    <div class="dropdown-item" @click="openAboutWindow">
+    <div class="dropdown-item" @click="openAboutDialog">
         <span class="item-label">Force Quit</span>
     </div>
     <div class="dropdown-divider"></div>
-    <div class="dropdown-item" @click="openAboutWindow">
+    <div class="dropdown-item" @click="openAboutDialog">
         <span class="item-label">Sleep</span>
     </div>
-    <div class="dropdown-item" @click="openAboutWindow">
+    <div class="dropdown-item" @click="openAboutDialog">
         <span class="item-label">Restart</span>
     </div>
-    <div class="dropdown-item" @click="openAboutWindow">
+    <div class="dropdown-item" @click="openAboutDialog">
         <span class="item-label">Shut Down</span>
     </div>
     <div class="dropdown-divider"></div>
-    <div class="dropdown-item" @click="openAboutWindow">
+    <div class="dropdown-item" @click="openAboutDialog">
         <span class="item-label">Lock Screen</span>
     </div>
-    <div class="dropdown-item" @click="openAboutWindow">
+    <div class="dropdown-item" @click="openAboutDialog">
         <span class="item-label">Log Out</span>
     </div>
 </div>
@@ -47,8 +47,8 @@ export default {
         positionY: { type: Number, default: 0 }
     },
     methods: {
-        openAboutWindow() {
-            this.$store.commit('setAboutWindowOpen', true)
+        openAboutDialog() {
+            this.$store.commit('setAboutDialogOpen', true)
         }
     }
 }

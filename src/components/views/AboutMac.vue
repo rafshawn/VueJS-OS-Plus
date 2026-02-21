@@ -97,11 +97,11 @@ export default {
     transition: background 0.2s;
 }
 
-.close-btn:hover {
+.info-btn:hover {
     background: #0056b3;
 }
 
-.close-btn:active {
+.info-btn:active {
     background: #004080;
 }
 </style>
