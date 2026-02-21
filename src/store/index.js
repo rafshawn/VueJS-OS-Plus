@@ -17,6 +17,12 @@ export default new Vuex.Store({
     // Z-index State
     zIndex: 2,
 
+    // About Dialog State
+    aboutDialogOpen: false,
+
+    // File Menu Dropdown State
+    fileMenuOpen: false,
+
     windows: [
       {
         windowId: "LoremIpsum", // Unique ID
@@ -146,6 +152,21 @@ export default new Vuex.Store({
       state.fullscreenWindowHeight = height
     },
 
+    // Top Navbar Menu Mutator
+    setActiveMenu(state, menuName) {
+      state.activeMenu = menuName
+    },
+
+    // About Dialog Mutator
+    setAboutDialogOpen(state, isOpen) {
+      state.aboutDialogOpen = isOpen
+    },
+
+    // File Menu Dropdown Mutator
+    setFileMenuOpen(state, isOpen) {
+      state.fileMenuOpen = isOpen
+    },
+
     setFullscreen(state, payload) {
       function getArrItem() {
         return state.windows.find(
@@ -227,5 +248,10 @@ export default new Vuex.Store({
     getFullscreenWindowHeight(state) {
       return state.fullscreenWindowHeight;
     },
+
+    // Top Navbar Menu Getter
+    getActiveMenu: (state) => (menuName) =>{
+      return state.activeMenu === menuName;
+    }
   },
 });

@@ -39,8 +39,7 @@ export default {
         },
     },
     mounted() {
-        let gridH =  this.$store.getters.getFullscreenWindowHeight
-        this.gridHeight = gridH.substring(0, gridH.length - 2) - 60 + 'px'
+        this.gridHeight = 'calc(100vh - 95px)'
     },
 }
 </script>

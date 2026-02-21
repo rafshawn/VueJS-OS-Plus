@@ -28,6 +28,7 @@
         <app-grid></app-grid>
     </div>
     <navbar id="navbar" />
+    <about-dialog />
 </div>
 </template>
 
@@ -36,8 +37,8 @@
     Import Components, you can change the path for different
     component themes (blueprint, windows, macos)
 \*------------------------------------------------------------*/
-import Navbar from './components/blueprint/Navbar'
-// import TopNavbar from './components/macos/TopNavbar.vue'
+
+// --- App imports ---
 import Window from './components/template/Window'
 import AppGrid from './components/AppGrid'
 import Placeholder from './components/views/Placeholder'
@@ -46,6 +47,11 @@ import OSWindow from './components/template/OSWindow'
 import Blueprint from './components/views/Blueprint'
 import Windows from './components/views/Windows.vue'
 import MacOS from './components/views/MacOS.vue'
+
+// --- macOS imports ---
+import Navbar from './components/macos/Navbar'
+import TopNavbar from './components/macos/TopNavbar.vue'
+import AboutDialog from './components/macos/AboutDialog.vue'
 
 export default {
     name: 'App',
@@ -64,8 +70,11 @@ export default {
         OSWindow,
         Blueprint,
         Windows,
-        MacOS
-        // TopNavbar,
+        MacOS,
+
+        // macOS components
+        TopNavbar,
+        AboutDialog
     },
     computed: {
         style() {
@@ -125,18 +134,9 @@ export default {
     Change 'blueprint' to 'windows' or 'macos' to use windows or macos theme
 \*---------------------------------------------------------------------------*/
 @import './assets/css/utils/normalize.css';
-@import './assets/css/blueprint/app.css';
-@import './assets/css/blueprint/window.css';
-@import './assets/css/blueprint/appgrid.css';
-
-/*
- *   W95FA   <- Windows 95
- *   Tahoma  <- Windows XP
- *   Selawik <- Windows Vista and 7
- *   DePixel <- Macintosh
- *   Lucida Sans Unicode <- Mac OS X
- *   Helvetica <- macOS
- */
+@import './assets/css/macos/app.css';
+@import './assets/css/macos/window.css';
+@import './assets/css/macos/appgrid.css';
 
 @font-face {
     font-family: 'W95FA';
@@ -163,8 +163,17 @@ html {
     overflow: hidden;
 }
 
+/*
+ *   W95FA   <- Windows 95
+ *   Tahoma  <- Windows XP
+ *   Selawik <- Windows Vista and 7
+ *   DePixel <- Macintosh
+ *   Lucida Sans Unicode <- Mac OS X
+ *   Helvetica <- macOS
+ */
+
 #app {
-    font-family: 'Tahoma';
+    font-family: 'Helvetica';
     font-weight: 40;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
