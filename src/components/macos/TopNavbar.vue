@@ -1,7 +1,12 @@
 <template>
     <div class="top-navbar-container">
         <div class="top-nav-left">
-            <div class="top-nav-icon" @click="openAboutDialog"></div>
+            <div
+                class="top-nav-icon"
+                :class="{ 'active' : isAppleMenuOpen }"
+                ref="appleMenu"
+                @click="toggleAppleMenu"
+            ></div>
             <div class="top-nav-text bold">
                 {{
                     this.$store.getters.getActiveWindow=='nil' ?
@@ -9,14 +14,12 @@
                     this.$store.getters.getWindowById(this.$store.getters.getActiveWindow).displayName
                 }}
             </div>
-            <div 
-                class="top-nav-text hidden-small" 
+            <div
+                class="top-nav-text hidden-small"
                 :class="{ 'active': isFileMenuOpen }"
                 ref="fileMenu"
                 @click="toggleFileMenu"
-            >
-                File
-            </div>
+            >File</div>
             <div class="top-nav-text hidden-small">Edit</div>
             <div class="top-nav-text hidden-small">View</div>
             <div class="top-nav-text hidden-small">Go</div>
@@ -31,7 +34,13 @@
                 <time>{{this.time}}</time>
             </div>
         </div>
-        <file-menu-dropdown 
+        <AppleMenuDropdown
+            :is-open="isAppleMenuOpen"
+            :position-x="dropdownPositionX"
+            :position-y="dropdownPositionY"
+            @action="handleAppleAction"
+        />
+        <file-menu-dropdown
             :is-open="isFileMenuOpen"
             :position-x="dropdownPositionX"
             :position-y="dropdownPositionY"
@@ -42,10 +51,12 @@
 
 <script>
 import moment from 'moment'
+import AppleMenuDropdown from './AppleMenuDropdown.vue'
 import FileMenuDropdown from './FileMenuDropdown.vue'
 
 export default {
     components: {
+        AppleMenuDropdown,
         FileMenuDropdown
     },
     data() {
@@ -57,6 +68,9 @@ export default {
         }
     },
     computed: {
+        isAppleMenuOpen() {
+            return this.$store.state.appleMenuOpen
+        },
         isFileMenuOpen() {
             return this.$store.state.fileMenuOpen
         }
@@ -76,8 +90,24 @@ export default {
         document.removeEventListener('click', this.handleClickOutside)
     },
     methods: {
-        openAboutDialog() {
-            this.$store.commit('setAboutDialogOpen', true)
+        openAboutWindow() {
+            this.$store.commit('setAboutWindowOpen', true)
+        },
+
+        toggleAppleMenu(event) {
+            event.stopPropagation()
+            const isOpen = this.$store.state.appleMenuOpen
+            if (!isOpen) {
+                const rect = this.$refs.appleMenu.getBoundingClientRect()
+                this.dropdownPositionX = rect.left
+                this.dropdownPositionY = rect.bottom + 4
+            }
+            this.$store.commit('setAppleMenuOpen', !isOpen)
+            this.closeFileMenu()
+        },
+
+        closeAppleMenu() {
+            this.$store.commit('setAppleMenuOpen', false)
         },
 
         toggleFileMenu(event) {
@@ -89,6 +119,7 @@ export default {
                 this.dropdownPositionY = rect.bottom + 4
             }
             this.$store.commit('setFileMenuOpen', !isOpen)
+            this.closeAppleMenu()
         },
 
         closeFileMenu() {
@@ -96,9 +127,30 @@ export default {
         },
 
         handleClickOutside(event) {
+            // Close apple menu if clicked outside
+            if (this.$refs.appleMenu && !this.$refs.appleMenu.contains(event.target)) {
+                this.closeAppleMenu()
+            }
+            // Close file menu if clicked outside
             if (this.$refs.fileMenu && !this.$refs.fileMenu.contains(event.target)) {
                 this.closeFileMenu()
             }
+        },
+
+        handleAppleAction(action) {
+            console.log('Apple action:', action)
+
+            // Handle special actions
+            if (action === 'about') {
+                this.openAboutWindow()
+            } else if (action === 'settings') {
+                console.log('Open System Settings')
+            } else if (action === 'forceQuit') {
+                console.log('Open Force Quit')
+            }
+            // Add more actions as needed
+
+            this.closeAppleMenu()
         },
 
         handleFileAction(action) {
@@ -120,6 +172,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    z-index: 999;
 }
 
 .top-nav-left {

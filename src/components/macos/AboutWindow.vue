@@ -26,15 +26,15 @@
 
 <script>
 export default {
-    name: 'AboutDialog',
+    name: 'AboutWindow',
     computed: {
         isOpen() {
-            return this.$store.state.aboutDialogOpen
+            return this.$store.state.aboutWindowOpen
         }
     },
     methods: {
         closeDialog() {
-            this.$store.commit('setAboutDialogOpen', false)
+            this.$store.commit('setAboutWindowOpen', false)
         }
     }
 }

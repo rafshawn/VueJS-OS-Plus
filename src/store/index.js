@@ -18,9 +18,10 @@ export default new Vuex.Store({
     zIndex: 2,
 
     // About Dialog State
-    aboutDialogOpen: false,
+    aboutWindowOpen: false,
 
-    // File Menu Dropdown State
+    // Menu Dropdown State
+    appleMenuOpen: false,
     fileMenuOpen: false,
 
     windows: [
@@ -119,6 +120,25 @@ export default new Vuex.Store({
         altText: "Placeholder Icon",
         fullscreen: false
       },
+      {
+        windowId: "AboutMac",
+        windowState: "close",
+        displayName: "About This Mac",
+        windowComponent: 'window',
+        windowContent: 'AboutMac',
+        windowContentPadding: {
+            top: null,
+            right: null,
+            bottom: null,
+            left: null
+        },
+        position: "absolute",
+        positionX: "10vw",
+        positionY: "10vh",
+        iconImage: "placeholder.png",
+        altText: "Placeholder Icon",
+        fullscreen: false
+      },
       // register your new windows here
     ],
   },
@@ -152,14 +172,14 @@ export default new Vuex.Store({
       state.fullscreenWindowHeight = height
     },
 
-    // Top Navbar Menu Mutator
-    setActiveMenu(state, menuName) {
-      state.activeMenu = menuName
+    // About Dialog Mutator
+    setAboutWindowOpen(state, isOpen) {
+      state.aboutWindowOpen = isOpen
     },
 
-    // About Dialog Mutator
-    setAboutDialogOpen(state, isOpen) {
-      state.aboutDialogOpen = isOpen
+    // Apple Menu Mutator
+    setAppleMenuOpen(state, isOpen) {
+      state.appleMenuOpen = isOpen
     },
 
     // File Menu Dropdown Mutator
@@ -248,10 +268,5 @@ export default new Vuex.Store({
     getFullscreenWindowHeight(state) {
       return state.fullscreenWindowHeight;
     },
-
-    // Top Navbar Menu Getter
-    getActiveMenu: (state) => (menuName) =>{
-      return state.activeMenu === menuName;
-    }
   },
 });

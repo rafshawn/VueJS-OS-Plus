@@ -1,6 +1,7 @@
 <template>
 <div id="app">
     <top-navbar id="top-navbar"></top-navbar>
+    <AboutWindow />
     <div class="screen" id="screen">
         <div
             v-for="window in windows"
@@ -28,7 +29,6 @@
         <app-grid></app-grid>
     </div>
     <navbar id="navbar" />
-    <about-dialog />
 </div>
 </template>
 
@@ -47,11 +47,12 @@ import OSWindow from './components/template/OSWindow'
 import Blueprint from './components/views/Blueprint'
 import Windows from './components/views/Windows.vue'
 import MacOS from './components/views/MacOS.vue'
+import AboutMac from './components/views/AboutMac.vue'
 
 // --- macOS imports ---
 import Navbar from './components/macos/Navbar'
 import TopNavbar from './components/macos/TopNavbar.vue'
-import AboutDialog from './components/macos/AboutDialog.vue'
+import AboutWindow from './components/macos/AboutWindow.vue'
 
 export default {
     name: 'App',
@@ -71,10 +72,11 @@ export default {
         Blueprint,
         Windows,
         MacOS,
+        AboutMac,
 
         // macOS components
         TopNavbar,
-        AboutDialog
+        AboutWindow
     },
     computed: {
         style() {
@@ -186,7 +188,7 @@ html {
 .screen {
     width: 100%;
     position: relative;
-    z-index: 999;
+    z-index: 998;
 }
 
 /*-------------------------------------------*\

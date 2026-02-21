@@ -10,7 +10,7 @@
     </div>
     <div class="content">
         <slot class="window-content" name="content">
-            
+
         </slot>
     </div>
 </interact>
