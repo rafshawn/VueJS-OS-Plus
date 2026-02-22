@@ -27,12 +27,30 @@
             <div class="top-nav-text hidden-small">Help</div>
         </div>
         <div class="top-nav-right">
-            <div class="date text-right">
-                <time>{{this.date}}</time>
+            <div
+                class="top-nav-control-center"
+                :class="{ 'active' : isControlCenterOpen }"
+                ref="controlCenter"
+                @click="toggleControlCenter"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="2 2 25 25"
+                    width="12"
+                    height="12"
+                >
+                    <path d="M7.5,13h14a5.5,5.5,0,0,0,0-11H7.5a5.5,5.5,0,0,0,0,11Zm0-9h14a3.5,3.5,0,0,1,0,7H7.5a3.5,3.5,0,0,1,0-7Zm0,6A2.5,2.5,0,1,0,5,7.5,2.5,2.5,0,0,0,7.5,10Zm14,6H7.5a5.5,5.5,0,0,0,0,11h14a5.5,5.5,0,0,0,0-11Zm1.43439,8a2.5,2.5,0,1,1,2.5-2.5A2.5,2.5,0,0,1,22.93439,24Z" />
+                </svg>
             </div>
-            <div class="time text-right">
-                <time>{{this.time}}</time>
+            <div class="top-nav-date-time">
+                <div class="date text-right">
+                    <time>{{this.date}}</time>
+                </div>
+                <div class="time text-right">
+                    <time>{{this.time}}</time>
+                </div>
             </div>
+
         </div>
         <AppleMenuDropdown
             :is-open="isAppleMenuOpen"
@@ -46,6 +64,12 @@
             :position-y="dropdownPositionY"
             @action="handleFileAction"
         />
+        <ControlCenter
+            :is-open="isControlCenterOpen"
+            :position-x="dropdownPositionX"
+            :position-y="dropdownPositionY"
+            @action="handleControlCenterAction"
+        />
     </div>
 </template>
 
@@ -53,11 +77,13 @@
 import moment from 'moment'
 import AppleMenuDropdown from './AppleMenuDropdown.vue'
 import FileMenuDropdown from './FileMenuDropdown.vue'
+import ControlCenter from './ControlCenter.vue'
 
 export default {
     components: {
         AppleMenuDropdown,
-        FileMenuDropdown
+        FileMenuDropdown,
+        ControlCenter,
     },
     data() {
         return {
@@ -73,6 +99,9 @@ export default {
         },
         isFileMenuOpen() {
             return this.$store.state.fileMenuOpen
+        },
+        isControlCenterOpen() {
+            return this.$store.state.controlCenterOpen
         }
     },
     beforeMount() {
@@ -90,10 +119,6 @@ export default {
         document.removeEventListener('click', this.handleClickOutside)
     },
     methods: {
-        openAboutDialog() {
-            this.$store.commit('setAboutDialogOpen', true)
-        },
-
         toggleAppleMenu(event) {
             event.stopPropagation()
             const isOpen = this.$store.state.appleMenuOpen
@@ -126,14 +151,33 @@ export default {
             this.$store.commit('setFileMenuOpen', false)
         },
 
+        toggleControlCenter(event) {
+            event.stopPropagation()
+            const isOpen = this.$store.state.controlCenterOpen
+            if (!isOpen) {
+                const rect = this.$refs.controlCenter.getBoundingClientRect()
+                this.dropdownPositionX = rect.left - 14
+                this.dropdownPositionY = rect.bottom + 4
+            }
+            this.$store.commit('setControlCenterOpen', !isOpen)
+            this.closeAppleMenu()
+            this.closeFileMenu()
+        },
+
+        closeControlCenter() {
+            this.$store.commit('setControlCenterOpen', false)
+        },
+
         handleClickOutside(event) {
-            // Close apple menu if clicked outside
+            // Close specific menu if clicked outside
             if (this.$refs.appleMenu && !this.$refs.appleMenu.contains(event.target)) {
                 this.closeAppleMenu()
             }
-            // Close file menu if clicked outside
             if (this.$refs.fileMenu && !this.$refs.fileMenu.contains(event.target)) {
                 this.closeFileMenu()
+            }
+            if (this.$refs.controlCenter && !this.$refs.controlCenter.contains(event.target)) {
+                this.closeControlCenter()
             }
         },
 
@@ -156,6 +200,11 @@ export default {
         handleFileAction(action) {
             console.log('File action:', action)
             this.closeFileMenu()
+        },
+
+        handleControlCenter(action) {
+            console.log('Control Center action:', action)
+            this.closeControlCenter()
         }
     }
 }
@@ -208,13 +257,33 @@ export default {
     width: auto;
     justify-content: space-evenly;
     margin-right: 12px;
+    border-radius: 4px;
+    cursor: default;
+}
+
+.top-nav-control-center {
+    display: flex;
+    width: auto;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    cursor: default;
+}
+
+.top-nav-date-time {
+    display: flex;
+    width: auto;
+    justify-content: space-evenly;
+    margin-right: 12px;
     padding: 4px 4px 4px 8px;
     border-radius: 4px;
     cursor: default;
 }
 
 .top-nav-icon:hover,
-.top-nav-right:hover {
+.top-nav-control-center:hover,
+.top-nav-date-time:hover {
     background-color: rgba(100, 100, 100, .25);
 }
 

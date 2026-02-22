@@ -23,6 +23,7 @@ export default new Vuex.Store({
     // Menu Dropdown State
     appleMenuOpen: false,
     fileMenuOpen: false,
+    controlCenterOpen: false,
 
     windows: [
       {
@@ -185,6 +186,10 @@ export default new Vuex.Store({
     // File Menu Dropdown Mutator
     setFileMenuOpen(state, isOpen) {
       state.fileMenuOpen = isOpen
+    },
+
+    setControlCenterOpen(state, isOpen) {
+      state.controlCenterOpen = isOpen
     },
 
     setFullscreen(state, payload) {
