@@ -1,63 +1,7 @@
-<template>
-<interact draggable :dragOption="dragOption" resizable :resizeOption="resizeOption" class="window window-style" :style="style" @dragmove="dragmove" @resizemove="resizemove" @click.native="setActiveWindow" :class="{ fullscreen: $store.getters.getWindowFullscreen(this.ComponentName), minimize: $store.getters.getWindowById(ComponentName).windowState=='minimize'}">
-    <div class="top-bar" id="top-bar" @dblclick="toggleWindowSize">
-        <h3 class="window-name">{{this.window.displayName}}</h3>
-        <div class="triple-button">
-            <button class="expand-button button" @click="toggleWindowSize"></button>
-            <button class="minimize-button button" @click="minimizeWindow"></button>
-            <button class="close-button button" @click="closeWindow"></button>
-        </div>
-    </div>
-    <div class="content">
-        <slot class="window-content" name="content">
-
-        </slot>
-    </div>
-</interact>
-</template>
-
-<style scoped>
-/*-------------------------------------------*\
-    Windows/Display
-\*-------------------------------------------*/
-
-.minimize {
-    display: none;
-}
-
-.window {
-    box-sizing: border-box;
-    padding: 0px;
-    margin: 0px;
-    min-height: 50vh;
-    min-width: 350px;
-    user-select: none;
-    -ms-touch-action: none;
-    touch-action: none;
-    flex-flow: column;
-    display: flex;
-}
-
-.fullscreen {
-    width: 100% !important;
-    height: var(--fullscreen) !important;
-    margin: 0;
-    transition: all 0.5s ease;
-    padding: 0;
-}
-
-.content {
-    flex-grow: 1;
-    overflow-x: hidden;
-    padding-right: var(--content-padding-right);
-    padding-left: var(--content-padding-left);
-    padding-top: var(--content-padding-top);
-    padding-bottom: var(--content-padding-bottom);
-}
-</style>
-
 <script>
 import interact from "interactjs";
+import { useWindowStore } from '@/stores/window'
+
 export default {
     props: {
         'nameOfWindow': String,
@@ -124,6 +68,10 @@ export default {
 
         }
     },
+    setup() {
+        const store = useWindowStore()
+        return { store }
+    },
     computed: {
         style() {
             return {
@@ -134,12 +82,12 @@ export default {
                 '--content-padding-right': this.content_padding_right || '15%',
                 '--content-padding-top': this.content_padding_top || '5%',
                 '--content-padding-bottom': this.content_padding_bottom || '5%',
-                '--fullscreen': this.$store.getters.getFullscreenWindowHeight
+                '--fullscreen': this.store.getFullscreenWindowHeight
             };
         }
     },
     created() {
-        this.window = this.$store.getters.getWindowById(this.ComponentName)
+        this.window = this.store.getWindowById(this.ComponentName)
     },
     methods: {
         // functions to interact with window state
@@ -149,7 +97,7 @@ export default {
                 'windowState': 'close',
                 'windowID': this.ComponentName
             }
-            this.$store.commit('setWindowState', payload)
+            this.store.setWindowState(payload)
         },
 
         openWindow() {
@@ -157,7 +105,7 @@ export default {
                 'windowState': 'open',
                 'windowID': this.ComponentName
             }
-            this.$store.commit('setWindowState', payload)
+            this.store.setWindowState(payload)
         },
 
         minimizeWindow() {
@@ -165,25 +113,25 @@ export default {
                 'windowState': 'minimize',
                 'windowID': this.ComponentName
             }
-            this.$store.commit('setWindowState', payload)
+            this.store.setWindowState(payload)
         },
 
         toggleWindowSize() {
-            if (this.$store.getters.getWindowFullscreen(this.ComponentName) == true) {
+            if (this.store.getWindowFullscreen(this.ComponentName) == true) {
                 const payload = {
                     'fullscreen': false,
                     'windowID': this.ComponentName
                 }
-                this.$store.commit('setFullscreen', payload)
+                this.store.setFullscreen(payload)
                 this.x = this.tempX
                 this.y = this.tempY
 
-            } else if (this.$store.getters.getWindowFullscreen(this.ComponentName) == false) {
+            } else if (this.store.getWindowFullscreen(this.ComponentName) == false) {
                 const payload = {
                     'fullscreen': true,
                     'windowID': this.ComponentName
                 }
-                this.$store.commit('setFullscreen', payload)
+                this.store.setFullscreen(payload)
                 const tempX = this.x
                 const tempY = this.y
                 this.tempX = tempX
@@ -194,8 +142,8 @@ export default {
         },
 
         setActiveWindow() {
-            this.$store.commit('zIndexIncrement', this.ComponentName)
-            this.$store.commit('setActiveWindow', this.ComponentName)
+            this.store.zIndexIncrement(this.ComponentName)
+            this.store.setActiveWindow(this.ComponentName)
         },
 
         // drag events
@@ -216,3 +164,62 @@ export default {
     }
 }
 </script>
+
+
+<template>
+<interact draggable :dragOption="dragOption" resizable :resizeOption="resizeOption" class="window window-style" :style="style" @dragmove="dragmove" @resizemove="resizemove" @click.native="setActiveWindow" :class="{ fullscreen: store.getWindowFullscreen(this.ComponentName), minimize: store.getWindowById(ComponentName).windowState=='minimize'}">
+    <div class="top-bar" id="top-bar" @dblclick="toggleWindowSize">
+        <h3 class="window-name">{{this.window.displayName}}</h3>
+        <div class="triple-button">
+            <button class="expand-button button" @click="toggleWindowSize"></button>
+            <button class="minimize-button button" @click="minimizeWindow"></button>
+            <button class="close-button button" @click="closeWindow"></button>
+        </div>
+    </div>
+    <div class="content">
+        <slot class="window-content" name="content">
+
+        </slot>
+    </div>
+</interact>
+</template>
+
+<style scoped>
+/*-------------------------------------------*\
+    Windows/Display
+\*-------------------------------------------*/
+
+.minimize {
+    display: none;
+}
+
+.window {
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+    min-height: 50vh;
+    min-width: 350px;
+    user-select: none;
+    -ms-touch-action: none;
+    touch-action: none;
+    flex-flow: column;
+    display: flex;
+}
+
+.fullscreen {
+    width: 100% !important;
+    height: var(--fullscreen) !important;
+    margin: 0;
+    transition: all 0.5s ease;
+    padding: 0;
+}
+
+.content {
+    flex-grow: 1;
+    overflow-x: hidden;
+    padding-right: var(--content-padding-right);
+    padding-left: var(--content-padding-left);
+    padding-top: var(--content-padding-top);
+    padding-bottom: var(--content-padding-bottom);
+}
+</style>

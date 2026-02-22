@@ -1,3 +1,25 @@
+<script>
+import { useWindowStore } from '@/stores/window'
+
+export default {
+    name: 'AppleMenuDropdown',
+    setup() {
+        const store = useWindowStore()
+        return { store }
+    },
+    props: {
+        isOpen: { type: Boolean, required: true },
+        positionX: { type: Number, default: 0 },
+        positionY: { type: Number, default: 0 }
+    },
+    methods: {
+        openAboutDialog() {
+            this.store.setAboutDialogOpen(true)
+        }
+    }
+}
+</script>
+
 <template>
 <div v-if="isOpen" class="dropdown-menu" :style="{left: positionX + 'px', top: positionY + 'px'}">
     <div class="dropdown-item" @click="openAboutDialog">
@@ -37,22 +59,6 @@
     </div>
 </div>
 </template>
-
-<script>
-export default {
-    name: 'AppleMenuDropdown',
-    props: {
-        isOpen: { type: Boolean, required: true },
-        positionX: { type: Number, default: 0 },
-        positionY: { type: Number, default: 0 }
-    },
-    methods: {
-        openAboutDialog() {
-            this.$store.commit('setAboutDialogOpen', true)
-        }
-    }
-}
-</script>
 
 <style scoped>
 .dropdown-menu {

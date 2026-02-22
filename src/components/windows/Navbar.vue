@@ -1,3 +1,42 @@
+<script>
+import moment from 'moment'
+import { useWindowStore } from '@/stores/window'
+
+export default {
+    name: 'Navbar',
+    setup() {
+        const store = useWindowStore()
+        return { store }
+    },
+    data: function () {
+        return {
+            activeWindows: this.store.getActiveWindows,
+
+            // date time for moment.js
+            time: '',
+            date: ''
+        }
+    },
+    beforeMount() {
+        setInterval(() => {
+            this.time = moment().format('hh:mm A')
+        }, 1000)
+        setInterval(() => {
+            this.date = moment().format('ddd DD MMMM')
+        }, 1000)
+    },
+    methods: {
+        openWindow(windowId) {
+            const payload = {
+                'windowState': 'open',
+                'windowID': windowId
+            }
+            this.store.setWindowState(payload)
+        },
+    }
+}
+</script>
+
 <template>
 <nav class="navbar-container">
     <div
@@ -5,12 +44,12 @@
         :key="window.key"
     >
         <button
-            v-if="$store.getters.getActiveWindow!==window.windowId && (window.windowState=='open' || window.windowState=='minimize')" v-on:click="openWindow(window.windowId)"
+            v-if="store.getActiveWindow!==window.windowId && (window.windowState=='open' || window.windowState=='minimize')" v-on:click="openWindow(window.windowId)"
             class="navbar-item open">
                 {{window.displayName}}
         </button>
         <button
-            v-if="$store.getters.getActiveWindow==window.windowId"
+            v-if="store.getActiveWindow==window.windowId"
             v-on:click="openWindow(window.windowId)"
             class="navbar-item-depressed">
                 {{window.displayName}}
@@ -140,36 +179,3 @@ button {
     outline: inherit;
 }
 </style>
-
-<script>
-import moment from 'moment'
-export default {
-    name: 'Navbar',
-    data: function () {
-        return {
-            activeWindows: this.$store.getters.getActiveWindows,
-
-            // date time for moment.js
-            time: '',
-            date: ''
-        }
-    },
-    beforeMount() {
-        setInterval(() => {
-            this.time = moment().format('hh:mm A')
-        }, 1000)
-        setInterval(() => {
-            this.date = moment().format('ddd DD MMMM')
-        }, 1000)
-    },
-    methods: {
-        openWindow(windowId) {
-            const payload = {
-                'windowState': 'open',
-                'windowID': windowId
-            }
-            this.$store.commit('setWindowState', payload)
-        },
-    }
-}
-</script>

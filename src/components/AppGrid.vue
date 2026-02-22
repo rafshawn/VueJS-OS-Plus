@@ -1,11 +1,45 @@
+<script>
+import { useWindowStore } from '@/stores/window'
+
+export default {
+    name: 'AppGrid',
+    setup () {
+        const store = useWindowStore()
+        return { store }
+    },
+    data: function () {
+        return {
+            windows: this.store.windows,
+            gridHeight: ''
+        }
+    },
+    methods: {
+        openWindow(windowId) {
+            const payload = {
+                'windowState': 'open',
+                'windowID': windowId
+            }
+            this.store.setWindowState(payload)
+        },
+        // Get image URL for Vite
+        getImageUrl(imageName) {
+            return new URL(`../assets/icons/${imageName}`, import.meta.url).href
+        }
+    },
+    mounted() {
+        this.gridHeight = 'calc(100vh - 95px)'
+    },
+}
+</script>
+
 <template>
 <nav
     class="grid-container"
     :style="{height: gridHeight}"
 >
-    <li v-for="window in windows" :key="window.key">
+    <li v-for="window in windows" :key="window.windowId">
         <button class="icon" @touchstart="openWindow(window.windowId)" @dblclick="openWindow(window.windowId)">
-            <img class="icon-image" :src="require('../assets/icons/' + window.iconImage)" :alt="window.altText" />
+            <img class="icon-image" :src="getImageUrl(window.iconImage)" :alt="window.altText" />
             <div class="border">
             <p class="icon-text">
                 {{window.displayName}}
@@ -19,27 +53,3 @@
 <style scoped>
 
 </style>
-
-<script>
-export default {
-    name: 'AppGrid',
-    data: function () {
-        return {
-            windows: this.$store.getters.getWindows,
-            gridHeight: ''
-        }
-    },
-    methods: {
-        openWindow(windowId) {
-            const payload = {
-                'windowState': 'open',
-                'windowID': windowId
-            }
-            this.$store.commit('setWindowState', payload)
-        },
-    },
-    mounted() {
-        this.gridHeight = 'calc(100vh - 95px)'
-    },
-}
-</script>

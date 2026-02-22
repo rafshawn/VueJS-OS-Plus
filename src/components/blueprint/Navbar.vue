@@ -1,33 +1,60 @@
+<script>
+import { useWindowStore } from '@/stores/window'
+
+export default {
+    name: 'Navbar',
+    setup() {
+        const store = useWindowStore()
+        return { store }
+    },
+    data: function() {
+        return {
+            activeWindows: this.store.getActiveWindows,
+        }
+    },
+    methods: {
+        openWindow(windowId) {
+            const payload = {
+                'windowState': 'open',
+                'windowID': windowId
+            }
+            this.store.setWindowState(payload)
+        },
+    }
+}
+</script>
+
+
 <template>
 <nav class="navbar-container">
-    <div 
-        v-for="window in this.activeWindows" 
+    <div
+        v-for="window in this.activeWindows"
         :key="window.key"
     >
-        <button 
-            v-if="window.windowState=='open'" 
-            @click="openWindow(window.windowId)" 
+        <button
+            v-if="window.windowState=='open'"
+            @click="openWindow(window.windowId)"
             class="navbar-item open"
         >
         {{window.displayName}}
         </button>
-        <button 
-            v-if="window.windowState=='minimize'" 
-            @click="openWindow(window.windowId)" 
+        <button
+            v-if="window.windowState=='minimize'"
+            @click="openWindow(window.windowId)"
             class="navbar-item minimize"
         >
         {{window.displayName}}
         </button>
-        <button 
-            v-if="window.windowState=='close'" 
-            @click="openWindow(window.windowId)" 
+        <button
+            v-if="window.windowState=='close'"
+            @click="openWindow(window.windowId)"
             class="navbar-item close"
         >
         {{window.displayName}}
         </button>
     </div>
     <div class="spacer"></div>
-    <p class="label">Active Window: {{$store.getters.getActiveWindow}}</p>
+    <p class="label">Active Window: {{store.getActiveWindow}}</p>
 </nav>
 </template>
 
@@ -93,7 +120,7 @@
 }
 
 /*-------------------------------------------*\
-    CSS Normalisation 
+    CSS Normalisation
 \*-------------------------------------------*/
 
 button {
@@ -104,23 +131,3 @@ button {
     outline: inherit;
 }
 </style>
-
-<script>
-export default {
-    name: 'Navbar',
-    data: function() {
-        return {
-            activeWindows: this.$store.getters.getActiveWindows,
-        }
-    },
-    methods: {
-        openWindow(windowId) {
-            const payload = {
-                'windowState': 'open',
-                'windowID': windowId
-            }
-            this.$store.commit('setWindowState', payload)
-        },      
-    }
-}
-</script>

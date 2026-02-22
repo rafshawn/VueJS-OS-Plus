@@ -1,3 +1,25 @@
+<script>
+import { useWindowStore } from '@/stores/window'
+
+export default {
+    name: 'AboutDialog',
+    setup() {
+        const store = useWindowStore()
+        return { store }
+    },
+    computed: {
+        isOpen() {
+            return this.store.aboutDialogOpen
+        }
+    },
+    methods: {
+        closeDialog() {
+            this.store.setAboutDialogOpen(false)
+        }
+    }
+}
+</script>
+
 <template>
 <div v-if="isOpen" class="dialog-overlay" @click.self="closeDialog">
     <div class="dialog-container">
@@ -23,22 +45,6 @@
     </div>
 </div>
 </template>
-
-<script>
-export default {
-    name: 'AboutDialog',
-    computed: {
-        isOpen() {
-            return this.$store.state.aboutDialogOpen
-        }
-    },
-    methods: {
-        closeDialog() {
-            this.$store.commit('setAboutDialogOpen', false)
-        }
-    }
-}
-</script>
 
 <style scoped>
 .dialog-overlay {

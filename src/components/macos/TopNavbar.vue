@@ -1,3 +1,145 @@
+<script>
+import { useWindowStore } from '@/stores/window'
+import moment from 'moment'
+import AppleMenuDropdown from './AppleMenuDropdown.vue'
+import FileMenuDropdown from './FileMenuDropdown.vue'
+import ControlCenter from './ControlCenter.vue'
+
+export default {
+    components: {
+        AppleMenuDropdown,
+        FileMenuDropdown,
+        ControlCenter,
+    },
+    setup() {
+        const store = useWindowStore()
+        return { store }
+    },
+    data() {
+        return {
+            time: '',
+            date: '',
+            dropdownPositionX: 0,
+            dropdownPositionY: 0
+        }
+    },
+    computed: {
+        isAppleMenuOpen() {
+            return this.store.appleMenuOpen
+        },
+        isFileMenuOpen() {
+            return this.store.fileMenuOpen
+        },
+        isControlCenterOpen() {
+            return this.store.controlCenterOpen
+        }
+    },
+    beforeMount() {
+        setInterval(() => {
+            this.time = moment().format('h:mm A')
+        }, 1000)
+        setInterval(() => {
+            this.date = moment().format('ddd MMM DD')
+        }, 1000)
+    },
+    mounted() {
+        document.addEventListener('click', this.handleClickOutside)
+    },
+    beforeDestroy() {
+        document.removeEventListener('click', this.handleClickOutside)
+    },
+    methods: {
+        toggleAppleMenu(event) {
+            event.stopPropagation()
+            const isOpen = this.store.appleMenuOpen
+            if (!isOpen) {
+                const rect = this.$refs.appleMenu.getBoundingClientRect()
+                this.dropdownPositionX = rect.left
+                this.dropdownPositionY = rect.bottom + 4
+            }
+            this.store.setAppleMenuOpen(!isOpen)
+            this.closeFileMenu()
+        },
+
+        closeAppleMenu() {
+            this.store.setAppleMenuOpen(false)
+        },
+
+        toggleFileMenu(event) {
+            event.stopPropagation()
+            const isOpen = this.store.fileMenuOpen
+            if (!isOpen) {
+                const rect = this.$refs.fileMenu.getBoundingClientRect()
+                this.dropdownPositionX = rect.left
+                this.dropdownPositionY = rect.bottom + 4
+            }
+            this.store.setFileMenuOpen(!isOpen)
+            this.closeAppleMenu()
+        },
+
+        closeFileMenu() {
+            this.store.setFileMenuOpen(false)
+        },
+
+        toggleControlCenter(event) {
+            event.stopPropagation()
+            const isOpen = this.store.controlCenterOpen
+            if (!isOpen) {
+                const rect = this.$refs.controlCenter.getBoundingClientRect()
+                this.dropdownPositionX = rect.left - 14
+                this.dropdownPositionY = rect.bottom + 4
+            }
+            this.store.setControlCenterOpen(!isOpen)
+            this.closeAppleMenu()
+            this.closeFileMenu()
+        },
+
+        closeControlCenter() {
+            this.store.setControlCenterOpen(false)
+        },
+
+        handleClickOutside(event) {
+            // Close specific menu if clicked outside
+            if (this.$refs.appleMenu && !this.$refs.appleMenu.contains(event.target)) {
+                this.closeAppleMenu()
+            }
+            if (this.$refs.fileMenu && !this.$refs.fileMenu.contains(event.target)) {
+                this.closeFileMenu()
+            }
+            if (this.$refs.controlCenter && !this.$refs.controlCenter.contains(event.target)) {
+                this.closeControlCenter()
+            }
+        },
+
+        handleAppleAction(action) {
+            console.log('Apple action:', action)
+
+            // Handle special actions
+            if (action === 'about') {
+                this.store.setAboutDialogOpen(true)
+            } else if (action === 'settings') {
+                console.log('Open System Settings')
+            } else if (action === 'forceQuit') {
+                console.log('Open Force Quit')
+            }
+            // Add more actions as needed
+
+            this.closeAppleMenu()
+        },
+
+        handleFileAction(action) {
+            console.log('File action:', action)
+            this.closeFileMenu()
+        },
+
+        handleControlCenterAction(action) {
+            console.log('Control Center action:', action)
+            this.closeControlCenter()
+        }
+    }
+}
+</script>
+
 <template>
     <div class="top-navbar-container">
         <div class="top-nav-left">
@@ -9,9 +151,9 @@
             ></div>
             <div class="top-nav-text bold">
                 {{
-                    this.$store.getters.getActiveWindow=='nil' ?
+                    this.store.getActiveWindow=='nil' ?
                     'Finder' :
-                    this.$store.getters.getWindowById(this.$store.getters.getActiveWindow).displayName
+                    this.store.getWindowById(this.store.getActiveWindow).displayName
                 }}
             </div>
             <div
@@ -72,143 +214,6 @@
         />
     </div>
 </template>
-
-<script>
-import moment from 'moment'
-import AppleMenuDropdown from './AppleMenuDropdown.vue'
-import FileMenuDropdown from './FileMenuDropdown.vue'
-import ControlCenter from './ControlCenter.vue'
-
-export default {
-    components: {
-        AppleMenuDropdown,
-        FileMenuDropdown,
-        ControlCenter,
-    },
-    data() {
-        return {
-            time: '',
-            date: '',
-            dropdownPositionX: 0,
-            dropdownPositionY: 0
-        }
-    },
-    computed: {
-        isAppleMenuOpen() {
-            return this.$store.state.appleMenuOpen
-        },
-        isFileMenuOpen() {
-            return this.$store.state.fileMenuOpen
-        },
-        isControlCenterOpen() {
-            return this.$store.state.controlCenterOpen
-        }
-    },
-    beforeMount() {
-        setInterval(() => {
-            this.time = moment().format('h:mm A')
-        }, 1000)
-        setInterval(() => {
-            this.date = moment().format('ddd MMM DD')
-        }, 1000)
-    },
-    mounted() {
-        document.addEventListener('click', this.handleClickOutside)
-    },
-    beforeDestroy() {
-        document.removeEventListener('click', this.handleClickOutside)
-    },
-    methods: {
-        toggleAppleMenu(event) {
-            event.stopPropagation()
-            const isOpen = this.$store.state.appleMenuOpen
-            if (!isOpen) {
-                const rect = this.$refs.appleMenu.getBoundingClientRect()
-                this.dropdownPositionX = rect.left
-                this.dropdownPositionY = rect.bottom + 4
-            }
-            this.$store.commit('setAppleMenuOpen', !isOpen)
-            this.closeFileMenu()
-        },
-
-        closeAppleMenu() {
-            this.$store.commit('setAppleMenuOpen', false)
-        },
-
-        toggleFileMenu(event) {
-            event.stopPropagation()
-            const isOpen = this.$store.state.fileMenuOpen
-            if (!isOpen) {
-                const rect = this.$refs.fileMenu.getBoundingClientRect()
-                this.dropdownPositionX = rect.left
-                this.dropdownPositionY = rect.bottom + 4
-            }
-            this.$store.commit('setFileMenuOpen', !isOpen)
-            this.closeAppleMenu()
-        },
-
-        closeFileMenu() {
-            this.$store.commit('setFileMenuOpen', false)
-        },
-
-        toggleControlCenter(event) {
-            event.stopPropagation()
-            const isOpen = this.$store.state.controlCenterOpen
-            if (!isOpen) {
-                const rect = this.$refs.controlCenter.getBoundingClientRect()
-                this.dropdownPositionX = rect.left - 14
-                this.dropdownPositionY = rect.bottom + 4
-            }
-            this.$store.commit('setControlCenterOpen', !isOpen)
-            this.closeAppleMenu()
-            this.closeFileMenu()
-        },
-
-        closeControlCenter() {
-            this.$store.commit('setControlCenterOpen', false)
-        },
-
-        handleClickOutside(event) {
-            // Close specific menu if clicked outside
-            if (this.$refs.appleMenu && !this.$refs.appleMenu.contains(event.target)) {
-                this.closeAppleMenu()
-            }
-            if (this.$refs.fileMenu && !this.$refs.fileMenu.contains(event.target)) {
-                this.closeFileMenu()
-            }
-            if (this.$refs.controlCenter && !this.$refs.controlCenter.contains(event.target)) {
-                this.closeControlCenter()
-            }
-        },
-
-        handleAppleAction(action) {
-            console.log('Apple action:', action)
-
-            // Handle special actions
-            if (action === 'about') {
-                this.openAboutDialog()
-            } else if (action === 'settings') {
-                console.log('Open System Settings')
-            } else if (action === 'forceQuit') {
-                console.log('Open Force Quit')
-            }
-            // Add more actions as needed
-
-            this.closeAppleMenu()
-        },
-
-        handleFileAction(action) {
-            console.log('File action:', action)
-            this.closeFileMenu()
-        },
-
-        handleControlCenter(action) {
-            console.log('Control Center action:', action)
-            this.closeControlCenter()
-        }
-    }
-}
-</script>
 
 <style scoped>
 .top-navbar-container {

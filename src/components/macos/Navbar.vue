@@ -1,14 +1,43 @@
+<script>
+import { useWindowStore } from '@/stores/window'
+
+export default {
+    name: 'Navbar',
+    setup() {
+        const store = useWindowStore()
+        return { store }
+    },
+    data: function() {
+        return {
+            windows: this.store.windows,
+        }
+    },
+    methods: {
+        openWindow(windowId) {
+            const payload = {
+                'windowState': 'open',
+                'windowID': windowId
+            }
+            this.store.setWindowState(payload)
+        },
+        getImageUrl(imageName) {
+            return new URL(`../../assets/icons/${imageName}`, import.meta.url).href
+        }
+    }
+}
+</script>
+
 <template>
 <div class="wrapper">
 <nav class="navbar-container">
-    <div 
-        v-for="window in this.windows" 
-        :key="window.key"
+    <div
+        v-for="window in windows"
+        :key="window.windowId"
     >
-        <button 
-            @click="openWindow(window.windowId)" 
+        <button
+            @click="openWindow(window.windowId)"
             class="navbar-item"
-            :style="{backgroundImage: 'url(' + require('../../assets/icons/' + window.iconImage) + ')'}"
+            :style="{backgroundImage: 'url(' + getImageUrl(window.iconImage) + ')'}"
             :alt="window.altText"
         >
         </button>
@@ -80,7 +109,7 @@
 }
 
 /*-------------------------------------------*\
-    CSS Normalisation 
+    CSS Normalisation
 \*-------------------------------------------*/
 
 button {
@@ -91,23 +120,3 @@ button {
     outline: inherit;
 }
 </style>
-
-<script>
-export default {
-    name: 'Navbar',
-    data: function() {
-        return {
-            windows: this.$store.getters.getWindows,
-        }
-    },
-    methods: {
-        openWindow(windowId) {
-            const payload = {
-                'windowState': 'open',
-                'windowID': windowId
-            }
-            this.$store.commit('setWindowState', payload)
-        },      
-    }
-}
-</script>

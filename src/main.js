@@ -1,14 +1,16 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import App from './App.vue'
-import store from './store'
+import Interact from './components/Interact.vue'
+
+const app = createApp(App)
+const pinia = createPinia()
+
 import moment from 'moment'
-import VueInteractJs from "vue-interactjs";
+app.config.globalProperties.moment = moment
+app.config.globalProperties.$moment = moment
 
-Vue.use(VueInteractJs)
-Vue.prototype.moment = moment
-Vue.config.productionTip = false
+app.use(pinia)
+app.component('interact', Interact)
 
-new Vue({
-  store,
-  render: h => h(App)
-}).$mount('#app')
+app.mount('#app')

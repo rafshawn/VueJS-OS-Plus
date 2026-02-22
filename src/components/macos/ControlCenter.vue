@@ -1,34 +1,10 @@
-<template>
-<div v-if="isOpen" class="dropdown-menu" :style="{left: positionX + 'px', top: positionY + 'px'}">
-    <div
-        v-for="(item, index) in menuItems"
-        :key="index"
-        class="dropdown-item"
-        @click="handleAction(item.action)"
-    >
-        <span class="item-label">{{ item.label }}</span>
-        <span class="item-shortcut" v-if="item.shortcut">{{ item.shortcut }}</span>
-    </div>
-    <div class="dropdown-divider"></div>
-</div>
-</template>
-
 <script>
 export default {
     name: 'ControlCenter',
     props: {
-        isOpen: {
-            type: Boolean,
-            required: true
-        },
-        positionX: {
-            type: Number,
-            default: 0
-        },
-        positionY: {
-            type: Number,
-            default: 0
-        }
+        isOpen: { type: Boolean, required: true },
+        positionX: { type: Number, default: 0 },
+        positionY: { type: Number, default: 0 }
     },
     data() {
         return {
@@ -48,6 +24,30 @@ export default {
     }
 }
 </script>
+
+<template>
+<!-- <div v-if="isOpen" class="dropdown-menu" :style="{left: positionX + 'px', top: positionY + 'px'}">
+    <div
+        v-for="(item, index) in menuItems"
+        :key="index"
+        class="dropdown-item"
+        @click="handleAction(item.action)"
+    >
+        <span class="item-label">{{ item.label }}</span>
+        <span class="item-shortcut" v-if="item.shortcut">{{ item.shortcut }}</span>
+    </div>
+    <div class="dropdown-divider"></div>
+</div> -->
+<div
+    v-if="isOpen"
+    class="dropdown-menu"
+    :style="{left: positionX + 'px', top: positionY + 'px'}"
+>
+    <div>
+
+    </div>
+</div>
+</template>
 
 <style scoped>
 .dropdown-menu {
