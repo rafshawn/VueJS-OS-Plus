@@ -116,7 +116,9 @@ export default {
           :style="{ position: window.position, left: window.positionX, top: window.positionY }"
           v-if="windowCheck(window.windowId)"
         >
-          <component :is="window.windowContent" slot="content"></component>
+          <template #content>
+            <component :is="window.windowContent"></component>
+          </template>
         </component>
       </div>
       <app-grid></app-grid>
