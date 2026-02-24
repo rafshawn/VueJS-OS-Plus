@@ -21,9 +21,14 @@ export default {
             }
             this.store.setWindowState(payload)
         },
-        // Get image URL for Vite
+
+        // Uncomment for OS
         getImageUrl(imageName) {
-            return new URL(`../assets/icons/${imageName}`, import.meta.url).href
+            // return new URL(`../assets/icons/${imageName}`, import.meta.url).href
+            return new URL(`../assets/icons/macos/${imageName}`, import.meta.url).href
+            // return new URL(`../assets/icons/macintosh/${imageName}`, import.meta.url).href
+            // return new URL(`../assets/icons/w95/${imageName}`, import.meta.url).href
+            // return new URL(`../assets/icons/wxp/${imageName}`, import.meta.url).href
         }
     },
     mounted() {

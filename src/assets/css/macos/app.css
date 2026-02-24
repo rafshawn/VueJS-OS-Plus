@@ -1,6 +1,23 @@
 #app {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
     font-weight: 400 !important;
+    color: var(--system-font-black);
+    /* color: red; */
+}
+
+:root {
+    --system-font-black: #252524;
+    --system-font-black-2: #585758;
+    --system-font-white: #f8fafb;
+    --system-font-white-2: #a8cbef;
+    --accent-blue: #0064e1;
+    --accent-purple: #8e3489;
+    --accent-pink: #fd4593;
+    --accent-red: #e2323a;
+    --accent-orange: #fb7828;
+    --accent-yellow: #ffc136;
+    --accent-green: #50b245;
+    --accent-grey: #8d8d8d;
 }
 
 body {

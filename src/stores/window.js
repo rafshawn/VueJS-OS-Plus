@@ -140,8 +140,8 @@ export const useWindowStore = defineStore('window', {
         position: "absolute",
         positionX: "15vw",
         positionY: "15vh",
-        iconImage: "placeholder.png",
-        altText: "Placeholder Icon",
+        iconImage: "Settings.ico",
+        altText: "Settings Icon",
         fullscreen: false
       },
       // register your new windows here

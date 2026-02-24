@@ -300,3 +300,7 @@ components: {
 
 ### Can I contact you?
 - Of course! [Email me](mailto:donchia@ymail.com) and check out [my website here](https://www.donchia.tech).
+
+# Credits
+## Icon Packs
+- [Tile Icons for macOS](https://www.deviantart.com/oviotti/art/Tile-Icons-Iconpack-for-macOS-848741448) by [oviotti](https://www.deviantart.com/oviotti)

@@ -5,26 +5,6 @@ import { useWindowStore } from '@/stores/window'
 export default {
     props: {
         'nameOfWindow': String,
-        content_padding_left: {
-            required: false,
-            type: String,
-            default: '15%',
-        },
-        content_padding_right: {
-            required: false,
-            type: String,
-            default: '15%'
-        },
-        content_padding_top: {
-            required: false,
-            type: String,
-            default: '5%'
-        },
-        content_padding_bottom: {
-            required: false,
-            type: String,
-            default: '5%'
-        },
     },
     data: function () {
         return {
@@ -78,10 +58,6 @@ export default {
                 height: `${this.h}px`,
                 width: `${this.w}px`,
                 transform: `translate(${this.x}px, ${this.y}px)`,
-                '--content-padding-left': this.content_padding_left || '15%',
-                '--content-padding-right': this.content_padding_right || '15%',
-                '--content-padding-top': this.content_padding_top || '5%',
-                '--content-padding-bottom': this.content_padding_bottom || '5%',
                 '--fullscreen': this.store.getFullscreenWindowHeight
             };
         }
@@ -198,8 +174,8 @@ export default {
     box-sizing: border-box;
     padding: 0px;
     margin: 0px;
-    min-height: 41vh;
-    max-height: 41vh;
+    min-height: 345px;
+    max-height: 345px;
     min-width: 275px;
     max-width: 275px;
     user-select: none;

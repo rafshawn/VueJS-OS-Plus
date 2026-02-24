@@ -35,7 +35,7 @@ export default {
 
 <style scoped>
 .dialog-content {
-    padding: 30px;
+    padding: 15px 30px 15px 30px;
     text-align: center;
 }
 
