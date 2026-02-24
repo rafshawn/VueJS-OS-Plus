@@ -4,6 +4,10 @@
 | --------- | --------| ----- |
 | <img width="1440" alt="Screenshot 2021-12-21 at 5 16 53 PM" src="https://user-images.githubusercontent.com/24926784/146904065-05513a29-261b-4f35-b952-5bde1599a35d.png"/> | <img width="1440" alt="Screenshot 2021-12-21 at 5 16 53 PM" src="https://user-images.githubusercontent.com/24926784/147592582-8caa82c1-1d01-400c-b34e-e5fef7fdfbaf.png"/> | <img width="1440" alt="Screenshot 2021-12-29 at 3 06 44 PM" src="https://user-images.githubusercontent.com/24926784/147636162-cc095413-a099-4b59-baf0-36467fbfee99.png"> |
 
+| Operating System | Screenshot | Features |
+| --- | --- | --- |
+|  |  |  |
+
 
 ## Table of contents
 1. [Project Overview](#project-overview)
@@ -18,7 +22,7 @@
 
 <a name="project-overview"></a>
 ## Project Overview
-This project aims to create an interactive Web OS template for Vue. Included in the template are all necessary logic for individual window components, navbars and app grids. Users are able to register new components (custom or otherwise) easily. 
+This project aims to create an interactive Web OS template for Vue. Included in the template are all necessary logic for individual window components, navbars and app grids. Users are able to register new components (custom or otherwise) easily.
 
 <a name="features"></a>
 ## Features
@@ -29,23 +33,17 @@ This project aims to create an interactive Web OS template for Vue. Included in 
 
 <a name="technologies"></a>
 ## Technologies
-- Vue 2
-- Vuex 
+- Vue 3
+- Pinia
 - InteractJS
 - MomentJS
-
-<a name="pre-requisites"></a>
-## Pre-requisites
-- Vue 2 (Novice)
-- CSS (Novice)
-- Patience with CSS
 
 <a name="setup-instruction"></a>
 ## Setup Instructions
 
 1. Download the latest release from this page's sidebae
 
-2. Make sure you have Vue.js installed 
+2. Make sure you have Vue.js installed
 
 [Official Documentation from Vue](https://vuejs.org/v2/guide/installation.html)
 
@@ -75,7 +73,7 @@ Registering a window with the slots method will allow you quick access to the pr
 
 ```js
 {
-     windowId: "UniqueWindowID", 
+     windowId: "UniqueWindowID",
      windowState: "close",
      displayName: "Unique Window",
      windowComponent: 'window',
@@ -94,7 +92,7 @@ Registering a window with the slots method will allow you quick access to the pr
      fullscreen: false
  },
  ```
- 
+
 3. Change 'windowId' to a unique window ID and 'displayName' to a preferred name for the window.
 
 ```js
@@ -105,7 +103,7 @@ windowId: "MyNewWindow"
 displayName: "New Window"
 ```
 
-4. The content displayed within the window is registered to the 'Placeholder' component. Simply create a new content component under ```/src/components/views``` folder and replace 'windowContent' with the name of the new content component created. 
+4. The content displayed within the window is registered to the 'Placeholder' component. Simply create a new content component under ```/src/components/views``` folder and replace 'windowContent' with the name of the new content component created.
 
 ```js
 windowContent: "MyNewWindowContent"
@@ -119,11 +117,11 @@ windowContent: "MyNewWindowContent"
 ```
 
 5. Head over to ```/src/App.vue``` to import and register the new components under the <script> section.
-  
+
 ```js
   import MyNewWindowContent from './components/views/MyNewWindowContent'
 ```
-  
+
 ```js
   components: {
     ...,
@@ -132,19 +130,19 @@ windowContent: "MyNewWindowContent"
 ```
 
 6. Save all changed or created files and head to localhost to view changes.
-     
+
 <a name="register-windows-custom"></a>
 ## Register Windows (Custom Window)
 
 Registering a custom window is also made relatively simple due to each window having a dedicated object state tracking the window to present. You might want to register a custom window if the layout or styling of the window itself needs to be modified (i.e. removal or addition of buttons in window's top bar).
-     
+
 1. Head to ```/src/store/index.js```
 
 2. Register a new window by pasting the following snippet within the windows state array
 
 ```js
 {
-     windowId: "UniqueWindowID", 
+     windowId: "UniqueWindowID",
      windowState: "close",
      displayName: "Unique Window",
      windowComponent: 'window',
@@ -163,7 +161,7 @@ Registering a custom window is also made relatively simple due to each window ha
      fullscreen: false
  },
  ```
- 
+
 3. Change 'windowId' to a unique window ID and 'displayName' to a preferred name for the window.
 
 ```js
@@ -173,27 +171,27 @@ windowId: "MyCustomWindow"
 ```js
 displayName: "Custom Window"
 ```
-     
+
 4. The window UI itself is stored under 'windowComponent' and we can now register our own custom window by changing the registered components.
-    
+
 ```
 windowComponent: 'SpecialWindow'
 ```
-     
+
 5. Create a new window component named ```SpecialWindow.vue
-``` under ```/src/components/template``` and ***copy the contents of Window.vue into this new file***. 
-     
-6. For demonstration purposes, we will simply change the background of the 'top-bar' of the window and add some content replacing the slot section. 
-     
+``` under ```/src/components/template``` and ***copy the contents of Window.vue into this new file***.
+
+6. For demonstration purposes, we will simply change the background of the 'top-bar' of the window and add some content replacing the slot section.
+
 Paste this CSS snippet under the style section.
 ```css
 .top-bar {
      background-color: green !important;
 }
 ```
-     
-Replace the slot tags with this snippet of HTML.   
-     
+
+Replace the slot tags with this snippet of HTML.
+
 ```html
 <p>This is my new custom window</p>
 ```
@@ -202,52 +200,52 @@ Replace the slot tags with this snippet of HTML.
 ```js
   import SpecialWindow from './components/template/SpecialWindow'
 ```
-  
+
 ```js
   components: {
     ...,
     SpecialWindow
   }
 ```
-     
+
 7. Save all changed or created files and head to localhost to view changes.
-     
+
 <a name="switch-themes"></a>
 ## Switching Themes
 Included in the template are three different themes, the default Blueprint theme, a MacOS theme and a Windows theme. Switching between themes is made relatively easy but certain themes may require some minor tweaking.
 
 ### Blueprint Theme
-1. Head over to ```/src/App.vue```, under the script section, import the Blueprint Navbar variant. 
-```js 
+1. Head over to ```/src/App.vue```, under the script section, import the Blueprint Navbar variant.
+```js
 import Navbar from './components/blueprint/Navbar'
 ```
 
-2. Under the style section of App.vue, import the Blueprint CSS variant. 
+2. Under the style section of App.vue, import the Blueprint CSS variant.
 ```css
 @import './assets/css/blueprint/app.css';
 @import './assets/css/blueprint/window.css';
 @import './assets/css/blueprint/appgrid.css';
 ```
 
-3. Save all changes and head to localhost to view changes. 
+3. Save all changes and head to localhost to view changes.
 
 ### Windows Theme
-1. Head over to ```/src/App.vue```, under the script section, import the Windows Navbar variant. 
-```js 
+1. Head over to ```/src/App.vue```, under the script section, import the Windows Navbar variant.
+```js
 import Navbar from './components/windows/Navbar'
 ```
 
-2. Under the style section of App.vue, import the Windows CSS variant. 
+2. Under the style section of App.vue, import the Windows CSS variant.
 ```css
 @import './assets/css/windows/app.css';
 @import './assets/css/windows/window.css';
 @import './assets/css/windows/appgrid.css';
-```    
-     
+```
+
 
 ### MacOS Theme
-1. Head over to ```/src/App.vue```, under the script section, import the MacOS Navbar variant ***and MacOS Top Navbar***. 
-```js 
+1. Head over to ```/src/App.vue```, under the script section, import the MacOS Navbar variant ***and MacOS Top Navbar***.
+```js
 import Navbar from './components/macos/Navbar'
 import TopNavbar from './components/macos/TopNavbar.vue'
 ```
@@ -258,14 +256,14 @@ components: {
      ...,
      TopNavbar
 }```
-     
-3. Under the style section of App.vue, import the MacOS CSS variant. 
+
+3. Under the style section of App.vue, import the MacOS CSS variant.
 ```css
 @import './assets/css/macos/app.css';
 @import './assets/css/macos/window.css';
 @import './assets/css/macos/appgrid.css';
 ```
-     
+
 <a name="window-api"></a>
 ## Window API
 | Name | Description | Type |
@@ -282,23 +280,23 @@ components: {
 | iconImage | Name of icon image of window, icons should be placed in ```/assets/icons/``` | String |
 | altText | Icon's alternative text | String |
 | fullscreen | Tracks whether a window is in fullscreen or not | Boolean |
-    
+
 <a name="faq"></a>
 ## FAQ
 ### Can I use this for...
-- Yes. 
-     
-### Where are the CSS stored? 
+- Yes.
+
+### Where are the CSS stored?
 - ```/assets/css/```, go wild with it!
-     
-### Can I contribute or file an issue? 
+
+### Can I contribute or file an issue?
 - Sure! Feel free to create an issue or a pull request.
-     
+
 ### Is a Linux theme coming?
 - A Linux theme will eventually arrive when I am free to create it (and if the project gains enough traction).
-     
+
 ### Why is this not in React?
 - I'm familiar with Vue mostly and I enjoy using Vue :D
-     
-### Can I contact you? 
+
+### Can I contact you?
 - Of course! [Email me](mailto:donchia@ymail.com) and check out [my website here](https://www.donchia.tech).

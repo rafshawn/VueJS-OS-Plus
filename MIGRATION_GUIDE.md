@@ -513,10 +513,10 @@ export function useMoment() {
   - [x] `components/template/AboutWindow.vue`
   - [x] `components/AppGrid.vue`
   - [x] Rest of components
-- [ ] Remove Vuex dependency
-- [ ] Fix `vue-interactjs` compatibility
-- [ ] Run `npm run dev` and test
-- [ ] Run `npm run build` and verify output
+- [x] Remove Vuex dependency
+- [x] Fix `vue-interactjs` compatibility
+- [x] Run `npm run dev` and test
+- [x] Run `npm run build` and verify output
 
 ---
 

@@ -125,6 +125,25 @@ export const useWindowStore = defineStore('window', {
         altText: "Placeholder Icon",
         fullscreen: false
       },
+      {
+        windowId: "SystemSettings",
+        windowState: "close",
+        displayName: "System Settings",
+        windowComponent: 'window',
+        windowContent: 'SystemSettings',
+        windowContentPadding: {
+          top: '5%',
+          right: '5%',
+          bottom: '5%',
+          left: '5%'
+        },
+        position: "absolute",
+        positionX: "15vw",
+        positionY: "15vh",
+        iconImage: "placeholder.png",
+        altText: "Placeholder Icon",
+        fullscreen: false
+      },
       // register your new windows here
     ],
   }),
@@ -194,7 +213,6 @@ export const useWindowStore = defineStore('window', {
 
     setWindowState(payload) {
       const window = this.windows.find(w => w.windowId === payload.windowID)
-      if (!window) return
 
       const preventAppendingOpenWindow = ['open', 'minimize'].includes(window.windowState)
 

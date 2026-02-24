@@ -170,10 +170,12 @@ export default {
 <interact draggable :dragOption="dragOption" resizable :resizeOption="resizeOption" class="window window-style" :style="style" @dragmove="dragmove" @resizemove="resizemove" @click.native="setActiveWindow" :class="{ fullscreen: store.getWindowFullscreen(this.ComponentName), minimize: store.getWindowById(ComponentName).windowState=='minimize'}">
     <div class="top-bar" id="top-bar" @dblclick="toggleWindowSize">
         <h3 class="window-name">{{this.window.displayName}}</h3>
-        <div class="triple-button">
-            <button class="expand-button button" @click="toggleWindowSize"></button>
-            <button class="minimize-button button" @click="minimizeWindow"></button>
-            <button class="close-button button" @click="closeWindow"></button>
+        <div style="padding: 15px 0px 15px 15px">
+            <div class="triple-button">
+                <button class="expand-button button" @click="toggleWindowSize"></button>
+                <button class="minimize-button button" @click="minimizeWindow"></button>
+                <button class="close-button button" @click="closeWindow"></button>
+            </div>
         </div>
     </div>
     <div class="content">

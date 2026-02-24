@@ -15,6 +15,12 @@ export default {
     methods: {
         openAboutDialog() {
             this.store.setAboutDialogOpen(true)
+        },
+        openSystemSettings() {
+            this.store.setWindowState({
+                windowState: 'open',
+                windowID: 'SystemSettings'
+            })
         }
     }
 }
@@ -26,7 +32,7 @@ export default {
         <span class="item-label">About This Mac</span>
     </div>
     <div class="dropdown-divider"></div>
-    <div class="dropdown-item" @click="openAboutDialog">
+    <div class="dropdown-item" @click="openSystemSettings">
         <span class="item-label">System Settings</span>
     </div>
     <div class="dropdown-item" @click="openAboutDialog">

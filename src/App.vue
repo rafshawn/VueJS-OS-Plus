@@ -4,8 +4,9 @@
     component themes (blueprint, windows, macos)
 \*------------------------------------------------------------*/
 
-// Import Pinia store
+// Import Pinia stores
 import { useWindowStore } from '@/stores/window'
+import { useSettingsStore } from '@/stores/settings'
 
 // Import components
 import Window from './components/template/Window.vue'
@@ -17,16 +18,20 @@ import Blueprint from './components/views/Blueprint.vue'
 import Windows from './components/views/Windows.vue'
 import MacOS from './components/views/MacOS.vue'
 import AboutWindow from './components/template/AboutWindow.vue'
-import AboutMac from './components/views/AboutMac.vue'
+
+// MacOS Imports
+import AboutMac from './components/macos/AboutMac.vue'
 import Navbar from './components/macos/Navbar.vue'
 import TopNavbar from './components/macos/TopNavbar.vue'
 import AboutDialog from './components/macos/AboutDialog.vue'
+import SystemSettings from './components/macos/SystemSettings.vue'
 
 export default {
     name: 'App',
     setup() {
-        const store = useWindowStore()
-        return { store }
+        const windowStore = useWindowStore()
+        const settingsStore = useSettingsStore()
+        return { windowStore, settingsStore }
     },
     data() {
         return {
@@ -42,19 +47,22 @@ export default {
         OSWindow,
         Blueprint,
         Windows,
+
+        // macOS Components
         MacOS,
         AboutWindow,
         AboutMac,
         TopNavbar,
-        AboutDialog
+        AboutDialog,
+        SystemSettings,
     },
     computed: {
         windows() {
-            return this.store.windows
+            return this.windowStore.windows
         },
         style() {
             return {
-                '--fullscreen': this.store.getFullscreenWindowHeight
+                '--fullscreen': this.windowStore.getFullscreenWindowHeight
             }
         }
     },
@@ -65,6 +73,10 @@ export default {
             Code is detecting height of navbar and setting
             respective heights of screen
         \*-------------------------------------------------*/
+
+        // Load saved background preference
+        this.settingsStore.loadSavedBackground()
+        this.applyBackground()
 
         const navbar = document.getElementById('navbar')
         const topnavbar = document.getElementById('top-navbar')
@@ -83,17 +95,28 @@ export default {
             document.documentElement.style.height = window.innerHeight + 'px'
         })
 
-        this.store.setFullscreenWindowHeight(window.innerHeight - navbarHeight - topNavbarHeight + 'px')
+        this.windowStore.setFullscreenWindowHeight(window.innerHeight - navbarHeight - topNavbarHeight + 'px')
+    },
+    watch: {
+        // Watch for background changes and apply them
+        'settingsStore.selectedBackground'(newPath) {
+            this.applyBackground()
+        }
     },
     methods: {
+        applyBackground() {
+            const bgPath = this.settingsStore.selectedBackground
+            // Use absolute path from public folder or import the image
+            document.body.style.setProperty('--background-image', `url('/src/assets/background/${bgPath}')`)
+        },
         openWindow(windowId) {
-            this.store.setWindowState({
+            this.windowStore.setWindowState({
                 windowState: 'open',
                 windowID: windowId
             })
         },
         windowCheck(windowId) {
-            return this.store.getWindowById(windowId).windowState === 'open'
+            return this.windowStore.getWindowById(windowId).windowState === 'open'
         }
       }
     }

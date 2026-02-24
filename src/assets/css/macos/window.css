@@ -20,30 +20,88 @@
     height: 12px;
     width: 12px;
     border-radius: 50%;
-    background: #ff5f57;
+    border-style: solid;
+    border-width: 0.5px;
+    border-color: var(--red-border);
+    background: var(--red);
     position: relative;
+}
+
+.close-button::before,
+.close-button::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 8px;
+    height: 1px;
+}
+
+.close-button::before {
+    transform: rotate(45deg);
+}
+
+.close-button::after {
+    transform: rotate(-45deg);
 }
 
 .minimize-button {
     height: 12px;
     width: 12px;
     border-radius: 50%;
-    background: #febc2d;
+    border-style: solid;
+    border-width: 0.5px;
+    border-color: var(--yellow-border);
+    background: var(--yellow);
     position: relative;
+}
+
+.minimize-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 8px;
+    height: 2px;
 }
 
 .expand-button {
     height: 12px;
     width: 12px;
     border-radius: 50%;
-    background: #2ac63f;
+    border-style: solid;
+    border-width: 0.5px;
+    border-color: var(--green-border);
+    background: var(--green);
     position: relative;
+}
+
+.expand-button::before,
+.expand-button::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+}
+
+.expand-button::before {
+    width: 6px;
+    height: 6px;
+}
+
+.expand-button::after {
+    width: 10px;
+    height: 2px;
+    transform: rotate(-45deg);
 }
 
 .grey-button {
     height: 12px;
     width: 12px;
     border-radius: 50%;
+    border-style: solid;
+    border-width: 0.5px;
+    border-color: #b6bcbb;
     background: #c6c6c6;
     position: relative;
 }
@@ -51,49 +109,30 @@
 .triple-button {
     display: flex;
     flex-direction: row-reverse;
-    padding-left: 15px;
     align-items: center;
     width: 50px;
     justify-content: space-between;
-    padding-top: 15px;
-    padding-bottom: 15px;
 }
 
-.triple-button:hover .minimize-button::after {
-    content: '-';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 8px;
-    font-weight: bold;
-    color: #b3710b;
+.triple-button:hover .close-button::before,
+.triple-button:hover .close-button::after {
+    visibility: visible;
+    background-color: var(--red-icon);
+}
+
+.triple-button:hover .minimize-button::before {
+    visibility: visible;
+    background-color: var(--yellow-icon);
+}
+
+.triple-button:hover .expand-button::before {
+    visibility: visible;
+    background-color: var(--green-icon);
 }
 
 .triple-button:hover .expand-button::after {
-    content: '+';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 10px;
-    font-weight: bold;
-    color: #026200;
-}
-
-.triple-button:hover .close-button::after {
-    content: '×';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 10px;
-    font-weight: bold;
-    color: #990000;
-}
-
-.button:hover {
-    cursor: pointer;
+    visibility: visible;
+    background-color: var(--green);
 }
 
 /*-------------------------------------------*\
@@ -102,7 +141,7 @@
 
 .top-bar {
     display: flex;
-    height: 40px;
+    height: auto;
     width: 100%;
     background: #ECECED;
     z-index: 10;
@@ -137,4 +176,16 @@ button {
 p {
     margin: 0 0 0 0;
     padding: 0 0 0 0;
+}
+
+:root {
+    --red: #ff5f57;
+    --red-border: #de4038;
+    --red-icon: #7e0707;
+    --yellow: #febc2d;
+    --yellow-border: #de9c0d;
+    --yellow-icon: #b3710b;
+    --green: #2ac63f;
+    --green-border: #10a820;
+    --green-icon: #026200
 }

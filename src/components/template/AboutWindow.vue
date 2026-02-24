@@ -169,10 +169,12 @@ export default {
 <interact draggable :dragOption="dragOption" resizable :resizeOption="resizeOption" class="window window-style" :style="style" @dragmove="dragmove" @resizemove="resizemove" @click.native="setActiveWindow" :class="{ fullscreen: store.getWindowFullscreen(this.ComponentName), minimize: store.getWindowById(ComponentName).windowState=='minimize'}">
     <div class="top-bar no-border" id="top-bar" @dblclick="toggleWindowSize">
         <h3 class="window-name">{{this.window.displayName}}</h3>
-        <div class="triple-button">
-            <button class="grey-button button"></button>
-            <button class="grey-button button"></button>
-            <button class="close-button button" @click="closeWindow"></button>
+        <div style="padding: 10px 0px 10px 10px">
+            <div class="triple-button">
+                <button class="grey-button button"></button>
+                <button class="grey-button button"></button>
+                <button class="close-button button" @click="closeWindow"></button>
+            </div>
         </div>
     </div>
     <div class="content">
@@ -196,9 +198,9 @@ export default {
     box-sizing: border-box;
     padding: 0px;
     margin: 0px;
-    min-height: 42.5vh;
+    min-height: 41vh;
+    max-height: 41vh;
     min-width: 275px;
-    max-height: 42.5vh;
     max-width: 275px;
     user-select: none;
     -ms-touch-action: none;
