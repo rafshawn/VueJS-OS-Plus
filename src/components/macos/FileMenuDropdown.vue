@@ -1,19 +1,6 @@
-<template>
-<div v-if="isOpen" class="dropdown-menu" :style="{left: positionX + 'px', top: positionY + 'px'}">
-    <div 
-        v-for="(item, index) in menuItems" 
-        :key="index"
-        class="dropdown-item" 
-        @click="handleAction(item.action)"
-    >
-        <span class="item-label">{{ item.label }}</span>
-        <span class="item-shortcut" v-if="item.shortcut">{{ item.shortcut }}</span>
-    </div>
-    <div class="dropdown-divider"></div>
-</div>
-</template>
-
 <script>
+import '../../assets/css/macos/app.css';
+
 export default {
     name: 'FileMenuDropdown',
     props: {
@@ -48,6 +35,21 @@ export default {
     }
 }
 </script>
+
+<template>
+<div v-if="isOpen" class="dropdown-menu" :style="{left: positionX + 'px', top: positionY + 'px'}">
+    <div
+        v-for="(item, index) in menuItems"
+        :key="index"
+        class="dropdown-item"
+        @click="handleAction(item.action)"
+    >
+        <span class="item-label">{{ item.label }}</span>
+        <span class="item-shortcut" v-if="item.shortcut">{{ item.shortcut }}</span>
+    </div>
+    <div class="dropdown-divider"></div>
+</div>
+</template>
 
 <style scoped>
 .dropdown-menu {
@@ -85,11 +87,11 @@ export default {
 }
 
 .dropdown-item:hover {
-    background: rgba(0, 122, 255, 0.1);
+    background: var(--accent-hover, rgba(0, 100, 225, 0.1));
 }
 
 .dropdown-item:active {
-    background: rgba(0, 122, 255, 0.2);
+    background: var(--accent-active, rgba(0, 100, 225, 0.2));
 }
 
 .item-label {

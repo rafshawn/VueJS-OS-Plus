@@ -1,5 +1,6 @@
 <script>
 import { useWindowStore } from '@/stores/window'
+import '../../assets/css/macos/app.css';
 
 export default {
     name: 'AppleMenuDropdown',
@@ -102,11 +103,11 @@ export default {
 }
 
 .dropdown-item:hover {
-    background: rgba(0, 122, 255, 0.1);
+    background: var(--accent-hover, rgba(0, 100, 225, 0.1));
 }
 
 .dropdown-item:active {
-    background: rgba(0, 122, 255, 0.2);
+    background: var(--accent-active, rgba(0, 100, 225, 0.2));
 }
 
 .item-label {

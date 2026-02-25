@@ -129,7 +129,7 @@ export const useWindowStore = defineStore('window', {
         windowId: "SystemSettings",
         windowState: "close",
         displayName: "System Settings",
-        windowComponent: 'window',
+        windowComponent: 'SettingsWindow',
         windowContent: 'SystemSettings',
         windowContentPadding: {
           top: '5%',
@@ -140,7 +140,7 @@ export const useWindowStore = defineStore('window', {
         position: "absolute",
         positionX: "15vw",
         positionY: "15vh",
-        iconImage: "Settings.ico",
+        iconImage: "Settings.png",
         altText: "Settings Icon",
         fullscreen: false
       },

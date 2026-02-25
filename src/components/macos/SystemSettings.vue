@@ -13,7 +13,7 @@ export default {
     },
     data() {
         return {
-            selectedTab: "wallpaper", // 'profile' or 'wallpaper'
+            selectedTab: "profile", // 'profile' or 'wallpaper'
             userProfile: {
                 name: "Justin Mac",
                 dob: "January 24, 1984",
@@ -32,17 +32,27 @@ export default {
         selectBackground(backgroundPath) {
             this.settingsStore.setBackground(backgroundPath);
         },
-        // Helper to get background image URL
         getBackgroundUrl(filename) {
-            return new URL(`../../assets/background/${filename}`, import.meta.url)
-                .href;
+            return new URL(`../../assets/background/${filename}`, import.meta.url).href;
         },
+        selectAccent(color) {
+            this.settingsStore.setAccentColor(color);
+        },
+
+        // Open Links
+        sendMail() { window.location.href = 'mailto:justin@apple.com' },
+        sendText() { window.location.href = 'sms:+18005389696' },
+        openGithub() { window.open('https://github.com/', '_blank', 'noopener,noreferrer') },
+        openLinkedin() { window.open('https://www.linkedin.com/', '_blank', 'noopener,noreferrer') },
+        openX() { window.open('https://x.com/', '_blank', 'noopener,noreferrer') },
+        openInstagram() { window.open('https://www.instagram.com/', '_blank', 'noopener,noreferrer') },
+        openFacebook() { window.open('https://www.facebook.com/', '_blank', 'noopener,noreferrer') },
     },
 };
 </script>
 
 <template>
-    <div class="system-settings" :style="style">
+    <div class="system-settings">
         <div class="settings-container">
             <!-- Sidebar -->
             <aside class="sidebar">
@@ -58,20 +68,20 @@ export default {
                     </div>
                 </div>
                 <nav class="sidebar-nav">
-                    <!-- <button
+                    <button
                         class="nav-item"
-                        :class="{ active: selectedTab === 'profile' }"
-                        @click="selectedTab = 'profile'"
+                        :class="{ active: selectedTab === 'appearance' }"
+                        @click="selectedTab = 'appearance'"
                     >
-                        <span class="nav-icon">👤</span>
-                        <span class="nav-label">Profile</span>
-                    </button> -->
+                        <img src="/src/assets/icons/macos/Wallpaper.ico" alt="Wallpaper" class="info-icon"/>
+                        <span class="nav-label">Appearance</span>
+                    </button>
                     <button
                         class="nav-item"
                         :class="{ active: selectedTab === 'wallpaper' }"
                         @click="selectedTab = 'wallpaper'"
                     >
-                        <span class="nav-icon">🖼️</span>
+                        <img src="/src/assets/icons/macos/Wallpaper.ico" alt="Wallpaper" class="info-icon"/>
                         <span class="nav-label">Wallpaper</span>
                     </button>
                 </nav>
@@ -85,40 +95,116 @@ export default {
                         <div class="profile-head">
                             <img :src="avatarUrl" alt="User Avatar" class="user-avatar big" />
                             <span class="profile-name">{{ userProfile.name }}</span>
-                            <span class="user-email">{{ userProfile.email }}</span>
+                            <span class="user-email big">{{ userProfile.email }}</span>
                         </div>
 
-                        <div class="profile-info">
+                        <div class="content-box">
                             <div class="info-row">
+                                <img src="/src/assets/icons/macos/Contacts.ico" alt="Name" class="info-icon"/>
                                 <label>Name</label>
                                 <span>{{ userProfile.name }}</span>
                             </div>
                             <div class="info-row">
+                                <img src="/src/assets/icons/macos/Calendar.ico" alt="Date of Birth" class="info-icon"/>
                                 <label>Date of Birth</label>
                                 <span>{{ userProfile.dob }}</span>
                             </div>
-                            <div class="info-row">
+                            <div class="info-row link" @click="sendMail">
+                                <img src="/src/assets/icons/macos/Mail.ico" alt="Email" class="info-icon"/>
                                 <label>Email</label>
                                 <span>{{ userProfile.email }}</span>
                             </div>
-                            <div class="info-row">
+                            <div class="info-row link" @click="sendText">
+                                <img src="/src/assets/icons/macos/iMessage.ico" alt="Phone Number" class="info-icon"/>
                                 <label>Phone Number</label>
                                 <span>{{ userProfile.phone }}</span>
+                            </div>
+                        </div>
+
+                        <h3>Socials</h3>
+                        <div class="content-box">
+                            <div class="info-row link" @click="openGithub">
+                                <img src="/src/assets/icons/macos/GitHub.ico" alt="GitHub" class="info-icon"/>
+                                <label>GitHub</label>
+                            </div>
+                            <div class="info-row link" @click="openLinkedin">
+                                <img src="/src/assets/icons/macos/Linkedin.ico" alt="Linkedin" class="info-icon"/>
+                                <label>Linkedin</label>
+                            </div>
+                            <div class="info-row link" @click="openX">
+                                <img src="/src/assets/icons/macos/X.ico" alt="X" class="info-icon"/>
+                                <label>X</label>
+                            </div>
+                            <div class="info-row link" @click="openInstagram">
+                                <img src="/src/assets/icons/macos/Instagram.ico" alt="Instagram" class="info-icon"/>
+                                <label>Instagram</label>
+                            </div>
+                            <div class="info-row link" @click="openFacebook">
+                                <img src="/src/assets/icons/macos/Facebook.ico" alt="Facebook" class="info-icon"/>
+                                <label>Facebook</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Appearance Tab -->
+                <div v-else-if="selectedTab === 'appearance'" class="tab-content">
+                    <h2>Appearance</h2>
+
+                    <div class="content-box">
+                        <div class="info-row">
+                            <label>Accent Color</label>
+                            <div class="accent-colors">
+                                <button
+                                    v-for="color in settingsStore.accentColors"
+                                    class="accent-color"
+                                    @click="selectAccent(color.value)"
+                                    :key="color.id"
+                                    :class="{ selected: settingsStore.accentColor === color.value }"
+                                    :style="{ backgroundColor: color.value }"
+                                    :title="color.name"
+                                ></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wallpaper-section">
+                        <h3>Wallpaper</h3>
+                        <div class="wallpaper-grid">
+                            <div
+                                v-for="bg in settingsStore.backgrounds"
+                                class="wallpaper-option"
+                                @click="selectBackground(bg.path)"
+                                :key="bg.id"
+                                :class="{
+                                    selected: settingsStore.selectedBackground === bg.path,
+                                }"
+                            >
+                                <div class="wallpaper-preview">
+                                    <img :src="getBackgroundUrl(bg.path)" :alt="bg.name" />
+                                </div>
+                                <span class="wallpaper-name">{{ bg.name }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Wallpaper Tab -->
-                <div v-else-if="selectedTab === 'wallpaper'" class="tab-content wallpaper-content">
-                    <h2>Desktop & Dock</h2>
+                <div v-else-if="selectedTab === 'wallpaper'" class="tab-content">
+                    <h2>Wallpaper</h2>
 
                     <div class="wallpaper-section">
                         <h3>Wallpaper</h3>
                         <div class="wallpaper-grid">
-                            <div v-for="bg in settingsStore.backgrounds" :key="bg.id" class="wallpaper-option" :class="{
-                                selected: settingsStore.selectedBackgroundId === bg.id,
-                            }" @click="selectBackground(bg.path)">
+                            <div
+                                v-for="bg in settingsStore.backgrounds"
+                                class="wallpaper-option"
+                                @click="selectBackground(bg.path)"
+                                :key="bg.id"
+                                :class="{
+                                    selected: settingsStore.selectedBackground === bg.path,
+                                }"
+                            >
                                 <div class="wallpaper-preview">
                                     <img :src="getBackgroundUrl(bg.path)" :alt="bg.name" />
                                 </div>
@@ -157,27 +243,20 @@ export default {
 .sidebar-header {
     display: flex;
     gap: 12px;
-    margin: 15px 12px 15px 12px;
-    padding: 5px 8px 5px 8px;
+    margin: 15px 8px;
+    padding: 6px 8px;
     border-radius: 6px;
 }
 
 .sidebar-header h3 {
-    margin: 1px 0 0 0;
-    font-size: 16px;
+    margin: 0;
+    font-size: 14px;
     font-weight: 500;
 }
 
-.sidebar-header.active {
-    background: var(--accent-blue);
-}
-
-.sidebar-header.active h3 {
-    color: var(--system-font-white);
-}
-
+.sidebar-header.active h3,
 .sidebar-header.active .user-email {
-    color: var(--system-font-white-2);
+    color: var(--system-font-white);
 }
 
 .sidebar-header-text {
@@ -188,8 +267,8 @@ export default {
 }
 
 .user-avatar {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     object-fit: cover;
 }
@@ -202,53 +281,54 @@ export default {
 
 .user-email {
     margin: 0;
-    font-size: 13px;
+    font-size: 12px;
     color: #86868b;
 }
 
+.user-email.big {
+    font-size: 14px;
+}
+
 .sidebar-nav {
-    padding: 12px 8px;
+    padding: 0 8px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
 }
 
 .nav-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px 14px;
-    border: none;
-    background: transparent;
-    border-radius: 8px;
-    cursor: pointer;
+    padding: 6px;
     text-align: left;
     font-size: 14px;
+}
+
+.sidebar-header,
+.nav-item {
     transition: background 0.15s ease;
+    border-radius: 6px;
 }
 
+.sidebar-header:hover,
 .nav-item:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: var(--accent-hover);
 }
 
+.sidebar-header.active,
 .nav-item.active {
-    background: var(--accent-blue);
+    background: var(--accent-color);
     color: var(--system-font-white);
 }
 
-.nav-icon {
-    font-size: 18px;
-}
-
-.nav-label {
+/* .nav-label {
     font-weight: 500;
-}
+} */
 
 /* Content Area Styles */
 .content-area {
     flex-grow: 1;
     overflow-y: auto;
-    padding: 30px;
+    padding: 20px;
     background: #fff;
 }
 
@@ -262,7 +342,11 @@ export default {
 .profile-section {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+}
+
+.profile-section h3 {
+    font-size: 16px;
+    margin: 24px 0 10px 8px;
 }
 
 .profile-head {
@@ -270,6 +354,7 @@ export default {
     flex-direction: column;
     align-items: center;
     gap: 4px;
+    margin-bottom: 18px;
 }
 
 .profile-name {
@@ -277,20 +362,43 @@ export default {
     font-weight: 600;
 }
 
-.profile-info {
-    flex-grow: 1;
-    background: red;
+.content-box {
     border-radius: 6px;
+    border: 1px solid #e0e0e0;
+}
+
+.info-icon {
+    height: 24px;
+    width: 24px;
+    margin-right: 6px;
 }
 
 .info-row {
     display: flex;
-    padding: 8px;
-    border-bottom: 1px solid #e0e0e0;
+    align-items: center;
+    padding: 10px 12px;
+    position: relative;
+    transition: background 0.15s ease;
 }
 
-.info-row:last-child {
-    border-bottom: none;
+.info-row::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 12px;
+    right: 12px;
+    height: 1px;
+    background-color: var(--accent-hover);
+    transition: opacity 0.15s ease;
+}
+
+.info-row:last-child::after {
+    display: none;
+}
+
+.info-row:hover::after,
+.info-row:has(+ .info-row:hover)::after {
+    opacity: 0;
 }
 
 .info-row label {
@@ -302,6 +410,40 @@ export default {
 
 .info-row span {
     font-size: 14px;
+    margin-left: auto;
+}
+
+.info-row.link,
+.info-row.link label {
+    cursor: pointer;
+}
+
+.info-row:hover {
+    background: var(--accent-hover);
+}
+
+/* Accent Color Selector */
+.accent-colors {
+    display: flex;
+    gap: 8px;
+}
+
+.accent-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    padding: 0;
+}
+
+.accent-color:hover {
+    transform: scale(1.1);
+}
+
+.accent-color.selected {
+    border-color: #333;
 }
 
 /* Wallpaper Content */

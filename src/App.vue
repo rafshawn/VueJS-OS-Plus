@@ -17,7 +17,6 @@ import OSWindow from './components/template/OSWindow.vue'
 import Blueprint from './components/views/Blueprint.vue'
 import Windows from './components/views/Windows.vue'
 import MacOS from './components/views/MacOS.vue'
-import AboutWindow from './components/template/AboutWindow.vue'
 
 // MacOS Imports
 import AboutMac from './components/macos/AboutMac.vue'
@@ -25,6 +24,8 @@ import Navbar from './components/macos/Navbar.vue'
 import TopNavbar from './components/macos/TopNavbar.vue'
 import AboutDialog from './components/macos/AboutDialog.vue'
 import SystemSettings from './components/macos/SystemSettings.vue'
+import AboutWindow from './components/macos/AboutWindow.vue'
+import SettingsWindow from './components/macos/SettingsWindow.vue'
 
 export default {
     name: 'App',
@@ -55,6 +56,7 @@ export default {
         TopNavbar,
         AboutDialog,
         SystemSettings,
+        SettingsWindow,
     },
     computed: {
         windows() {
@@ -74,8 +76,9 @@ export default {
             respective heights of screen
         \*-------------------------------------------------*/
 
-        // Load saved background preference
-        this.settingsStore.loadSavedBackground()
+        // Load saved preferences
+        this.settingsStore.loadBackground()
+        this.settingsStore.loadAccentColor()
         this.applyBackground()
 
         const navbar = document.getElementById('navbar')

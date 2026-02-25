@@ -6,19 +6,32 @@
 
 | Operating System | Screenshot | Features |
 | --- | --- | --- |
-|  |  |  |
+| Blank Slate |  |  |
+| macOS |  |  |
+| Macintosh |  |  |
 
 
 ## Table of contents
-1. [Project Overview](#project-overview)
-2. [Features](#features)
-3. [Technologies](#technologies)
-4. [Pre-Requisites](#pre-requisites)
-5. [Setup Instructions](#setup-instructions)
-6. [Register Windows with Slots (Quick Registration)](#register-windows-slots)
-7. [Register Custom Windows (Advanced Registration)](#register-windows-custom)
-8. [Window API](#window-api)
-9. [FAQ](#faq)
+- [OS Website Template for Vue.js](#os-website-template-for-vuejs)
+  - [Table of contents](#table-of-contents)
+  - [Project Overview](#project-overview)
+  - [Features](#features)
+  - [Technologies](#technologies)
+  - [Setup Instructions](#setup-instructions)
+  - [Register Windows (slots method)](#register-windows-slots-method)
+  - [Register Windows (Custom Window)](#register-windows-custom-window)
+  - [Switching Themes](#switching-themes)
+    - [Blueprint Theme](#blueprint-theme)
+    - [Windows Theme](#windows-theme)
+    - [MacOS Theme](#macos-theme)
+  - [Window API](#window-api)
+  - [FAQ](#faq)
+    - [Can I use this for...](#can-i-use-this-for)
+    - [Where are the CSS stored?](#where-are-the-css-stored)
+- [Credits](#credits)
+  - [Fonts](#fonts)
+  - [Icon Packs](#icon-packs)
+  - [Special Thanks](#special-thanks)
 
 <a name="project-overview"></a>
 ## Project Overview
@@ -289,18 +302,12 @@ components: {
 ### Where are the CSS stored?
 - ```/assets/css/```, go wild with it!
 
-### Can I contribute or file an issue?
-- Sure! Feel free to create an issue or a pull request.
-
-### Is a Linux theme coming?
-- A Linux theme will eventually arrive when I am free to create it (and if the project gains enough traction).
-
-### Why is this not in React?
-- I'm familiar with Vue mostly and I enjoy using Vue :D
-
-### Can I contact you?
-- Of course! [Email me](mailto:donchia@ymail.com) and check out [my website here](https://www.donchia.tech).
-
 # Credits
+## Fonts
+
 ## Icon Packs
 - [Tile Icons for macOS](https://www.deviantart.com/oviotti/art/Tile-Icons-Iconpack-for-macOS-848741448) by [oviotti](https://www.deviantart.com/oviotti)
+
+## Special Thanks
+- [DonChiaQE](https://github.com/DonChiaQE) for this project's base ([OS Website Template](https://github.com/DonChiaQE/vuejs-os-template))
+- [atdrago](https://github.com/atdrago) for [macOS Traffic Light Buttons](https://codepen.io/atdrago/pen/yezrBR) implementation
