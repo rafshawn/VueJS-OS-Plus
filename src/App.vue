@@ -79,6 +79,7 @@ export default {
         // Load saved preferences
         this.settingsStore.loadBackground()
         this.settingsStore.loadAccentColor()
+        this.settingsStore.loadDarkMode()
         this.applyBackground()
 
         const navbar = document.getElementById('navbar')
@@ -102,13 +103,13 @@ export default {
     },
     watch: {
         // Watch for background changes and apply them
-        'settingsStore.selectedBackground'(newPath) {
+        'settingsStore.currentBackground'(newPath) {
             this.applyBackground()
         }
     },
     methods: {
         applyBackground() {
-            const bgPath = this.settingsStore.selectedBackground
+            const bgPath = this.settingsStore.currentBackground
             // Use absolute path from public folder or import the image
             document.body.style.setProperty('--background-image', `url('/src/assets/background/${bgPath}')`)
         },

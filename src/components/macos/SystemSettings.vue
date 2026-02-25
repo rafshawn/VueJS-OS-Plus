@@ -53,6 +53,9 @@ export default {
                 this.setScrolling(isScrolling);
             }
         },
+        toggleDarkMode(event) {
+            this.settingsStore.setDarkMode(event.target.checked);
+        },
         selectBackground(backgroundPath) {
             this.settingsStore.setBackground(backgroundPath);
         },
@@ -172,6 +175,19 @@ export default {
 
                 <!-- Appearance Tab -->
                 <div v-else-if="selectedTab === 'appearance'" class="tab-content">
+                    <h2>Appearance</h2>
+
+                    <div class="content-box">
+                        <div class="info-row">
+                            <img src="/src/assets/icons/macos/Wallpaper.ico" alt="Dark Mode" class="info-icon"/>
+                            <label>Dark Mode</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" :checked="settingsStore.darkMode" @change="toggleDarkMode($event)">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
                     <div class="content-box">
                         <div class="info-row accent">
                             <label>Accent Color</label>
@@ -193,7 +209,7 @@ export default {
                         <h3>Wallpaper</h3>
                         <div class="wallpaper-grid">
                             <div
-                                v-for="bg in settingsStore.backgrounds"
+                                v-for="bg in settingsStore.displayWallpapers"
                                 class="wallpaper-option"
                                 @click="selectBackground(bg.path)"
                                 :key="bg.id"
@@ -216,7 +232,7 @@ export default {
                         <h3>Wallpaper</h3>
                         <div class="wallpaper-grid">
                             <div
-                                v-for="bg in settingsStore.backgrounds"
+                                v-for="bg in settingsStore.displayWallpapers"
                                 class="wallpaper-option"
                                 @click="selectBackground(bg.path)"
                                 :key="bg.id"
@@ -272,7 +288,7 @@ export default {
 
 .sidebar-header.active h3,
 .sidebar-header.active .user-email {
-    color: var(--system-font-white);
+    color: var(--system-font);
 }
 
 .sidebar-header-text {
@@ -331,7 +347,7 @@ export default {
 .sidebar-header.active,
 .nav-item.active {
     background: var(--accent-color);
-    color: var(--system-font-white);
+    color: var(--system-font-active);
 }
 
 .nav-label {
@@ -516,5 +532,52 @@ export default {
     text-align: center;
     padding: 10px 4px;
     background: #fafafa;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+    margin-left: auto;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.3s;
+    border-radius: 28px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background-color: var(--accent-color);
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(22px);
 }
 </style>

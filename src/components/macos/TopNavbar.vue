@@ -1,5 +1,6 @@
 <script>
 import { useWindowStore } from '@/stores/window'
+import '../../assets/css/macos/app.css';
 import moment from 'moment'
 import AppleMenuDropdown from './AppleMenuDropdown.vue'
 import FileMenuDropdown from './FileMenuDropdown.vue'
@@ -221,7 +222,7 @@ export default {
     height: 15px;
     padding-top: 5px;
     padding-bottom: 5px;
-    background-color: rgba(255, 255, 255, .5);
+    background-color: var(--navbar-color);
     backdrop-filter: blur(25px);
     display: flex;
     align-items: center;

@@ -190,7 +190,7 @@
     margin: 0;
     font-size: 15px;
     font-weight: 600;
-    color: #484848
+    color: var(--system-font-2);
 }
 
 .window-name {
