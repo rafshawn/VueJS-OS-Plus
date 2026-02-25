@@ -1,13 +1,16 @@
+@import './app.css';
+
 /*-------------------------------------------*\
     Windows/Display
 \*-------------------------------------------*/
 .window-style {
     border-radius: 15px;
-    background: #F3F2F2;
+    background: var(--window-transparent);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     overflow: hidden;
-    border: 1px solid #dadada;
+    border: 1px solid var(--border-color);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.14);
-    /* transition: all 0.5s ease; */
     max-height: 100%;
     max-width: 100%;
     align-items: flex-end;
@@ -101,8 +104,8 @@
     border-radius: 50%;
     border-style: solid;
     border-width: 0.5px;
-    border-color: #b6bcbb;
-    background: #c6c6c6;
+    border-color: var(--grey-border);
+    background: var(--grey);
     position: relative;
 }
 
@@ -144,8 +147,8 @@
     height: auto;
     width: 100%;
     background: #ECECED;
+    border-bottom: 1px solid var(--border-color);
     z-index: 10;
-    border-bottom: #dadada 1px solid;
 }
 
 .top-bar.no-border {
@@ -155,6 +158,39 @@
 
 .top-bar:hover {
     cursor: default;
+}
+
+.top-bar.finder {
+    background: none;
+    border-bottom: none;
+}
+
+.top-bar.finder .sidebar-section {
+    width: 220px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--border-color);
+}
+
+.top-bar.finder .content-section {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    background: var(--window-color);
+    border-bottom: 1px solid transparent;
+    transition: all 0.15s ease;
+}
+
+.top-bar.finder .content-section.scrolled {
+    border-bottom-color: var(--border-color);
+    box-shadow: 1px 0 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.top-bar.finder .finder-title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #484848
 }
 
 .window-name {
@@ -176,16 +212,4 @@ button {
 p {
     margin: 0 0 0 0;
     padding: 0 0 0 0;
-}
-
-:root {
-    --red: #ff5f57;
-    --red-border: #de4038;
-    --red-icon: #7e0707;
-    --yellow: #febc2d;
-    --yellow-border: #de9c0d;
-    --yellow-icon: #b3710b;
-    --green: #2ac63f;
-    --green-border: #10a820;
-    --green-icon: #026200
 }

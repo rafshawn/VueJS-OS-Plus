@@ -7,6 +7,8 @@
 :root {
     --system-font-black: #252524;
     --system-font-white: #f8fafb;
+
+    --accent-color: var(--accent-blue);     /* default accent color */
     --accent-blue: #0064e1;
     --accent-purple: #8e3489;
     --accent-pink: #fd4593;
@@ -15,8 +17,30 @@
     --accent-yellow: #ffc136;
     --accent-green: #50b245;
     --accent-grey: #8d8d8d;
-    --accent-color: var(--accent-blue);     /* default accent color */
     --accent-hover: rgba(0, 0, 0, 0.05);
+
+    --window-color: var(--window-color-light);
+    --window-transparent: var(--window-transparent-light);
+    --border-color: var(--border-color-light);
+    --window-color-light: #f6f6f6;
+    --window-transparent-light: rgba(255, 255, 255, 0.9);
+    --border-color-light: #e0e0e0;
+    --window-color-dark: #282828;
+    --window-color-dark-2: #383838;
+    --window-transparent-dark: rgba(37, 37, 36, 0.5);
+    --border-color-dark: #3d3d3d;
+
+    --red: #ff5f57;
+    --red-border: #de4038;
+    --red-icon: #7e0707;
+    --yellow: #febc2d;
+    --yellow-border: #de9c0d;
+    --yellow-icon: #b3710b;
+    --green: #2ac63f;
+    --green-border: #10a820;
+    --green-icon: #026200;
+    --grey: #dbdbdb;
+    --grey-border: #c6c6c6;
 }
 
 body {

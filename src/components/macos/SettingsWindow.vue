@@ -8,13 +8,11 @@ export default {
     },
     data: function () {
         return {
-            // ID Name of window (important)
             ComponentName: this.nameOfWindow,
-
-            // window
             Window: {},
+            currentTitle: 'System Settings',
+            isScrolling: false,
 
-            // InteractJS states and modifiers
             resizeOption: {
                 edges: {
                     top: true,
@@ -23,11 +21,6 @@ export default {
                     right: true
                 },
                 margin: 8,
-                modifiers: [
-                    // interact.modifiers.restrictRect({
-                    //     restriction: '#screen'
-                    // })
-                ],
             },
             dragOption: {
                 modifiers: [
@@ -45,7 +38,6 @@ export default {
             tempY: 0,
             w: 400,
             h: 400,
-
         }
     },
     setup() {
@@ -66,7 +58,12 @@ export default {
         this.window = this.store.getWindowById(this.ComponentName)
     },
     methods: {
-        // functions to interact with window state
+        activeTab(title) {
+            this.currentTitle = title;
+        },
+        setScrolling(value) {
+            this.isScrolling = value;
+        },
 
         closeWindow() {
             const payload = {
@@ -137,6 +134,12 @@ export default {
             this.x += event.deltaRect.left;
             this.y += event.deltaRect.top;
         }
+    },
+    provide() {
+        return {
+            activeTab: this.activeTab,
+            setScrolling: this.setScrolling
+        }
     }
 }
 </script>
@@ -144,20 +147,22 @@ export default {
 
 <template>
 <interact draggable :dragOption="dragOption" resizable :resizeOption="resizeOption" class="window window-style" :style="style" @dragmove="dragmove" @resizemove="resizemove" @click.native="setActiveWindow" :class="{ fullscreen: store.getWindowFullscreen(this.ComponentName), minimize: store.getWindowById(ComponentName).windowState=='minimize'}">
-    <div class="top-bar" id="top-bar" @dblclick="toggleWindowSize">
-        <h3 class="window-name">{{this.window.displayName}}</h3>
-        <div style="padding: 15px 0px 15px 15px">
-            <div class="triple-button">
-                <button class="expand-button button" @click="toggleWindowSize"></button>
-                <button class="minimize-button button" @click="minimizeWindow"></button>
-                <button class="close-button button" @click="closeWindow"></button>
+    <div class="top-bar finder" id="top-bar" @dblclick="toggleWindowSize">
+        <div class="sidebar-section">
+            <div style="padding: 15px 0px 15px 15px">
+                <div class="triple-button">
+                    <button class="expand-button button" @click="toggleWindowSize"></button>
+                    <button class="minimize-button button" @click="minimizeWindow"></button>
+                    <button class="close-button button" @click="closeWindow"></button>
+                </div>
             </div>
+        </div>
+        <div class="content-section" :class="{ 'scrolled': isScrolling }">
+            <h3 class="finder-title">{{ currentTitle }}</h3>
         </div>
     </div>
     <div class="content">
-        <slot class="window-content" name="content">
-
-        </slot>
+        <slot class="window-content" name="content"></slot>
     </div>
 </interact>
 </template>

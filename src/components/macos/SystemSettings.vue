@@ -7,13 +7,14 @@ export default {
     props: {
         nameOfWindow: String,
     },
+    inject: ['activeTab', 'setScrolling'],
     setup() {
         const settingsStore = useSettingsStore();
         return { settingsStore };
     },
     data() {
         return {
-            selectedTab: "profile", // 'profile' or 'wallpaper'
+            selectedTab: "profile",
             userProfile: {
                 name: "Justin Mac",
                 dob: "January 24, 1984",
@@ -28,7 +29,30 @@ export default {
             return new URL(`/src/assets/${this.userProfile.avatar}`, import.meta.url).href;
         }
     },
+    watch: {
+        selectedTab(newTab) {
+            const titleMap = {
+                'profile': this.userProfile.name,
+                'appearance': 'Appearance',
+                'wallpaper': 'Wallpaper'
+            };
+            this.activeTab(titleMap[newTab]);
+        }
+    },
+    mounted() {
+        this.activeTab(this.userProfile.name);
+        this.$refs.contentArea.addEventListener('scroll', this.handleScroll);
+    },
+    beforeUnmount() {
+        this.$refs.contentArea.removeEventListener('scroll', this.handleScroll);
+    },
     methods: {
+        handleScroll(event) {
+            const isScrolling = event.target.scrollTop > 0;
+            if (this.setScrolling) {
+                this.setScrolling(isScrolling);
+            }
+        },
         selectBackground(backgroundPath) {
             this.settingsStore.setBackground(backgroundPath);
         },
@@ -39,7 +63,6 @@ export default {
             this.settingsStore.setAccentColor(color);
         },
 
-        // Open Links
         sendMail() { window.location.href = 'mailto:justin@apple.com' },
         sendText() { window.location.href = 'sms:+18005389696' },
         openGithub() { window.open('https://github.com/', '_blank', 'noopener,noreferrer') },
@@ -88,7 +111,7 @@ export default {
             </aside>
 
             <!-- Content Area -->
-            <main class="content-area">
+            <main class="content-area" ref="contentArea">
                 <!-- Profile Tab -->
                 <div v-if="selectedTab === 'profile'" class="tab-content profile-content">
                     <div class="profile-section">
@@ -149,10 +172,8 @@ export default {
 
                 <!-- Appearance Tab -->
                 <div v-else-if="selectedTab === 'appearance'" class="tab-content">
-                    <h2>Appearance</h2>
-
                     <div class="content-box">
-                        <div class="info-row">
+                        <div class="info-row accent">
                             <label>Accent Color</label>
                             <div class="accent-colors">
                                 <button
@@ -191,8 +212,6 @@ export default {
 
                 <!-- Wallpaper Tab -->
                 <div v-else-if="selectedTab === 'wallpaper'" class="tab-content">
-                    <h2>Wallpaper</h2>
-
                     <div class="wallpaper-section">
                         <h3>Wallpaper</h3>
                         <div class="wallpaper-grid">
@@ -220,9 +239,7 @@ export default {
 
 <style scoped>
 .system-settings {
-    padding: 0;
     height: 100%;
-    overflow: hidden;
 }
 
 .settings-container {
@@ -233,8 +250,8 @@ export default {
 /* Sidebar Styles */
 .sidebar {
     width: 220px;
-    background: #f5f5f7;
-    border-right: 1px solid #d0d0d5;
+    background: var(--window-color-transparent);
+    border-right: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
@@ -245,7 +262,6 @@ export default {
     gap: 12px;
     margin: 15px 8px;
     padding: 6px 8px;
-    border-radius: 6px;
 }
 
 .sidebar-header h3 {
@@ -299,8 +315,6 @@ export default {
     display: flex;
     align-items: center;
     padding: 6px;
-    text-align: left;
-    font-size: 14px;
 }
 
 .sidebar-header,
@@ -320,16 +334,16 @@ export default {
     color: var(--system-font-white);
 }
 
-/* .nav-label {
-    font-weight: 500;
-} */
+.nav-label {
+    font-size: 13px;
+}
 
 /* Content Area Styles */
 .content-area {
     flex-grow: 1;
     overflow-y: auto;
     padding: 20px;
-    background: #fff;
+    background: var(--window-color);
 }
 
 .tab-content h2 {
@@ -364,7 +378,7 @@ export default {
 
 .content-box {
     border-radius: 6px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--border-color);
 }
 
 .info-icon {
@@ -422,6 +436,10 @@ export default {
     background: var(--accent-hover);
 }
 
+.info-row.accent:hover {
+    background: transparent;
+}
+
 /* Accent Color Selector */
 .accent-colors {
     display: flex;
@@ -432,18 +450,21 @@ export default {
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    border: 2px solid transparent;
+    border: none;
     cursor: pointer;
     transition: all 0.15s ease;
     padding: 0;
+    position: relative;
 }
 
-.accent-color:hover {
-    transform: scale(1.1);
-}
-
-.accent-color.selected {
-    border-color: #333;
+.accent-color.selected::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
 }
 
 /* Wallpaper Content */
@@ -474,7 +495,7 @@ export default {
 }
 
 .wallpaper-option.selected {
-    border-color: #007aff;
+    border-color: var(--accent-color);
 }
 
 .wallpaper-preview {
