@@ -41,7 +41,7 @@ export default {
 
 .mac-logo {
     font-size: 80px;
-    color: #555;
+    color: var(--system-font-2);
 }
 
 .system-info {
@@ -51,57 +51,49 @@ export default {
 .version {
     font-size: 24px;
     font-weight: 700;
-    color: #333;
     margin: 0 0 5px 0;
 }
 
 .version-number {
     font-size: 14px;
-    color: #666;
+    color: var(--system-font-3);
     margin: 0 0 8px 0;
 }
 
 .chip {
     font-size: 13px;
-    color: #888;
+    color: var(--system-font-3);
     margin: 0;
 }
 
 .copyright {
-    border-top: 1px solid #d0d0d5;
+    border-top: 1px solid var(--border-color-2);
     padding-top: 15px;
 }
 
 .copyright p {
     font-size: 11px;
-    color: #999;
+    color: var(--system-font-3);
     margin: 0;
 }
 
-.dialog-footer {
-    background: #f0f0f5;
-    padding: 15px;
-    text-align: center;
-    border-top: 1px solid #d0d0d5;
-}
-
 .info-button {
-    background: #007aff;
-    color: white;
+    background: var(--accent-color);
+    color: var(--system-font-white);
     border: none;
     padding: 6px 10px;
     border-radius: 6px;
     font-size: 13px;
     font-weight: 500;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: box-shadow 0.2s;
 }
 
 .info-button:hover {
-    background: #0056b3;
+    box-shadow: inset 0 0 0 100px rgba(0, 0, 0, 0.15);
 }
 
 .info-button:active {
-    background: #004080;
+    box-shadow: inset 0 0 0 100px rgba(0, 0, 0, 0.3);
 }
 </style>

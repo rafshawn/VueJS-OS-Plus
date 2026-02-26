@@ -128,7 +128,7 @@ export default {
 
 <template>
   <div id="app">
-    <top-navbar id="top-navbar"></top-navbar>
+    <TopNavbar id="top-navbar"></TopNavbar>
     <AboutDialog />
     <div class="screen" id="screen">
       <div v-for="window in windows" :key="window.windowId" :aria-label="window.displayName">
@@ -148,9 +148,9 @@ export default {
           </template>
         </component>
       </div>
-      <app-grid></app-grid>
+      <AppGrid></AppGrid>
     </div>
-    <navbar id="navbar" />
+    <Navbar id="navbar" />
   </div>
 </template>
 
@@ -163,6 +163,7 @@ export default {
 @import './assets/css/macos/app.css';
 @import './assets/css/macos/window.css';
 @import './assets/css/macos/appgrid.css';
+@import './assets/css/macos/dropdown.css';
 
 @font-face {
     font-family: 'W95FA';

@@ -1,6 +1,5 @@
 <script>
 import { useWindowStore } from '@/stores/window'
-import '../../assets/css/macos/app.css';
 import moment from 'moment'
 import AppleMenuDropdown from './AppleMenuDropdown.vue'
 import FileMenuDropdown from './FileMenuDropdown.vue'

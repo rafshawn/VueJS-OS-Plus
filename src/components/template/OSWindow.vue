@@ -43,11 +43,6 @@ export default {
                     right: true
                 },
                 margin: 8,
-                modifiers: [
-                    // interact.modifiers.restrictRect({
-                    //     restriction: '#screen'
-                    // })
-                ],
             },
             dragOption: {
                 modifiers: [

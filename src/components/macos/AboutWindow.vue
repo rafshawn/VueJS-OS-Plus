@@ -23,11 +23,6 @@ export default {
                     right: true
                 },
                 margin: 8,
-                modifiers: [
-                    // interact.modifiers.restrictRect({
-                    //     restriction: '#screen'
-                    // })
-                ],
             },
             dragOption: {
                 modifiers: [
@@ -166,10 +161,6 @@ export default {
     Windows/Display
 \*-------------------------------------------*/
 
-.minimize {
-    display: none;
-}
-
 .window {
     box-sizing: border-box;
     padding: 0px;
@@ -182,14 +173,6 @@ export default {
     -ms-touch-action: none;
     touch-action: none;
     flex-flow: column;
-}
-
-.fullscreen {
-    width: 100% !important;
-    height: var(--fullscreen) !important;
-    margin: 0;
-    transition: all 0.5s ease;
-    padding: 0;
 }
 
 .content {

@@ -7,9 +7,11 @@
 :root {
     --system-font: var(--system-font-black);
     --system-font-2: var(--system-font-black-2);
+    --system-font-3: var(--system-font-black-3);
     --system-font-active: var(--system-font-white);
     --system-font-black: #252524;
     --system-font-black-2: #484848;
+    --system-font-black-3: #86868b;
     --system-font-white: #f8fafb;
 
     --accent-color: var(--accent-blue);     /* default accent color */
@@ -24,15 +26,20 @@
     --accent-hover: rgba(0, 0, 0, 0.05);
 
     --window-color: var(--window-color-light);
+    --window-color-2: var(--window-color-light-2);
     --window-transparent: var(--window-transparent-light);
-    --border-color: var(--border-color-light);
     --window-color-light: #f6f6f6;
-    --window-transparent-light: rgba(255, 255, 255, 0.9);
-    --border-color-light: #e0e0e0;
+    --window-color-light-2: #fff;
+    --window-transparent-light: rgba(255, 255, 255, 0.85);
     --window-color-dark: #282828;
     --window-color-dark-2: #383838;
     --window-transparent-dark: rgba(37, 37, 36, 0.85);
+
+    --border-color: var(--border-color-light);
+    --border-color-2: var(--border-color-light);
+    --border-color-light: #e0e0e0;
     --border-color-dark: #3d3d3d;
+    --border-color-dark-2: #4a4a4a;
 
     --navbar-color: var(--navbar-light);
     --navbar-light: rgba(255, 255, 255, .5);
@@ -47,8 +54,12 @@
     --green: #2ac63f;
     --green-border: #10a820;
     --green-icon: #026200;
+    --grey-btn: var(--grey);
+    --grey-btn-border: var(--grey-border);
     --grey: #dbdbdb;
     --grey-border: #c6c6c6;
+    --grey-2: #4a4a4a;
+    --grey-border-2: var(--grey-2);
 }
 
 /* Dark Mode Overrides */
@@ -56,10 +67,14 @@ html.dark-mode {
     --system-font: var(--system-font-white);
     --system-font-2: var(--system-font-white);
     --window-color: var(--window-color-dark);
+    --window-color-2: var(--window-color-dark-2);
     --window-transparent: var(--window-transparent-dark);
     --border-color: var(--border-color-dark);
+    --border-color-2: var(--border-color-dark-2);
     --accent-hover: rgba(255, 255, 255, 0.1);
     --navbar-color: var(--navbar-dark);
+    --grey-btn: var(--grey-2);
+    --grey-btn-border: var(--grey-border-2);
 }
 
 body {

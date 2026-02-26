@@ -1,6 +1,5 @@
 <script>
 import { useSettingsStore } from "@/stores/settings";
-import '../../assets/css/macos/app.css';
 
 export default {
     name: "SystemSettings",
@@ -53,8 +52,8 @@ export default {
                 this.setScrolling(isScrolling);
             }
         },
-        toggleDarkMode(event) {
-            this.settingsStore.setDarkMode(event.target.checked);
+        setDarkMode(enabled) {
+            this.settingsStore.setDarkMode(enabled);
         },
         selectBackground(backgroundPath) {
             this.settingsStore.setBackground(backgroundPath);
@@ -66,13 +65,14 @@ export default {
             this.settingsStore.setAccentColor(color);
         },
 
-        sendMail() { window.location.href = 'mailto:justin@apple.com' },
-        sendText() { window.location.href = 'sms:+18005389696' },
+        sendMail() { window.location.href = 'mailto:justin@apple.com', 'noopener,noreferrer' },
+        sendText() { window.location.href = 'sms:+18005389696', 'noopener,noreferrer' },
         openGithub() { window.open('https://github.com/', '_blank', 'noopener,noreferrer') },
         openLinkedin() { window.open('https://www.linkedin.com/', '_blank', 'noopener,noreferrer') },
         openX() { window.open('https://x.com/', '_blank', 'noopener,noreferrer') },
         openInstagram() { window.open('https://www.instagram.com/', '_blank', 'noopener,noreferrer') },
         openFacebook() { window.open('https://www.facebook.com/', '_blank', 'noopener,noreferrer') },
+        openDiscord() { window.open('https://discord.com/', '_blank', 'noopener,noreferrer') },
     },
 };
 </script>
@@ -99,7 +99,7 @@ export default {
                         :class="{ active: selectedTab === 'appearance' }"
                         @click="selectedTab = 'appearance'"
                     >
-                        <img src="/src/assets/icons/macos/Wallpaper.ico" alt="Wallpaper" class="info-icon"/>
+                        <img src="/src/assets/icons/macos/This-PC.png" alt="Appearance" class="info-icon"/>
                         <span class="nav-label">Appearance</span>
                     </button>
                     <button
@@ -107,7 +107,7 @@ export default {
                         :class="{ active: selectedTab === 'wallpaper' }"
                         @click="selectedTab = 'wallpaper'"
                     >
-                        <img src="/src/assets/icons/macos/Wallpaper.ico" alt="Wallpaper" class="info-icon"/>
+                        <img src="/src/assets/icons/macos/This-PC.png" alt="Appearance" class="info-icon"/>
                         <span class="nav-label">Wallpaper</span>
                     </button>
                 </nav>
@@ -117,7 +117,7 @@ export default {
             <main class="content-area" ref="contentArea">
                 <!-- Profile Tab -->
                 <div v-if="selectedTab === 'profile'" class="tab-content profile-content">
-                    <div class="profile-section">
+                    <div class="content-section">
                         <div class="profile-head">
                             <img :src="avatarUrl" alt="User Avatar" class="user-avatar big" />
                             <span class="profile-name">{{ userProfile.name }}</span>
@@ -126,22 +126,22 @@ export default {
 
                         <div class="content-box">
                             <div class="info-row">
-                                <img src="/src/assets/icons/macos/Contacts.ico" alt="Name" class="info-icon"/>
+                                <img src="/src/assets/icons/macos/Contacts.png" alt="Name" class="info-icon"/>
                                 <label>Name</label>
                                 <span>{{ userProfile.name }}</span>
                             </div>
                             <div class="info-row">
-                                <img src="/src/assets/icons/macos/Calendar.ico" alt="Date of Birth" class="info-icon"/>
+                                <img src="/src/assets/icons/macos/Calendar.png" alt="Date of Birth" class="info-icon"/>
                                 <label>Date of Birth</label>
                                 <span>{{ userProfile.dob }}</span>
                             </div>
                             <div class="info-row link" @click="sendMail">
-                                <img src="/src/assets/icons/macos/Mail.ico" alt="Email" class="info-icon"/>
+                                <img src="/src/assets/icons/macos/Mail.png" alt="Email" class="info-icon"/>
                                 <label>Email</label>
                                 <span>{{ userProfile.email }}</span>
                             </div>
                             <div class="info-row link" @click="sendText">
-                                <img src="/src/assets/icons/macos/iMessage.ico" alt="Phone Number" class="info-icon"/>
+                                <img src="/src/assets/icons/macos/iMessage.png" alt="Phone Number" class="info-icon"/>
                                 <label>Phone Number</label>
                                 <span>{{ userProfile.phone }}</span>
                             </div>
@@ -150,24 +150,28 @@ export default {
                         <h3>Socials</h3>
                         <div class="content-box">
                             <div class="info-row link" @click="openGithub">
-                                <img src="/src/assets/icons/macos/GitHub.ico" alt="GitHub" class="info-icon"/>
+                                <img src="/src/assets/icons/macos/GitHub.png" alt="GitHub" class="info-icon"/>
                                 <label>GitHub</label>
                             </div>
                             <div class="info-row link" @click="openLinkedin">
-                                <img src="/src/assets/icons/macos/Linkedin.ico" alt="Linkedin" class="info-icon"/>
+                                <img src="/src/assets/icons/macos/Linkedin.png" alt="Linkedin" class="info-icon"/>
                                 <label>Linkedin</label>
                             </div>
                             <div class="info-row link" @click="openX">
-                                <img src="/src/assets/icons/macos/X.ico" alt="X" class="info-icon"/>
+                                <img src="/src/assets/icons/macos/X.png" alt="X" class="info-icon"/>
                                 <label>X</label>
                             </div>
                             <div class="info-row link" @click="openInstagram">
-                                <img src="/src/assets/icons/macos/Instagram.ico" alt="Instagram" class="info-icon"/>
+                                <img src="/src/assets/icons/macos/Instagram.png" alt="Instagram" class="info-icon"/>
                                 <label>Instagram</label>
                             </div>
                             <div class="info-row link" @click="openFacebook">
-                                <img src="/src/assets/icons/macos/Facebook.ico" alt="Facebook" class="info-icon"/>
+                                <img src="/src/assets/icons/macos/Facebook.png" alt="Facebook" class="info-icon"/>
                                 <label>Facebook</label>
+                            </div>
+                            <div class="info-row link" @click="openDiscord">
+                                <img src="/src/assets/icons/macos/Discord.png" alt="Discord" class="info-icon"/>
+                                <label>Discord</label>
                             </div>
                         </div>
                     </div>
@@ -175,21 +179,27 @@ export default {
 
                 <!-- Appearance Tab -->
                 <div v-else-if="selectedTab === 'appearance'" class="tab-content">
-                    <h2>Appearance</h2>
-
                     <div class="content-box">
-                        <div class="info-row">
-                            <img src="/src/assets/icons/macos/Wallpaper.ico" alt="Dark Mode" class="info-icon"/>
-                            <label>Dark Mode</label>
-                            <label class="toggle-switch">
-                                <input type="checkbox" :checked="settingsStore.darkMode" @change="toggleDarkMode($event)">
-                                <span class="toggle-slider"></span>
-                            </label>
+                        <div class="info-row appearance">
+                            <label>Appearance</label>
+                            <span style="display: flex;">
+                                <div
+                                    class="dark-mode light"
+                                    :class="{ selected: !settingsStore.darkMode }"
+                                    @click="setDarkMode(false)"
+                                >
+                                    <span>Light</span>
+                                </div>
+                                <div
+                                    class="dark-mode dark"
+                                    :class="{ selected: settingsStore.darkMode }"
+                                    @click="setDarkMode(true)"
+                                >
+                                    <span>Dark</span>
+                                </div>
+                            </span>
                         </div>
-                    </div>
-
-                    <div class="content-box">
-                        <div class="info-row accent">
+                        <div class="info-row appearance">
                             <label>Accent Color</label>
                             <div class="accent-colors">
                                 <button
@@ -205,7 +215,7 @@ export default {
                         </div>
                     </div>
 
-                    <div class="wallpaper-section">
+                    <div class="content-section">
                         <h3>Wallpaper</h3>
                         <div class="wallpaper-grid">
                             <div
@@ -228,7 +238,7 @@ export default {
 
                 <!-- Wallpaper Tab -->
                 <div v-else-if="selectedTab === 'wallpaper'" class="tab-content">
-                    <div class="wallpaper-section">
+                    <div class="content-section">
                         <h3>Wallpaper</h3>
                         <div class="wallpaper-grid">
                             <div
@@ -266,7 +276,6 @@ export default {
 /* Sidebar Styles */
 .sidebar {
     width: 220px;
-    background: var(--window-color-transparent);
     border-right: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
@@ -288,7 +297,7 @@ export default {
 
 .sidebar-header.active h3,
 .sidebar-header.active .user-email {
-    color: var(--system-font);
+    color: var(--system-font-white);
 }
 
 .sidebar-header-text {
@@ -314,7 +323,7 @@ export default {
 .user-email {
     margin: 0;
     font-size: 12px;
-    color: #86868b;
+    color: var(--system-font-3);
 }
 
 .user-email.big {
@@ -369,13 +378,14 @@ export default {
 }
 
 /* Profile Content */
-.profile-section {
+.content-section {
     display: flex;
     flex-direction: column;
 }
 
-.profile-section h3 {
-    font-size: 16px;
+.content-section h3 {
+    font-size: 15px;
+    color: var(--system-font-2);
     margin: 24px 0 10px 8px;
 }
 
@@ -398,9 +408,9 @@ export default {
 }
 
 .info-icon {
-    height: 24px;
-    width: 24px;
-    margin-right: 6px;
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
 }
 
 .info-row {
@@ -434,7 +444,7 @@ export default {
 .info-row label {
     width: 120px;
     font-weight: 500;
-    color: #86868b;
+    color: var(--system-font-3);
     font-size: 14px;
 }
 
@@ -452,8 +462,43 @@ export default {
     background: var(--accent-hover);
 }
 
-.info-row.accent:hover {
+.info-row.appearance:hover {
     background: transparent;
+}
+
+.info-row.appearance:hover::after,
+.info-row.appearance:has(+ .info-row.appearance:hover)::after {
+    opacity: 1;
+}
+
+.info-row.appearance span {
+    gap: 8px;
+    font-size: 12px;
+}
+
+.info-row.appearance .dark-mode {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: 3px solid transparent;
+}
+
+.info-row.appearance .dark-mode.selected {
+    border-color: var(--accent-color);
+}
+
+.info-row.appearance .dark-mode.light {
+    color: var(--system-font-black-2);
+    background-color: var(--window-color-light-2);
+}
+
+.info-row.appearance .dark-mode.dark {
+    color: var(--system-font-white);
+    background-color: var(--window-color-dark-2);
 }
 
 /* Accent Color Selector */
@@ -483,14 +528,6 @@ export default {
     transform: translate(-50%, -50%);
 }
 
-/* Wallpaper Content */
-.wallpaper-section h3 {
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 16px;
-    color: #6e6e73;
-}
-
 .wallpaper-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -501,7 +538,7 @@ export default {
     cursor: pointer;
     border-radius: 10px;
     overflow: hidden;
-    border: 3px solid transparent;
+    border: 3px solid var(--window-color-2);
     transition: all 0.2s ease;
 }
 
@@ -517,7 +554,6 @@ export default {
 .wallpaper-preview {
     aspect-ratio: 16/10;
     overflow: hidden;
-    background: #f5f5f5;
 }
 
 .wallpaper-preview img {
@@ -531,53 +567,7 @@ export default {
     font-size: 13px;
     text-align: center;
     padding: 10px 4px;
-    background: #fafafa;
-}
-
-/* Toggle Switch */
-.toggle-switch {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 28px;
-    margin-left: auto;
-}
-
-.toggle-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.toggle-slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: 0.3s;
-    border-radius: 28px;
-}
-
-.toggle-slider:before {
-    position: absolute;
-    content: "";
-    height: 22px;
-    width: 22px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: 0.3s;
-    border-radius: 50%;
-}
-
-.toggle-switch input:checked + .toggle-slider {
-    background-color: var(--accent-color);
-}
-
-.toggle-switch input:checked + .toggle-slider:before {
-    transform: translateX(22px);
+    background: var(--window-color-2);
+    transition: all 0.2s ease;
 }
 </style>

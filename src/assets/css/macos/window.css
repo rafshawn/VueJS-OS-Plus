@@ -104,8 +104,8 @@
     border-radius: 50%;
     border-style: solid;
     border-width: 0.5px;
-    border-color: var(--grey-border);
-    background: var(--grey);
+    border-color: var(--grey-btn-border);
+    background: var(--grey-btn);
     position: relative;
 }
 
@@ -146,7 +146,7 @@
     display: flex;
     height: auto;
     width: 100%;
-    background: #ECECED;
+    background: var(--window-color);
     border-bottom: 1px solid var(--border-color);
     z-index: 10;
 }
@@ -178,7 +178,7 @@
     padding: 0 20px;
     background: var(--window-color);
     border-bottom: 1px solid transparent;
-    transition: all 0.15s ease;
+    transition: border-bottom 0.15s ease;
 }
 
 .top-bar.finder .content-section.scrolled {
