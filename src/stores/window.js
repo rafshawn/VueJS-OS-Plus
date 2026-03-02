@@ -6,10 +6,13 @@ export const useWindowStore = defineStore('window', {
     activeWindow: 'nil',
     activeWindows: [],
     zIndex: 2,
-    aboutDialogOpen: false,
     appleMenuOpen: false,
     fileMenuOpen: false,
     controlCenterOpen: false,
+
+    // macOS: List of window IDs to display in the dock (user configurable)
+    dockWindows: ['LoremIpsum', 'MacOS', 'Windows', 'Blueprint', 'PhotoWindow', 'AboutMac', 'SystemSettings', 'SystemSettings', 'SystemSettings', 'SystemSettings'],
+
     windows: [
       {
         windowId: 'LoremIpsum',
@@ -151,13 +154,21 @@ export const useWindowStore = defineStore('window', {
   getters: {
     getActiveWindow: (state) => state.activeWindow,
     getWindowById: (state) => (id) => state.windows.find(w => w.windowId === id),
+    getWindows: (state) => state.windows,
+    getActiveWindows: (state) => state.activeWindows,
+    getFullscreenWindowHeight: (state) => state.fullscreenWindowHeight,
+
     getWindowFullscreen: (state) => (id) => {
       const win = state.windows.find(w => w.windowId === id)
       return win ? win.fullscreen : false
     },
-    getWindows: (state) => state.windows,
-    getActiveWindows: (state) => state.activeWindows,
-    getFullscreenWindowHeight: (state) => state.fullscreenWindowHeight,
+
+    // macOS: Get only windows that are in the dockWindows list
+    getDockWindows: (state) => {
+      return state.dockWindows
+        .map(id => state.windows.find(w => w.windowId === id))
+        .filter(w => w !== undefined)
+    },
   },
 
   actions: {
@@ -186,10 +197,6 @@ export const useWindowStore = defineStore('window', {
 
     setFullscreenWindowHeight(height) {
       this.fullscreenWindowHeight = height
-    },
-
-    setAboutDialogOpen(isOpen) {
-      this.aboutDialogOpen = isOpen
     },
 
     setAppleMenuOpen(isOpen) {

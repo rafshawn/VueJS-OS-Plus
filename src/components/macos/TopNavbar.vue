@@ -5,11 +5,26 @@ import AppleMenuDropdown from './AppleMenuDropdown.vue'
 import FileMenuDropdown from './FileMenuDropdown.vue'
 import ControlCenter from './ControlCenter.vue'
 
+/* --- Icons --- */
+import Apple from "@iconify-vue/f7/logo-apple"
+import Switch from "@iconify-vue/line-md/switch-to-switch-off-transition"
+import SwitchFilled from "@iconify-vue/line-md/switch-off-filled-to-switch-filled-transition"
+import Search from "@iconify-vue/f7/search"
+import Wifi from "@iconify-vue/f7/wifi"
+import Battery from "@iconify-vue/f7/battery-100"
+
 export default {
     components: {
         AppleMenuDropdown,
         FileMenuDropdown,
         ControlCenter,
+
+        Apple,
+        Switch,
+        SwitchFilled,
+        Search,
+        Wifi,
+        Battery
     },
     setup() {
         const store = useWindowStore()
@@ -116,7 +131,7 @@ export default {
 
             // Handle special actions
             if (action === 'about') {
-                this.store.setAboutDialogOpen(true)
+                console.log('Open About Mac')
             } else if (action === 'settings') {
                 console.log('Open System Settings')
             } else if (action === 'forceQuit') {
@@ -144,12 +159,14 @@ export default {
     <div class="top-navbar-container">
         <div class="top-nav-left">
             <div
-                class="top-nav-icon"
+                class="top-nav-icon apple-icon"
                 :class="{ 'active' : isAppleMenuOpen }"
                 ref="appleMenu"
                 @click="toggleAppleMenu"
-            ></div>
-            <div class="top-nav-text bold">
+            >
+                <Apple class="apple"/>
+            </div>
+            <div class="top-nav-text" style="font-weight: 700;">
                 {{
                     this.store.getActiveWindow=='nil' ?
                     'Finder' :
@@ -169,20 +186,25 @@ export default {
             <div class="top-nav-text hidden-small">Help</div>
         </div>
         <div class="top-nav-right">
+            <div class="top-nav-icon hidden-small battery-icon">
+                <Battery class="battery" />
+            </div>
+            <div class="top-nav-icon hidden-small wifi-icon">
+                <Wifi class="wifi" />
+            </div>
+            <div class="top-nav-icon hidden-small search-icon">
+                <Search class="search" />
+            </div>
             <div
-                class="top-nav-control-center"
+                class="top-nav-icon control-center"
                 :class="{ 'active' : isControlCenterOpen }"
                 ref="controlCenter"
                 @click="toggleControlCenter"
             >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="2 2 25 25"
-                    width="12"
-                    height="12"
-                >
-                    <path d="M7.5,13h14a5.5,5.5,0,0,0,0-11H7.5a5.5,5.5,0,0,0,0,11Zm0-9h14a3.5,3.5,0,0,1,0,7H7.5a3.5,3.5,0,0,1,0-7Zm0,6A2.5,2.5,0,1,0,5,7.5,2.5,2.5,0,0,0,7.5,10Zm14,6H7.5a5.5,5.5,0,0,0,0,11h14a5.5,5.5,0,0,0,0-11Zm1.43439,8a2.5,2.5,0,1,1,2.5-2.5A2.5,2.5,0,0,1,22.93439,24Z" />
-                </svg>
+                <div class="switch-icon">
+                    <Switch class="switch" />
+                    <SwitchFilled class="switch-filled" />
+                </div>
             </div>
             <div class="top-nav-date-time">
                 <div class="date text-right">
@@ -238,23 +260,38 @@ export default {
 }
 
 .top-nav-icon {
-    margin-right: -5px;
-    margin-left: -5px;
-    padding: 4px 14px 4px 14px;
     border-radius: 4px;
     cursor: default;
+    display: flex;
+    align-items: center;
+}
+
+.top-nav-icon.apple-icon {
+    margin: 0 -4px;
+    padding: 5px 12px;
+}
+
+.top-nav-icon.control-center {
+    margin: 0 -4px;
+    padding: 2px 12px;
+}
+
+.top-nav-icon.hidden-small.battery-icon,
+.top-nav-icon.hidden-small.wifi-icon,
+.top-nav-icon.hidden-small.search-icon {
+    margin: 0 -1px;
+    padding: 0 10px;
 }
 
 .top-nav-text {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin: 0 10px;
     cursor: default;
 }
 
 .top-nav-text.active {
-    background-color: rgba(100, 100, 100, .25);
+    background-color: var(--accent-hover);
     border-radius: 4px;
 }
 
@@ -264,16 +301,6 @@ export default {
     justify-content: space-evenly;
     margin-right: 12px;
     border-radius: 4px;
-    cursor: default;
-}
-
-.top-nav-control-center {
-    display: flex;
-    width: auto;
-    justify-content: center;
-    align-items: center;
-    margin-left: 10px;
-    margin-right: 10px;
     cursor: default;
 }
 
@@ -288,20 +315,52 @@ export default {
 }
 
 .top-nav-icon:hover,
-.top-nav-control-center:hover,
 .top-nav-date-time:hover {
     background-color: rgba(100, 100, 100, .25);
 }
 
 .text-right {
-    font-size: 14px;
-    font-weight: 400;
+    font-size: 12px;
+    font-weight: 500;
     margin-left: 3px;
     margin-right: 7px;
 }
 
-.bold {
-    font-weight: 700;
+.apple,
+.search {
+    width: 16px;
+    height: 16px;
+    color: var(--system-font);
+    margin-top: -2px;
+}
+
+.switch,
+.switch-filled {
+    width: 14px;
+    height: 14px;
+    color: var(--system-font);
+}
+
+.wifi,
+.battery {
+    width: 18px;
+    height: 18px;
+    color: var(--system-font);
+    margin-top: -2px;
+}
+
+.switch-icon {
+    display: flex;
+    flex-direction: column;
+    margin-top: -2px;
+}
+
+.switch {
+    margin-bottom: -3px;
+}
+
+.switch-filled {
+    margin-top: -3px;
 }
 
 @media only screen and (max-width: 700px) {
@@ -322,6 +381,9 @@ export default {
     .top-nav-text {
         margin-right: 5px;
         margin-left: 5px;
+    }
+    .top-nav-icon.control-center {
+        margin: 0;
     }
 }
 </style>

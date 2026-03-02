@@ -32,6 +32,7 @@
   - [Fonts](#fonts)
   - [Icon Packs](#icon-packs)
   - [Special Thanks](#special-thanks)
+    - [Icons](#icons)
 
 <a name="project-overview"></a>
 ## Project Overview
@@ -311,3 +312,15 @@ components: {
 ## Special Thanks
 - [DonChiaQE](https://github.com/DonChiaQE) for this project's base ([OS Website Template](https://github.com/DonChiaQE/vuejs-os-template))
 - [atdrago](https://github.com/atdrago) for [macOS Traffic Light Buttons](https://codepen.io/atdrago/pen/yezrBR) implementation
+
+---
+
+### Icons
+- Use [iconify.design](https://iconify.design/docs/usage/svg-css/vue/) for icon sets
+- Search for icon sets [here](https://icon-sets.iconify.design/)
+- Import to a component: `import DraftsIcon from "@iconify-vue/material-symbols/drafts";`
+- Add the component in export: `components: { DrafsIcon },`
+- Use icon in code: `<DraftsIcon />`
+- "material-symbols" with icon set you want to use.
+- "drafts" with name of icon from that icon set.
+- "DraftsIcon" with component name you want to use (you can use anything).

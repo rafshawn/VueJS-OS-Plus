@@ -1,7 +1,29 @@
+<script>
+import Apple from "@iconify-vue/f7/logo-apple"
+
+export default {
+    components: {
+        Apple
+    },
+    data() {
+        return {
+            year: new Date().getFullYear()
+        };
+    },
+    methods: {
+        click() {
+            window.open('https://github.com/rafshawn/VueJS-OS-Plus', '_blank', 'noopener,noreferrer')
+        }
+    }
+};
+</script>
+
 <template>
 <div class="dialog-content">
     <div class="mac-logo">
-        <span></span>
+        <div class="mac-logo">
+            <Apple class="apple"/>
+        </div>
     </div>
     <div class="system-info">
         <p class="version">macOS</p>
@@ -18,29 +40,15 @@
 </div>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-            year: new Date().getFullYear()
-        };
-    },
-    methods: {
-        click() {
-            window.open('https://github.com/rafshawn/VueJS-OS-Plus', '_blank', 'noopener,noreferrer')
-        }
-    }
-};
-</script>
-
 <style scoped>
 .dialog-content {
     padding: 15px 30px 15px 30px;
     text-align: center;
 }
 
-.mac-logo {
-    font-size: 80px;
+.apple {
+    height: 85px;
+    width: 85px;
     color: var(--system-font-2);
 }
 

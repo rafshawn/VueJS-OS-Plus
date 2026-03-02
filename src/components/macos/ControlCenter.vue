@@ -1,6 +1,11 @@
 <script>
+import DarkMode from '@iconify-vue/gg/dark-mode'
+
 export default {
     name: 'ControlCenter',
+    components: {
+        DarkMode
+    },
     props: {
         isOpen: { type: Boolean, required: true },
         positionX: { type: Number, default: 0 },
@@ -81,7 +86,7 @@ export default {
     cursor: pointer;
     font-size: 13px;
     color: #333;
-    transition: background 0.1s;
+    transition: background-color 0.1s;
 }
 
 .dropdown-item:hover {

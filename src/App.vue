@@ -22,7 +22,6 @@ import MacOS from './components/views/MacOS.vue'
 import AboutMac from './components/macos/AboutMac.vue'
 import Navbar from './components/macos/Navbar.vue'
 import TopNavbar from './components/macos/TopNavbar.vue'
-import AboutDialog from './components/macos/AboutDialog.vue'
 import SystemSettings from './components/macos/SystemSettings.vue'
 import AboutWindow from './components/macos/AboutWindow.vue'
 import SettingsWindow from './components/macos/SettingsWindow.vue'
@@ -54,7 +53,6 @@ export default {
         AboutWindow,
         AboutMac,
         TopNavbar,
-        AboutDialog,
         SystemSettings,
         SettingsWindow,
     },
@@ -129,7 +127,7 @@ export default {
 <template>
   <div id="app">
     <TopNavbar id="top-navbar"></TopNavbar>
-    <AboutDialog />
+    <Navbar id="navbar" />
     <div class="screen" id="screen">
       <div v-for="window in windows" :key="window.windowId" :aria-label="window.displayName">
         <component
@@ -150,7 +148,6 @@ export default {
       </div>
       <AppGrid></AppGrid>
     </div>
-    <Navbar id="navbar" />
   </div>
 </template>
 
