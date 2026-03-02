@@ -227,6 +227,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     z-index: 999;
+    transition: background-color var(--dark-mode-transition);
 }
 
 .top-nav-left {

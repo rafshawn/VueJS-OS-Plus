@@ -147,7 +147,7 @@ export default {
 
 <template>
 <interact draggable :dragOption="dragOption" resizable :resizeOption="resizeOption" class="window window-style" :style="style" @dragmove="dragmove" @resizemove="resizemove" @click.native="setActiveWindow" :class="{ fullscreen: store.getWindowFullscreen(this.ComponentName), minimize: store.getWindowById(ComponentName).windowState=='minimize'}">
-    <div class="top-bar finder" id="top-bar" @dblclick="toggleWindowSize">
+    <div class="top-bar settings" id="top-bar" @dblclick="toggleWindowSize">
         <div class="sidebar-section">
             <div style="padding: 15px 0px 15px 15px">
                 <div class="triple-button">
@@ -158,7 +158,7 @@ export default {
             </div>
         </div>
         <div class="content-section" :class="{ 'scrolled': isScrolling }">
-            <h3 class="finder-title">{{ currentTitle }}</h3>
+            <h3 class="settings-title">{{ currentTitle }}</h3>
         </div>
     </div>
     <div class="content">
@@ -188,7 +188,42 @@ export default {
     touch-action: none;
     flex-flow: column;
     display: flex;
-    position: absolute;
+}
+
+.top-bar.settings {
+    background: none;
+    border-bottom: none;
+}
+
+.top-bar.settings .sidebar-section {
+    width: 220px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--border-color);
+    transition: border var(--dark-mode-transition);
+}
+
+.top-bar.settings .content-section {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    background: var(--window-color);
+    border-bottom: 1px solid transparent;
+    transition:
+        border-bottom 0.15s ease,
+        background-color var(--dark-mode-transition);
+}
+
+.top-bar.settings .content-section.scrolled {
+    border-bottom-color: var(--border-color);
+    box-shadow: 1px 0 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.top-bar.settings .settings-title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--system-font-2);
 }
 
 .fullscreen {

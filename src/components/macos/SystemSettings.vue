@@ -280,6 +280,7 @@ export default {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
+    transition: border var(--dark-mode-transition);
 }
 
 .sidebar-header {
@@ -369,6 +370,7 @@ export default {
     overflow-y: auto;
     padding: 20px;
     background: var(--window-color);
+    transition: background-color var(--dark-mode-transition);
 }
 
 .tab-content h2 {
@@ -405,6 +407,7 @@ export default {
 .content-box {
     border-radius: 6px;
     border: 1px solid var(--border-color);
+    transition: border var(--dark-mode-transition);
 }
 
 .info-icon {
