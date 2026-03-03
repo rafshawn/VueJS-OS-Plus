@@ -21,7 +21,10 @@ export default {
             this.store.setWindowState(payload)
         },
         getImageUrl(imageName) {
-            return new URL(`../../assets/icons/${imageName}`, import.meta.url).href
+            return new URL(`../../assets/icons/macos/${imageName}`, import.meta.url).href
+            // return new URL(`../../assets/icons/macintosh/${imageName}`, import.meta.url).href
+            // return new URL(`../../assets/icons/w95/${imageName}`, import.meta.url).href
+            // return new URL(`../../assets/icons/wxp/${imageName}`, import.meta.url).href
         }
     }
 }
@@ -54,7 +57,7 @@ export default {
 .navbar-container {
     width: auto;
     max-width: 90vw;
-    height: 70px;
+    height: 80px;
     background-color: rgba(255, 255, 255, .15);
     backdrop-filter: blur(10px);
     border-radius: 20px;
@@ -67,7 +70,7 @@ export default {
     overflow-y: hidden;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE/Edge */
-    padding: 0 10px;
+    padding: 0 4px;
     box-sizing: border-box;
 }
 
@@ -90,19 +93,13 @@ export default {
 \*-------------------------------------------*/
 
 .navbar-item {
-    width: 45px;
-    height: 45px;
+    width: 55px;
+    height: 55px;
     border-radius: 10px;
     justify-content: center;
     align-items: center;
-    margin-left: 10px;
-    margin-right: 10px;
-    background: none;
-    background: white;
-    background-repeat: no-repeat;
+    margin: 0 8px;
     background-size: cover;
-    background-position: center;
-    flex-shrink: 0;
 }
 
 .navbar-item:hover {
@@ -145,22 +142,20 @@ button {
     .navbar-item {
         width: 40px;
         height: 40px;
-        margin-left: 8px;
-        margin-right: 8px;
+        margin: 0 6px;
     }
 }
 
 @media (max-width: 480px) {
     .navbar-container {
         max-width: 95vw;
-        height: 55px;
+        height: 80px;
     }
 
     .navbar-item {
-        width: 35px;
-        height: 35px;
-        margin-left: 6px;
-        margin-right: 6px;
+        width: 55px;
+        height: 55px;
+        margin: 0 8px;
     }
 }
 </style>

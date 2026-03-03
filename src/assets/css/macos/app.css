@@ -37,10 +37,8 @@
     --window-transparent-dark: rgba(37, 37, 36, 0.85);
 
     --border-color: var(--border-color-light);
-    --border-color-2: var(--border-color-light);
     --border-color-light: #e0e0e0;
-    --border-color-dark: #3d3d3d;
-    --border-color-dark-2: #4a4a4a;
+    --border-color-dark: #4a4a4a;
 
     --navbar-color: var(--navbar-light);
     --navbar-light: rgba(255, 255, 255, .5);
@@ -74,7 +72,6 @@ html.dark-mode {
     --window-color-2: var(--window-color-dark-2);
     --window-transparent: var(--window-transparent-dark);
     --border-color: var(--border-color-dark);
-    --border-color-2: var(--border-color-dark-2);
     --accent-hover: rgba(255, 255, 255, 0.1);
     --navbar-color: var(--navbar-dark);
     --grey-btn: var(--grey-2);

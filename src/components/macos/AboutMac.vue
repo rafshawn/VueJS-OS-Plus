@@ -75,7 +75,7 @@ export default {
 }
 
 .copyright {
-    border-top: 1px solid var(--border-color-2);
+    border-top: 1px solid var(--border-color);
     padding-top: 15px;
 }
 

@@ -58,6 +58,6 @@
 
 .dropdown-divider {
     height: 1px;
-    background: var(--border-color-2);
+    background: var(--border-color);
     margin: 6px 0;
 }

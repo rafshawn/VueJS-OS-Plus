@@ -280,7 +280,7 @@ export default {
 .top-nav-icon.hidden-small.wifi-icon,
 .top-nav-icon.hidden-small.search-icon {
     margin: 0 -1px;
-    padding: 0 10px;
+    padding: 4px 10px;
 }
 
 .top-nav-text {
@@ -300,8 +300,7 @@ export default {
     width: auto;
     justify-content: space-evenly;
     margin-right: 12px;
-    border-radius: 4px;
-    cursor: default;
+    align-items: center;
 }
 
 .top-nav-date-time {
