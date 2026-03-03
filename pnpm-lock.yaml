@@ -20,6 +20,9 @@ importers:
       '@iconify-vue/line-md':
         specifier: ^1.0.4
         version: 1.0.4(vue@3.5.28)
+      '@iconify-vue/lucide':
+        specifier: ^1.0.27
+        version: 1.0.27(vue@3.5.28)
       '@vueuse/core':
         specifier: ^14.2.1
         version: 14.2.1(vue@3.5.28)
@@ -273,6 +276,9 @@ packages:
 
   '@iconify-vue/line-md@1.0.4':
     resolution: {integrity: sha512-04427lqa/YWFGuPA2bzfR0GEt7QHOw1/nho+O9seEKpey0yTUaTFS+rye/dg/KmYbWiIEhzynupWqgSeSuhyvg==}
+
+  '@iconify-vue/lucide@1.0.27':
+    resolution: {integrity: sha512-QvjTBJ7aOFVSgliTtbusKsnGrA624nFRK7+fo9fluANaouPDc0llTuCEPez8pB8DT7LmCSJZb1+DfCDlvPtYqw==}
 
   '@iconify/css-vue@1.0.1':
     resolution: {integrity: sha512-rGkUIToUFUfP1zIYrY8A1pWUcadGxbMgAsUyI4PmK6BgxTO5Sajw1cbl6gqMi/D26S6LSjEG/Q+7O7gcLJthaA==}
@@ -1388,6 +1394,12 @@ snapshots:
       - vue
 
   '@iconify-vue/line-md@1.0.4(vue@3.5.28)':
+    dependencies:
+      '@iconify/css-vue': 1.0.1(vue@3.5.28)
+    transitivePeerDependencies:
+      - vue
+
+  '@iconify-vue/lucide@1.0.27(vue@3.5.28)':
     dependencies:
       '@iconify/css-vue': 1.0.1(vue@3.5.28)
     transitivePeerDependencies:

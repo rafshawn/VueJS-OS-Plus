@@ -13,6 +13,7 @@
     "@iconify-vue/flagpack": "^1.0.2",
     "@iconify-vue/gg": "^1.0.1",
     "@iconify-vue/line-md": "^1.0.4",
+    "@iconify-vue/lucide": "^1.0.27",
     "@vueuse/core": "^14.2.1",
     "core-js": "^3.6.5",
     "interactjs": "^1.10.27",

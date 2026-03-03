@@ -1,8 +1,21 @@
 <script>
 import { useSettingsStore } from "@/stores/settings";
 
+import Wifi from "@iconify-vue/f7/wifi"
+import Bluetooth from "@iconify-vue/lucide/bluetooth"
+import RectangleDock from "@iconify-vue/f7/rectangle-dock"
+import Switch from "@iconify-vue/line-md/switch"
+import SwitchFilled from "@iconify-vue/line-md/switch-filled"
+
 export default {
     name: "SystemSettings",
+    components: {
+        Wifi,
+        Bluetooth,
+        RectangleDock,
+        Switch,
+        SwitchFilled
+    },
     props: {
         nameOfWindow: String,
     },
@@ -21,6 +34,10 @@ export default {
                 phone: "1 (800) 538-9696",
                 avatar: "mac.jpg",
             },
+            wifiEnabled: false,
+            ipInfo: null,
+            ipLoading: false,
+            btEnabled: false,
         };
     },
     computed: {
@@ -32,10 +49,15 @@ export default {
         selectedTab(newTab) {
             const titleMap = {
                 'profile': this.userProfile.name,
+                'network': 'Network',
                 'appearance': 'Appearance',
-                'wallpaper': 'Wallpaper'
             };
             this.activeTab(titleMap[newTab]);
+        },
+        wifiEnabled(newVal) {
+            if (newVal && !this.ipInfo && !this.ipLoading) {
+                this.fetchIPInfo();
+            }
         }
     },
     mounted() {
@@ -46,6 +68,36 @@ export default {
         this.$refs.contentArea.removeEventListener('scroll', this.handleScroll);
     },
     methods: {
+        sendMail() { window.location.href = 'mailto:justin@apple.com', 'noopener,noreferrer' },
+        sendText() { window.location.href = 'sms:+18005389696', 'noopener,noreferrer' },
+        openGithub() { window.open('https://github.com/', '_blank', 'noopener,noreferrer') },
+        openLinkedin() { window.open('https://www.linkedin.com/', '_blank', 'noopener,noreferrer') },
+        openX() { window.open('https://x.com/', '_blank', 'noopener,noreferrer') },
+        openInstagram() { window.open('https://www.instagram.com/', '_blank', 'noopener,noreferrer') },
+        openFacebook() { window.open('https://www.facebook.com/', '_blank', 'noopener,noreferrer') },
+        openDiscord() { window.open('https://discord.com/', '_blank', 'noopener,noreferrer') },
+
+        async fetchIPInfo() {
+            this.ipLoading = true;
+            try {
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
+                this.ipInfo = {
+                    ip: data.ip ? data.ip : "Not Detected",
+                    ipv6: data.version === 'IPv6' ? data.ip : "Not Detected",
+                    city: data.city ? data.city : "Not Detected",
+                    region: data.region ? data.region : "Not Detected",
+                    country: data.country_name ? data.country_name : "Not Detected",
+                    isp: data.org ? data.org : "Not Detected",
+                };
+            } catch (error) {
+                console.error('Failed to fetch IP info:', error);
+                this.ipInfo = { error: 'Unable to fetch IP information' };
+            } finally {
+                this.ipLoading = false;
+            }
+        },
+
         handleScroll(event) {
             const isScrolling = event.target.scrollTop > 0;
             if (this.setScrolling) {
@@ -64,15 +116,6 @@ export default {
         selectAccent(color) {
             this.settingsStore.setAccentColor(color);
         },
-
-        sendMail() { window.location.href = 'mailto:justin@apple.com', 'noopener,noreferrer' },
-        sendText() { window.location.href = 'sms:+18005389696', 'noopener,noreferrer' },
-        openGithub() { window.open('https://github.com/', '_blank', 'noopener,noreferrer') },
-        openLinkedin() { window.open('https://www.linkedin.com/', '_blank', 'noopener,noreferrer') },
-        openX() { window.open('https://x.com/', '_blank', 'noopener,noreferrer') },
-        openInstagram() { window.open('https://www.instagram.com/', '_blank', 'noopener,noreferrer') },
-        openFacebook() { window.open('https://www.facebook.com/', '_blank', 'noopener,noreferrer') },
-        openDiscord() { window.open('https://discord.com/', '_blank', 'noopener,noreferrer') },
     },
 };
 </script>
@@ -82,6 +125,7 @@ export default {
         <div class="settings-container">
             <!-- Sidebar -->
             <aside class="sidebar">
+                <!-- Sidebar Header -->
                 <div
                     class="sidebar-header"
                     :class="{ active: selectedTab === 'profile' }"
@@ -93,22 +137,28 @@ export default {
                         <p class="user-email">{{ userProfile.email }}</p>
                     </div>
                 </div>
+
+                <!-- Sidebar Items -->
                 <nav class="sidebar-nav">
+                    <button
+                        class="nav-item"
+                        :class="{ active: selectedTab === 'network' }"
+                        @click="selectedTab = 'network'"
+                    >
+                        <div class="icon-box icon-wifi">
+                            <Wifi class="wifi" />
+                        </div>
+                        <span class="nav-label">Network</span>
+                    </button>
                     <button
                         class="nav-item"
                         :class="{ active: selectedTab === 'appearance' }"
                         @click="selectedTab = 'appearance'"
                     >
-                        <img src="/src/assets/icons/macos/This-PC.png" alt="Appearance" class="info-icon"/>
+                        <div class="icon-box icon-appearance">
+                            <RectangleDock class="appearance" />
+                        </div>
                         <span class="nav-label">Appearance</span>
-                    </button>
-                    <button
-                        class="nav-item"
-                        :class="{ active: selectedTab === 'wallpaper' }"
-                        @click="selectedTab = 'wallpaper'"
-                    >
-                        <img src="/src/assets/icons/macos/This-PC.png" alt="Appearance" class="info-icon"/>
-                        <span class="nav-label">Wallpaper</span>
                     </button>
                 </nav>
             </aside>
@@ -177,10 +227,112 @@ export default {
                     </div>
                 </div>
 
+                <!-- Network Tab -->
+                <div v-else-if="selectedTab === 'network'" class="tab-content">
+                    <div class="content-box">
+                        <div class="info-row info-box">
+                            <div class="icon-box icon-wifi">
+                                <Wifi class="wifi big" />
+                            </div>
+                            <div class="indicator-box">
+                                <label>Wi-Fi</label>
+                                <div>
+                                    <div v-if="wifiEnabled" class="indicator">
+                                        <div class="circle green"></div>
+                                        Connected
+                                    </div>
+                                    <div v-else class="indicator">
+                                        <div class="circle"></div>
+                                        Disconnected
+                                    </div>
+                                </div>
+                            </div>
+                            <span style="display: flex; align-items: center;">
+                                <Switch v-if="!wifiEnabled" class="wifi-switch" @click="wifiEnabled = true" />
+                                <SwitchFilled v-else class="wifi-switch" @click="wifiEnabled = false" />
+                            </span>
+                        </div>
+
+                        <div v-if="wifiEnabled">
+                            <div v-if="ipLoading">
+                                <div class="info-row info-box">
+                                    <label>IPv4 Address</label>
+                                </div>
+                                <div class="info-row info-box">
+                                    <label>IPv6 Address</label>
+                                </div>
+                                <div class="info-row info-box">
+                                    <label>Location</label>
+                                </div>
+                                <div class="info-row info-box">
+                                    <label>ISP</label>
+                                </div>
+                            </div>
+                            <div v-else-if="ipInfo">
+                                <div class="info-row info-box">
+                                    <label>IPv4 Address</label>
+                                    <span>{{ ipInfo.ip }}</span>
+                                </div>
+                                <div class="info-row info-box">
+                                    <label>IPv6 Address</label>
+                                    <span>{{ ipInfo.ipv6 }}</span>
+                                </div>
+                                <div class="info-row info-box">
+                                    <label>Location</label>
+                                    <span v-if="ipInfo.city !== 'Not Detected'">
+                                        {{ ipInfo.city }}, {{ ipInfo.region }}, {{ ipInfo.country }}
+                                    </span>
+                                    <span v-else>
+                                        Not Detected
+                                    </span>
+                                </div>
+                                <div class="info-row info-box">
+                                    <label>ISP</label>
+                                    <span>{{ ipInfo.isp }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-box" style="margin-top: 10px;">
+                        <div class="info-row info-box">
+                            <div class="icon-box icon-wifi">
+                                <Bluetooth class="wifi big" />
+                            </div>
+                            <div class="indicator-box">
+                                <label>Bluetooth</label>
+                                <div>
+                                    <div v-if="btEnabled" class="indicator">
+                                        <div class="circle green"></div>
+                                        Connected
+                                    </div>
+                                    <div v-else class="indicator">
+                                        <div class="circle"></div>
+                                        Disconnected
+                                    </div>
+                                </div>
+                            </div>
+                            <span style="display: flex; align-items: center;">
+                                <Switch v-if="!btEnabled" class="wifi-switch" @click="btEnabled = true" />
+                                <SwitchFilled v-else class="wifi-switch" @click="btEnabled = false" />
+                            </span>
+                        </div>
+
+                        <div v-if="btEnabled">
+                            <div>
+                                <div class="info-row info-box">
+                                    <label>Test</label>
+                                    <span>Test</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Appearance Tab -->
                 <div v-else-if="selectedTab === 'appearance'" class="tab-content">
                     <div class="content-box">
-                        <div class="info-row appearance">
+                        <div class="info-row info-box">
                             <label>Appearance</label>
                             <span style="display: flex;">
                                 <div
@@ -199,7 +351,7 @@ export default {
                                 </div>
                             </span>
                         </div>
-                        <div class="info-row appearance">
+                        <div class="info-row info-box">
                             <label>Accent Color</label>
                             <div class="accent-colors">
                                 <button
@@ -215,29 +367,6 @@ export default {
                         </div>
                     </div>
 
-                    <div class="content-section">
-                        <h3>Wallpaper</h3>
-                        <div class="wallpaper-grid">
-                            <div
-                                v-for="bg in settingsStore.displayWallpapers"
-                                class="wallpaper-option"
-                                @click="selectBackground(bg.path)"
-                                :key="bg.id"
-                                :class="{
-                                    selected: settingsStore.selectedBackground === bg.path,
-                                }"
-                            >
-                                <div class="wallpaper-preview">
-                                    <img :src="getBackgroundUrl(bg.path)" :alt="bg.name" />
-                                </div>
-                                <span class="wallpaper-name">{{ bg.name }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Wallpaper Tab -->
-                <div v-else-if="selectedTab === 'wallpaper'" class="tab-content">
                     <div class="content-section">
                         <h3>Wallpaper</h3>
                         <div class="wallpaper-grid">
@@ -345,7 +474,7 @@ export default {
 
 .sidebar-header,
 .nav-item {
-    transition: background 0.15s ease;
+    transition: background-color 0.15s ease;
     border-radius: 6px;
 }
 
@@ -362,6 +491,65 @@ export default {
 
 .nav-label {
     font-size: 13px;
+    font-weight: 500;
+}
+
+.icon-box {
+    padding: 2px;
+    margin-right: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.icon-box.icon-wifi {
+    background: linear-gradient(0deg,#057df5 0%, #52aeff 100%);
+}
+
+.wifi {
+    width: 16px;
+    height: 16px;
+    color: white;
+}
+
+.wifi.big {
+    width: 20px;
+    height: 20px;
+}
+
+.icon-box.icon-appearance {
+    background: linear-gradient(0deg,#0a0a0a 0%, #404040 100%);
+}
+
+.appearance {
+    width: 16px;
+    height: 16px;
+    color: white;
+}
+
+.indicator-box {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--system-font-3);
+}
+
+.indicator .circle {
+    border-radius: 50%;
+    padding: 4px;
+    background-color: #f54238;
+}
+
+.indicator .circle.green {
+    background-color: #35d74b;
 }
 
 /* Content Area Styles */
@@ -454,6 +642,7 @@ export default {
 .info-row span {
     font-size: 14px;
     margin-left: auto;
+    text-align: end;
 }
 
 .info-row.link,
@@ -465,43 +654,55 @@ export default {
     background: var(--accent-hover);
 }
 
-.info-row.appearance:hover {
+.info-row.info-box:hover {
     background: transparent;
 }
 
-.info-row.appearance:hover::after,
-.info-row.appearance:has(+ .info-row.appearance:hover)::after {
+.info-row.info-box:hover::after,
+.info-row.info-box:has(+ .info-row.info-box:hover)::after {
     opacity: 1;
 }
 
-.info-row.appearance span {
+.info-row.info-box span {
     gap: 8px;
     font-size: 12px;
 }
 
-.info-row.appearance .dark-mode {
+.info-row.info-box label {
+    color: var(--system-font);
+    font-weight: 400;
+}
+
+.info-row.info-box .dark-mode {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 4px 10px;
     border-radius: 6px;
     cursor: pointer;
-    transition: all 0.15s ease;
     border: 3px solid transparent;
 }
 
-.info-row.appearance .dark-mode.selected {
+.info-row.info-box .dark-mode.selected {
     border-color: var(--accent-color);
 }
 
-.info-row.appearance .dark-mode.light {
+.info-row.info-box .dark-mode.light {
     color: var(--system-font-black-2);
     background-color: var(--window-color-light-2);
 }
 
-.info-row.appearance .dark-mode.dark {
+.info-row.info-box .dark-mode.dark {
     color: var(--system-font-white);
     background-color: var(--window-color-dark-2);
+}
+
+/* WiFi Switch */
+.wifi-switch {
+    width: 44px;
+    height: 24px;
+    cursor: pointer;
+    color: var(--accent-color);
 }
 
 /* Accent Color Selector */
@@ -543,11 +744,6 @@ export default {
     overflow: hidden;
     border: 3px solid var(--window-color-2);
     transition: all 0.2s ease;
-}
-
-.wallpaper-option:hover {
-    transform: scale(1.03);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .wallpaper-option.selected {
