@@ -2,8 +2,12 @@ import { defineStore } from 'pinia'
 
 export const useSettingsStore = defineStore('settings', {
   state: () => ({
-    selectedBackground: 'monterey_light.webp',
-    // Base wallpapers with optional dark/light variants
+    selectedBg: 'monterey_light.webp',
+    theme: 'system',
+    accentColor: 'var(--accent-blue)',
+    darkMode: false,
+
+    // Wallpapers with optional dark/light variants
     wallpaperGroups: [
       {
         id: 'monterey',
@@ -134,19 +138,16 @@ export const useSettingsStore = defineStore('settings', {
       { id: 'green', name: 'Green', value: 'var(--accent-green)' },
       { id: 'grey', name: 'Grey', value: 'var(--accent-grey)' },
     ],
-    theme: 'system',
-    darkMode: false,
   }),
   getters: {
-    // Get the actual wallpaper path based on current dark mode setting
-    currentBackground(state) {
+    currentWallpaper(state) {
       const group = state.wallpaperGroups.find(g =>
-        g.default === state.selectedBackground ||
-        g.light === state.selectedBackground ||
-        g.dark === state.selectedBackground
+        g.default === state.selectedBg ||
+        g.light === state.selectedBg ||
+        g.dark === state.selectedBg
       )
 
-      if (!group) return state.selectedBackground
+      if (!group) return state.selectedBg
 
       // If wallpaper has variants, return the appropriate one
       if (group.light && group.dark) {
@@ -154,9 +155,8 @@ export const useSettingsStore = defineStore('settings', {
       }
 
       // Otherwise return the default/current
-      return state.selectedBackground
+      return state.selectedBg
     },
-    // Get display wallpapers (one per group, respecting dark mode)
     displayWallpapers(state) {
       return state.wallpaperGroups.map(group => {
         let displayPath
@@ -176,8 +176,7 @@ export const useSettingsStore = defineStore('settings', {
     }
   },
   actions: {
-    // Get current system preference
-    getSystemPrefersDark() {
+    getSystemTheme() {
       return window.matchMedia('(prefers-color-scheme: dark)').matches
     },
 
@@ -185,25 +184,22 @@ export const useSettingsStore = defineStore('settings', {
     updateDarkMode() {
       let isDark
       if (this.theme === 'system') {
-        isDark = this.getSystemPrefersDark()
+        isDark = this.getSystemTheme()
       } else {
         isDark = this.theme === 'dark'
       }
 
       this.darkMode = isDark
 
-      // Apply to document
       if (isDark) {
         document.documentElement.classList.add('dark-mode')
       } else {
         document.documentElement.classList.remove('dark-mode')
       }
 
-      // Auto-switch wallpaper variant if current wallpaper supports it
       this.updateWallpaperForDarkMode()
     },
 
-    // Set theme ('light', 'dark', or 'system')
     setTheme(theme) {
       this.theme = theme
       localStorage.setItem('theme', theme)
@@ -230,8 +226,8 @@ export const useSettingsStore = defineStore('settings', {
       })
     },
 
-    // Set background - store the base wallpaper ID, not the variant
-    setBackground(backgroundPath) {
+    // Set wallpaper
+    setWallpaper(backgroundPath) {
       // Find which group this wallpaper belongs to
       const group = this.wallpaperGroups.find(g =>
         g.default === backgroundPath ||
@@ -240,38 +236,37 @@ export const useSettingsStore = defineStore('settings', {
       )
 
       if (group) {
-        // Store the appropriate variant based on current dark mode
         if (group.light && group.dark) {
-          this.selectedBackground = this.darkMode ? group.dark : group.light
+          this.selectedBg = this.darkMode ? group.dark : group.light
         } else {
-          this.selectedBackground = group.default
+          this.selectedBg = group.default
         }
-        localStorage.setItem('selectedBackground', this.selectedBackground)
+        localStorage.setItem('selectedBg', this.selectedBg)
       }
     },
 
-    // Load saved background from localStorage
-    loadBackground() {
-      const saved = localStorage.getItem('selectedBackground')
+    // Load wallpaper from localStorage
+    loadWallpaper() {
+      const saved = localStorage.getItem('selectedBg')
       if (saved && this.wallpaperGroups.some(bg =>
         bg.default === saved || bg.light === saved || bg.dark === saved
       )) {
-        this.selectedBackground = saved
+        this.selectedBg = saved
       }
     },
 
     // Switch wallpaper variant when dark mode changes
     updateWallpaperForDarkMode() {
       const group = this.wallpaperGroups.find(g =>
-        g.default === this.selectedBackground ||
-        g.light === this.selectedBackground ||
-        g.dark === this.selectedBackground
+        g.default === this.selectedBg ||
+        g.light === this.selectedBg ||
+        g.dark === this.selectedBg
       )
 
       if (group && group.light && group.dark) {
         // This wallpaper has variants, switch to the appropriate one
-        this.selectedBackground = this.darkMode ? group.dark : group.light
-        localStorage.setItem('selectedBackground', this.selectedBackground)
+        this.selectedBg = this.darkMode ? group.dark : group.light
+        localStorage.setItem('selectedBg', this.selectedBg)
       }
     },
 

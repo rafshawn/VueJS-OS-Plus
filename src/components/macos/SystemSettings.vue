@@ -4,8 +4,9 @@ import { useSettingsStore } from "@/stores/settings";
 import Wifi from "@iconify-vue/f7/wifi"
 import Bluetooth from "@iconify-vue/lucide/bluetooth"
 import RectangleDock from "@iconify-vue/f7/rectangle-dock"
-import Switch from "@iconify-vue/line-md/switch"
-import SwitchFilled from "@iconify-vue/line-md/switch-filled"
+import Headphones from "@iconify-vue/f7/headphones"
+import Keyboard from "@iconify-vue/f7/keyboard"
+import GameController from "@iconify-vue/f7/gamecontroller-fill"
 
 export default {
     name: "SystemSettings",
@@ -13,8 +14,9 @@ export default {
         Wifi,
         Bluetooth,
         RectangleDock,
-        Switch,
-        SwitchFilled
+        Headphones,
+        Keyboard,
+        GameController
     },
     props: {
         nameOfWindow: String,
@@ -22,8 +24,9 @@ export default {
     data() {
         return {
             selectedTab: "profile",
-            userProfile: {
+            userInfo: {
                 name: "Justin Mac",
+                firstName: "Justin",
                 dob: "January 24, 1984",
                 email: "justin@apple.com",
                 phone: "1 (800) 538-9696",
@@ -39,6 +42,11 @@ export default {
                 facebook: "https://www.facebook.com/",
                 discord: "https://discord.com/",
             },
+            btDevices: {
+                bt1: "AirPods Max",
+                bt2: "Magic Keyboard",
+                bt3: "Generic Game Controller",
+            },
             wifiEnabled: false,
             ipInfo: null,
             ipLoading: false,
@@ -52,13 +60,13 @@ export default {
     },
     computed: {
         avatarUrl() {
-            return new URL(`/src/assets/${this.userProfile.avatar}`, import.meta.url).href;
+            return new URL(`/src/assets/${this.userInfo.avatar}`, import.meta.url).href;
         }
     },
     watch: {
         selectedTab(newTab) {
             const titleMap = {
-                'profile': this.userProfile.name,
+                'profile': this.userInfo.name,
                 'network': 'Network',
                 'appearance': 'Appearance',
             };
@@ -71,7 +79,7 @@ export default {
         }
     },
     mounted() {
-        this.activeTab(this.userProfile.name);
+        this.activeTab(this.userInfo.name);
         this.$refs.contentArea.addEventListener('scroll', this.handleScroll);
     },
     beforeUnmount() {
@@ -96,10 +104,10 @@ export default {
         setTheme(theme) {
             this.settingsStore.setTheme(theme);
         },
-        selectBackground(backgroundPath) {
-            this.settingsStore.setBackground(backgroundPath);
+        selectWallpaper(backgroundPath) {
+            this.settingsStore.setWallpaper(backgroundPath);
         },
-        getBackgroundUrl(filename) {
+        getWallpaperUrl(filename) {
             return new URL(`../../assets/background/${filename}`, import.meta.url).href;
         },
         selectAccent(color) {
@@ -143,8 +151,8 @@ export default {
                 >
                     <img :src="avatarUrl" alt="User Avatar" class="user-avatar"/>
                     <div class="sidebar-header-text">
-                        <h3>{{ userProfile.name }}</h3>
-                        <p class="user-email">{{ userProfile.email }}</p>
+                        <h3>{{ userInfo.name }}</h3>
+                        <p class="user-email">{{ userInfo.email }}</p>
                     </div>
                 </div>
 
@@ -180,30 +188,30 @@ export default {
                     <div class="content-section">
                         <div class="profile-head">
                             <img :src="avatarUrl" alt="User Avatar" class="user-avatar big" />
-                            <span class="profile-name">{{ userProfile.name }}</span>
-                            <span class="user-email big">{{ userProfile.email }}</span>
+                            <span class="profile-name">{{ userInfo.name }}</span>
+                            <span class="user-email big">{{ userInfo.email }}</span>
                         </div>
 
                         <div class="content-box">
                             <div class="info-row">
                                 <img src="/src/assets/icons/macos/Contacts.png" alt="Name" class="info-icon"/>
                                 <label>Name</label>
-                                <span>{{ userProfile.name }}</span>
+                                <span>{{ userInfo.name }}</span>
                             </div>
                             <div class="info-row">
                                 <img src="/src/assets/icons/macos/Calendar.png" alt="Date of Birth" class="info-icon"/>
                                 <label>Date of Birth</label>
-                                <span>{{ userProfile.dob }}</span>
+                                <span>{{ userInfo.dob }}</span>
                             </div>
                             <div class="info-row link" @click="sendMail">
                                 <img src="/src/assets/icons/macos/Mail.png" alt="Email" class="info-icon"/>
                                 <label>Email</label>
-                                <span>{{ userProfile.email }}</span>
+                                <span>{{ userInfo.email }}</span>
                             </div>
                             <div class="info-row link" @click="sendText">
                                 <img src="/src/assets/icons/macos/iMessage.png" alt="Phone Number" class="info-icon"/>
                                 <label>Phone Number</label>
-                                <span>{{ userProfile.phone }}</span>
+                                <span>{{ userInfo.phone }}</span>
                             </div>
                         </div>
 
@@ -247,47 +255,53 @@ export default {
                             <div class="indicator-box">
                                 <label>Wi-Fi</label>
                                 <div>
-                                    <div v-if="wifiEnabled" class="indicator">
+                                    <div v-if="wifiEnabled && ipLoading" class="indicator">
+                                        <div class="circle yellow"></div>
+                                        Not Connected
+                                    </div>
+                                    <div v-else-if="wifiEnabled && !ipLoading" class="indicator">
                                         <div class="circle green"></div>
                                         Connected
                                     </div>
                                     <div v-else class="indicator">
                                         <div class="circle"></div>
-                                        Disconnected
+                                        Wi-Fi is off
                                     </div>
                                 </div>
                             </div>
-                            <span style="display: flex; align-items: center;">
-                                <Switch v-if="!wifiEnabled" class="wifi-switch" @click="wifiEnabled = true" />
-                                <SwitchFilled v-else class="wifi-switch" @click="wifiEnabled = false" />
+                            <span class="switch-span">
+                                <label class="switch">
+                                    <input type="checkbox" v-model="wifiEnabled" />
+                                    <span class="slider"></span>
+                                </label>
                             </span>
                         </div>
 
                         <div v-if="wifiEnabled">
                             <div v-if="ipLoading">
-                                <div class="info-row info-box">
+                                <div class="info-row info-box network">
                                     <label>IPv4 Address</label>
                                 </div>
-                                <div class="info-row info-box">
+                                <div class="info-row info-box network">
                                     <label>IPv6 Address</label>
                                 </div>
-                                <div class="info-row info-box">
+                                <div class="info-row info-box network">
                                     <label>Location</label>
                                 </div>
-                                <div class="info-row info-box">
+                                <div class="info-row info-box network">
                                     <label>ISP</label>
                                 </div>
                             </div>
                             <div v-else-if="ipInfo">
-                                <div class="info-row info-box">
+                                <div class="info-row info-box network">
                                     <label>IPv4 Address</label>
                                     <span>{{ ipInfo.ip }}</span>
                                 </div>
-                                <div class="info-row info-box">
+                                <div class="info-row info-box network">
                                     <label>IPv6 Address</label>
                                     <span>{{ ipInfo.ipv6 }}</span>
                                 </div>
-                                <div class="info-row info-box">
+                                <div class="info-row info-box network">
                                     <label>Location</label>
                                     <span v-if="ipInfo.city !== 'Not Detected'">
                                         {{ ipInfo.city }}, {{ ipInfo.region }}, {{ ipInfo.country }}
@@ -296,7 +310,7 @@ export default {
                                         Not Detected
                                     </span>
                                 </div>
-                                <div class="info-row info-box">
+                                <div class="info-row info-box network">
                                     <label>ISP</label>
                                     <span>{{ ipInfo.isp }}</span>
                                 </div>
@@ -322,17 +336,57 @@ export default {
                                     </div>
                                 </div>
                             </div>
-                            <span style="display: flex; align-items: center;">
-                                <Switch v-if="!btEnabled" class="wifi-switch" @click="btEnabled = true" />
-                                <SwitchFilled v-else class="wifi-switch" @click="btEnabled = false" />
+                            <span class="switch-span">
+                                <label class="switch">
+                                    <input type="checkbox" v-model="btEnabled" />
+                                    <span class="slider"></span>
+                                </label>
                             </span>
                         </div>
 
                         <div v-if="btEnabled">
                             <div>
-                                <div class="info-row info-box">
-                                    <label>Test</label>
-                                    <span>Test</span>
+                                <div class="info-row info-box bt-row">
+                                    <div class="icon-box bt">
+                                        <Headphones class="bt" />
+                                    </div>
+                                    <div class="indicator-box">
+                                        <label>{{ userInfo.firstName }}'s {{ btDevices.bt1 }}</label>
+                                        <div class="indicator">Not Connected</div>
+                                    </div>
+                                    <span>
+                                        <button class="basic">
+                                            Connect
+                                        </button>
+                                    </span>
+                                </div>
+                                <div class="info-row info-box bt-row">
+                                    <div class="icon-box bt">
+                                        <Keyboard class="bt" />
+                                    </div>
+                                    <div class="indicator-box">
+                                        <label>{{ btDevices.bt2 }}</label>
+                                        <div class="indicator">Not Connected</div>
+                                    </div>
+                                    <span>
+                                        <button class="basic">
+                                            Connect
+                                        </button>
+                                    </span>
+                                </div>
+                                <div class="info-row info-box bt-row">
+                                    <div class="icon-box bt">
+                                        <GameController class="bt" />
+                                    </div>
+                                    <div class="indicator-box">
+                                        <label>{{ btDevices.bt3 }}</label>
+                                        <div class="indicator">Not Connected</div>
+                                    </div>
+                                    <span>
+                                        <button class="basic">
+                                            Connect
+                                        </button>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -370,7 +424,7 @@ export default {
                         </div>
                         <div class="info-row info-box">
                             <label>Accent Color</label>
-                            <div class="accent-colors">
+                            <span class="accent-colors">
                                 <button
                                     v-for="color in settingsStore.accentColors"
                                     class="accent-color"
@@ -380,7 +434,7 @@ export default {
                                     :style="{ backgroundColor: color.value }"
                                     :title="color.name"
                                 ></button>
-                            </div>
+                            </span>
                         </div>
                     </div>
 
@@ -390,14 +444,14 @@ export default {
                             <div
                                 v-for="bg in settingsStore.displayWallpapers"
                                 class="wallpaper-option"
-                                @click="selectBackground(bg.path)"
+                                @click="selectWallpaper(bg.path)"
                                 :key="bg.id"
                                 :class="{
-                                    selected: settingsStore.selectedBackground === bg.path,
+                                    selected: settingsStore.selectedBg === bg.path,
                                 }"
                             >
                                 <div class="wallpaper-preview">
-                                    <img :src="getBackgroundUrl(bg.path)" :alt="bg.name" />
+                                    <img :src="getWallpaperUrl(bg.path)" :alt="bg.name" />
                                 </div>
                                 <span class="wallpaper-name">{{ bg.name }}</span>
                             </div>
@@ -417,6 +471,20 @@ export default {
 .settings-container {
     display: flex;
     height: 100%;
+}
+
+button.basic {
+    display: flex;
+    align-items: center;
+    padding: 2px 8px;
+    border: 1px solid var(--border-color-2);
+    border-radius: 6px;
+    background-color: var(--basic-btn);
+    color: var(--system-font);
+}
+
+button.basic:active {
+    background-color: #8d8d8d;
 }
 
 /* Sidebar Styles */
@@ -535,6 +603,16 @@ export default {
     height: 20px;
 }
 
+.icon-box.bt {
+    margin-right: 12px;
+}
+
+.bt {
+    width: 26px;
+    height: 26px;
+    color: (--system-font);
+}
+
 .icon-box.icon-appearance {
     background: linear-gradient(0deg,#0a0a0a 0%, #404040 100%);
 }
@@ -567,6 +645,10 @@ export default {
 
 .indicator .circle.green {
     background-color: #35d74b;
+}
+
+.indicator .circle.yellow {
+    background-color: #f7b500;
 }
 
 /* Content Area Styles */
@@ -650,7 +732,6 @@ export default {
 }
 
 .info-row label {
-    width: 120px;
     font-weight: 500;
     color: var(--system-font-3);
     font-size: 14px;
@@ -677,6 +758,25 @@ export default {
 
 .info-row.info-box:hover::after,
 .info-row.info-box:has(+ .info-row.info-box:hover)::after {
+    opacity: 1;
+}
+
+.info-row.info-box.network {
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+.info-row.info-box.bt-row {
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+.info-row.info-box.bt-row span {
+    opacity: 0;
+    transition: opacity 0.01s ease;
+}
+
+.info-row.info-box.bt-row:hover span {
     opacity: 1;
 }
 
@@ -720,12 +820,59 @@ export default {
     transition: background-color var(--dark-mode-transition);
 }
 
-/* WiFi Switch */
-.wifi-switch {
-    width: 44px;
-    height: 24px;
+/* Switch */
+.switch-span {
+    display: flex;
+    align-items: center;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 38px;
+    height: 22px;
+}
+
+.switch input {
+    opacity: 0;
+}
+
+.slider {
+    position: absolute;
     cursor: pointer;
-    color: var(--accent-color);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--grey);
+    transition: 0.3s;
+    border: 1px solid var(--border-color);
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: '';
+    height: 20px;
+    width: 20px;
+    left: 0;
+    bottom: 0;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+html.dark-mode .slider {
+    background-color: var(--window-color-dark-2);
+}
+
+input:checked + .slider {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+input:checked + .slider:before {
+    left: 16px;
 }
 
 /* Accent Color Selector */

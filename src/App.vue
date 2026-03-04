@@ -75,10 +75,10 @@ export default {
         \*-------------------------------------------------*/
 
         // Load saved preferences
-        this.settingsStore.loadBackground()
+        this.settingsStore.loadWallpaper()
         this.settingsStore.loadAccentColor()
         this.settingsStore.loadTheme()
-        this.applyBackground()
+        this.applyWallpaper()
 
         const navbar = document.getElementById('navbar')
         const topnavbar = document.getElementById('top-navbar')
@@ -101,13 +101,13 @@ export default {
     },
     watch: {
         // Watch for background changes and apply them
-        'settingsStore.currentBackground'(newPath) {
-            this.applyBackground()
+        'settingsStore.currentWallpaper'(newPath) {
+            this.applyWallpaper()
         }
     },
     methods: {
-        applyBackground() {
-            const bgPath = this.settingsStore.currentBackground
+        applyWallpaper() {
+            const bgPath = this.settingsStore.currentWallpaper
             // Use absolute path from public folder or import the image
             document.body.style.setProperty('--background-image', `url('/src/assets/background/${bgPath}')`)
         },

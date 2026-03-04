@@ -31,7 +31,7 @@ export default {
         <p class="chip">Vue.js Desktop Environment</p>
     </div>
     <div class="system-info">
-        <button class="info-button" @click="click">More info</button>
+        <button class="info-btn" @click="click">More info</button>
     </div>
     <div class="copyright">
         <p style="margin-bottom: 2px">™ and © 1983-{{ year }} Apple Inc.</p>
@@ -85,7 +85,7 @@ export default {
     margin: 0;
 }
 
-.info-button {
+.info-btn {
     background: var(--accent-color);
     color: var(--system-font-white);
     border: none;
@@ -97,11 +97,11 @@ export default {
     transition: box-shadow 0.2s;
 }
 
-.info-button:hover {
+.info-btn:hover {
     box-shadow: inset 0 0 0 100px rgba(0, 0, 0, 0.15);
 }
 
-.info-button:active {
+.info-btn:active {
     box-shadow: inset 0 0 0 100px rgba(0, 0, 0, 0.3);
 }
 </style>

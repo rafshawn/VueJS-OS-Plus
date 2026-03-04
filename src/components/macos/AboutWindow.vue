@@ -142,9 +142,9 @@ export default {
         <h3 class="window-name">{{this.window.displayName}}</h3>
         <div style="padding: 10px 0px 10px 10px">
             <div class="triple-button">
-                <button class="grey-button button"></button>
-                <button class="grey-button button"></button>
-                <button class="close-button button" @click="closeWindow"></button>
+                <button class="grey-button"></button>
+                <button class="grey-button"></button>
+                <button class="close-button" @click="closeWindow"></button>
             </div>
         </div>
     </div>

@@ -12,7 +12,7 @@ app.use(pinia)
 const settingsStore = useSettingsStore()
 settingsStore.loadTheme()
 settingsStore.setupSystemThemeListener()
-settingsStore.loadBackground()
+settingsStore.loadWallpaper()
 settingsStore.loadAccentColor()
 
 app.component('interact', Interact)

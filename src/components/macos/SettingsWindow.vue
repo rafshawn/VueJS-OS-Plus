@@ -151,9 +151,9 @@ export default {
         <div class="sidebar-section">
             <div style="padding: 15px 0px 15px 15px">
                 <div class="triple-button">
-                    <button class="expand-button button" @click="toggleWindowSize"></button>
-                    <button class="minimize-button button" @click="minimizeWindow"></button>
-                    <button class="close-button button" @click="closeWindow"></button>
+                    <button class="expand-button" @click="toggleWindowSize"></button>
+                    <button class="minimize-button" @click="minimizeWindow"></button>
+                    <button class="close-button" @click="closeWindow"></button>
                 </div>
             </div>
         </div>
