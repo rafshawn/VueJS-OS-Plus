@@ -315,7 +315,7 @@ export default {
 
 .top-nav-icon:hover,
 .top-nav-date-time:hover {
-    background-color: rgba(100, 100, 100, .25);
+    background-color: var(--topnav-active);
 }
 
 .text-right {

@@ -484,7 +484,7 @@ button.basic {
 }
 
 button.basic:active {
-    background-color: #8d8d8d;
+    background-color: var(--basic-btn-active);
 }
 
 /* Sidebar Styles */

@@ -1,10 +1,24 @@
 <script>
+import Wifi from '@iconify-vue/f7/wifi'
+import WifiSlash from '@iconify-vue/f7/wifi-slash'
+import Bluetooth from '@iconify-vue/lucide/bluetooth'
+import AirDrop from '@iconify-vue/f7/dot-radiowaves-left-right'
 import DarkMode from '@iconify-vue/gg/dark-mode'
+import ChevronRight from '@iconify-vue/f7/chevron-right'
+import Rectangle from '@iconify-vue/f7/rectangle'
+import RectangleOnRectangle from '@iconify-vue/f7/rectangle-on-rectangle'
 
 export default {
     name: 'ControlCenter',
     components: {
-        DarkMode
+        Wifi,
+        WifiSlash,
+        Bluetooth,
+        AirDrop,
+        DarkMode,
+        ChevronRight,
+        Rectangle,
+        RectangleOnRectangle
     },
     props: {
         isOpen: { type: Boolean, required: true },
@@ -31,70 +45,170 @@ export default {
 </script>
 
 <template>
-<!-- <div v-if="isOpen" class="dropdown-menu" :style="{left: positionX + 'px', top: positionY + 'px'}">
-    <div
-        v-for="(item, index) in menuItems"
-        :key="index"
-        class="dropdown-item"
-        @click="handleAction(item.action)"
-    >
-        <span class="item-label">{{ item.label }}</span>
-        <span class="item-shortcut" v-if="item.shortcut">{{ item.shortcut }}</span>
-    </div>
-    <div class="dropdown-divider"></div>
-</div> -->
 <div
     v-if="isOpen"
     class="dropdown-menu"
     :style="{left: positionX + 'px', top: positionY + 'px'}"
 >
-    <div>
-
+    <div class="container">
+        <div class="panel medium">
+            <div class="network">
+                <div class="item">
+                    <div class="cc-icon">
+                        <Wifi class="main-icon"/>
+                    </div>
+                    <div class="text-box">
+                        <div>Wi-Fi</div>
+                        <div class="subtext">Off</div>
+                    </div>
+                    <span><ChevronRight class="chev-r-icon"/></span>
+                </div>
+                <div class="item">
+                    <div class="cc-icon">
+                        <Bluetooth class="main-icon"/>
+                    </div>
+                    <div class="text-box">
+                        <div>Bluetooth</div>
+                        <div class="subtext">Off</div>
+                    </div>
+                    <span><ChevronRight class="chev-r-icon"/></span>
+                </div>
+                <div class="item">
+                    <div class="cc-icon">
+                        <AirDrop class="main-icon"/>
+                    </div>
+                    <div class="text-box">
+                        <div>AirDrop</div>
+                        <div class="subtext">Off</div>
+                    </div>
+                    <span><ChevronRight class="chev-r-icon"/></span>
+                </div>
+            </div>
+        </div>
+        <div class="panel wide">
+            <div class="item">
+                <div class="cc-icon">
+                    <DarkMode class="main-icon"/>
+                </div>
+                <div class="text">Dark Mode</div>
+            </div>
+        </div>
+        <div class="panel small">
+            <Rectangle class="main-icon" />
+            <div class="subtext">Stage Manager</div>
+        </div>
+        <div class="panel small">
+            <RectangleOnRectangle class="main-icon" />
+            <div class="subtext">Screen Mirroring</div>
+        </div>
+        <div class="panel full">Display</div>
+        <div class="panel full">Sound</div>
+        <div class="panel full">Music</div>
     </div>
 </div>
 </template>
 
 <style scoped>
 .dropdown-menu {
-    position: fixed;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border-radius: 8px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.1);
-    padding: 6px 0;
-    min-width: 200px;
-    z-index: 3000;
-    animation: dropdownFadeIn 0.15s ease-out;
+    padding: 0;
+    min-width: 300px;
+    border-radius: 16px;
 }
 
-@keyframes dropdownFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-5px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 12px;
+    gap: 10px;
 }
 
-.dropdown-item {
+.panel {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 6px 14px;
-    cursor: pointer;
-    font-size: 13px;
-    color: #333;
-    transition: background-color 0.1s;
+    justify-content: center;
+    gap: 10px;
+    background-color: yellow;
+    border-radius: 12px;
+    font-size: 30px;
+    /* box-shadow: 0 8px 1px rgba(0, 0, 0, 0.2); */
+    border: 1px solid
 }
 
-.dropdown-item:hover {
-    background: rgba(0, 122, 255, 0.1);
+.panel .item {
+    display: flex;
+    align-items: center;
+    width: 100%;
 }
 
-.dropdown-item:active {
-    background: rgba(0, 122, 255, 0.2);
+.panel.small {
+    flex-direction: column;
+}
+
+.panel.wide {
+    grid-column: span 2;
+}
+
+.panel.wide .item {
+    margin: 10px;
+}
+
+.panel.medium {
+    grid-column: span 2;
+    grid-row: span 2;
+
+}
+
+.panel.medium .network {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    gap: 10px;
+    width: 100%;
+}
+
+.panel.wide {
+    grid-column: span 2;
+}
+
+.panel.full {
+    grid-column: span 4;
+}
+
+.text-box {
+    flex-grow: 1;
+}
+
+
+.subtext {
+    font-size: 11px;
+    color: var(--system-font-2);
+    width: 30%;
+}
+
+.item {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.item .cc-icon {
+    padding: 4px;
+    margin-right: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: 1px solid black;
+    color: var(--system-font);
+}
+
+.main-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.chev-r-icon {
+    width: 14px;
+    height: 14px;
 }
 
 .item-label {
@@ -105,11 +219,5 @@ export default {
     color: #999;
     font-size: 12px;
     margin-left: 20px;
-}
-
-.dropdown-divider {
-    height: 1px;
-    background: rgba(0, 0, 0, 0.1);
-    margin: 6px 0;
 }
 </style>

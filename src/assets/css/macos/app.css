@@ -44,9 +44,11 @@
     --navbar-color: var(--navbar-light);
     --navbar-light: rgba(255, 255, 255, .5);
     --navbar-dark: rgba(0, 0, 0, .5);
+    --topnav-active: rgba(51, 52, 53, 0.15);;
 
     /* Buttons */
     --basic-btn: var(--window-color-light-2);
+    --basic-btn-active: var(--accent-hover);
 
     /* Traffic Buttons */
     --red: #ff5f57;
@@ -80,7 +82,9 @@ html.dark-mode {
     --window-color-2: var(--window-color-dark-2);
     --window-transparent: var(--window-transparent-dark);
     --navbar-color: var(--navbar-dark);
+    --topnav-active: rgba(175, 175, 175, 0.25);
     --basic-btn: #6d6d6d;
+    --basic-btn-active: #8d8d8d;
     --grey-btn: var(--grey-2);
     --grey-btn-border: var(--grey-border-2);
 }
