@@ -10,9 +10,10 @@ const pinia = createPinia()
 app.use(pinia)
 
 const settingsStore = useSettingsStore()
+settingsStore.loadTheme()
+settingsStore.setupSystemThemeListener()
 settingsStore.loadBackground()
 settingsStore.loadAccentColor()
-settingsStore.loadDarkMode()
 
 app.component('interact', Interact)
 

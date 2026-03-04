@@ -134,6 +134,7 @@ export const useSettingsStore = defineStore('settings', {
       { id: 'green', name: 'Green', value: 'var(--accent-green)' },
       { id: 'grey', name: 'Grey', value: 'var(--accent-grey)' },
     ],
+    theme: 'system',
     darkMode: false,
   }),
   getters: {
@@ -158,7 +159,6 @@ export const useSettingsStore = defineStore('settings', {
     // Get display wallpapers (one per group, respecting dark mode)
     displayWallpapers(state) {
       return state.wallpaperGroups.map(group => {
-        // Determine which path to show based on dark mode
         let displayPath
         if (group.light && group.dark) {
           displayPath = state.darkMode ? group.dark : group.light
@@ -176,6 +176,60 @@ export const useSettingsStore = defineStore('settings', {
     }
   },
   actions: {
+    // Get current system preference
+    getSystemPrefersDark() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches
+    },
+
+    // Update dark mode based on theme setting
+    updateDarkMode() {
+      let isDark
+      if (this.theme === 'system') {
+        isDark = this.getSystemPrefersDark()
+      } else {
+        isDark = this.theme === 'dark'
+      }
+
+      this.darkMode = isDark
+
+      // Apply to document
+      if (isDark) {
+        document.documentElement.classList.add('dark-mode')
+      } else {
+        document.documentElement.classList.remove('dark-mode')
+      }
+
+      // Auto-switch wallpaper variant if current wallpaper supports it
+      this.updateWallpaperForDarkMode()
+    },
+
+    // Set theme ('light', 'dark', or 'system')
+    setTheme(theme) {
+      this.theme = theme
+      localStorage.setItem('theme', theme)
+      this.updateDarkMode()
+    },
+
+    // Load saved theme from localStorage and setup listener
+    loadTheme() {
+      const saved = localStorage.getItem('theme')
+      if (saved && ['light', 'dark', 'system'].includes(saved)) {
+        this.theme = saved
+      }
+      this.updateDarkMode()
+    },
+
+    // Setup listener for system theme changes
+    setupSystemThemeListener() {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+
+      mediaQuery.addEventListener('change', (e) => {
+        if (this.theme === 'system') {
+          this.updateDarkMode()
+        }
+      })
+    },
+
     // Set background - store the base wallpaper ID, not the variant
     setBackground(backgroundPath) {
       // Find which group this wallpaper belongs to
@@ -221,28 +275,6 @@ export const useSettingsStore = defineStore('settings', {
       }
     },
 
-    setDarkMode(enabled) {
-      this.darkMode = enabled
-      if (enabled) {
-        document.documentElement.classList.add('dark-mode')
-      } else {
-        document.documentElement.classList.remove('dark-mode')
-      }
-      localStorage.setItem('darkMode', enabled)
-
-      // Auto-switch wallpaper variant if current wallpaper supports it
-      this.updateWallpaperForDarkMode()
-    },
-    loadDarkMode() {
-      const saved = localStorage.getItem('darkMode')
-      if (saved != null) {
-        const enabled = saved === 'true'
-        this.darkMode = enabled
-        if (enabled) {
-          document.documentElement.classList.add('dark-mode')
-        }
-      }
-    },
     setAccentColor(color) {
       this.accentColor = color
       document.documentElement.style.setProperty('--accent-color', color)

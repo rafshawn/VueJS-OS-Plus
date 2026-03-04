@@ -77,7 +77,7 @@ export default {
         // Load saved preferences
         this.settingsStore.loadBackground()
         this.settingsStore.loadAccentColor()
-        this.settingsStore.loadDarkMode()
+        this.settingsStore.loadTheme()
         this.applyBackground()
 
         const navbar = document.getElementById('navbar')

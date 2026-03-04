@@ -19,11 +19,6 @@ export default {
     props: {
         nameOfWindow: String,
     },
-    inject: ['activeTab', 'setScrolling'],
-    setup() {
-        const settingsStore = useSettingsStore();
-        return { settingsStore };
-    },
     data() {
         return {
             selectedTab: "profile",
@@ -34,11 +29,26 @@ export default {
                 phone: "1 (800) 538-9696",
                 avatar: "mac.jpg",
             },
+            userSocials: {
+                email: "mailto:justin@apple.com",
+                phone: "sms:+18005389696",
+                github: "https://github.com/",
+                linkedin: "https://www.linkedin.com/",
+                x: "https://x.com/",
+                instagram: "https://www.instagram.com/",
+                facebook: "https://www.facebook.com/",
+                discord: "https://discord.com/",
+            },
             wifiEnabled: false,
             ipInfo: null,
             ipLoading: false,
             btEnabled: false,
         };
+    },
+    inject: ['activeTab', 'setScrolling'],
+    setup() {
+        const settingsStore = useSettingsStore();
+        return { settingsStore };
     },
     computed: {
         avatarUrl() {
@@ -68,14 +78,33 @@ export default {
         this.$refs.contentArea.removeEventListener('scroll', this.handleScroll);
     },
     methods: {
-        sendMail() { window.location.href = 'mailto:justin@apple.com', 'noopener,noreferrer' },
-        sendText() { window.location.href = 'sms:+18005389696', 'noopener,noreferrer' },
-        openGithub() { window.open('https://github.com/', '_blank', 'noopener,noreferrer') },
-        openLinkedin() { window.open('https://www.linkedin.com/', '_blank', 'noopener,noreferrer') },
-        openX() { window.open('https://x.com/', '_blank', 'noopener,noreferrer') },
-        openInstagram() { window.open('https://www.instagram.com/', '_blank', 'noopener,noreferrer') },
-        openFacebook() { window.open('https://www.facebook.com/', '_blank', 'noopener,noreferrer') },
-        openDiscord() { window.open('https://discord.com/', '_blank', 'noopener,noreferrer') },
+        sendMail() { window.location.href = `mailto:${this.userSocials.email}`, 'noopener,noreferrer' },
+        sendText() { window.location.href = `sms:+${this.userSocials.phone}`, 'noopener,noreferrer' },
+        openGithub() { window.open(`${this.userSocials.github}`, '_blank', 'noopener,noreferrer') },
+        openLinkedin() { window.open(`${this.userSocials.linkedin}`, '_blank', 'noopener,noreferrer') },
+        openX() { window.open(`${this.userSocials.x}`, '_blank', 'noopener,noreferrer') },
+        openInstagram() { window.open(`${this.userSocials.instagram}`, '_blank', 'noopener,noreferrer') },
+        openFacebook() { window.open(`${this.userSocials.facebook}`, '_blank', 'noopener,noreferrer') },
+        openDiscord() { window.open(`${this.userSocials.discord}`, '_blank', 'noopener,noreferrer') },
+
+        handleScroll(event) {
+            const isScrolling = event.target.scrollTop > 0;
+            if (this.setScrolling) {
+                this.setScrolling(isScrolling);
+            }
+        },
+        setTheme(theme) {
+            this.settingsStore.setTheme(theme);
+        },
+        selectBackground(backgroundPath) {
+            this.settingsStore.setBackground(backgroundPath);
+        },
+        getBackgroundUrl(filename) {
+            return new URL(`../../assets/background/${filename}`, import.meta.url).href;
+        },
+        selectAccent(color) {
+            this.settingsStore.setAccentColor(color);
+        },
 
         async fetchIPInfo() {
             this.ipLoading = true;
@@ -96,25 +125,6 @@ export default {
             } finally {
                 this.ipLoading = false;
             }
-        },
-
-        handleScroll(event) {
-            const isScrolling = event.target.scrollTop > 0;
-            if (this.setScrolling) {
-                this.setScrolling(isScrolling);
-            }
-        },
-        setDarkMode(enabled) {
-            this.settingsStore.setDarkMode(enabled);
-        },
-        selectBackground(backgroundPath) {
-            this.settingsStore.setBackground(backgroundPath);
-        },
-        getBackgroundUrl(filename) {
-            return new URL(`../../assets/background/${filename}`, import.meta.url).href;
-        },
-        selectAccent(color) {
-            this.settingsStore.setAccentColor(color);
         },
     },
 };
@@ -337,17 +347,24 @@ export default {
                             <span style="display: flex;">
                                 <div
                                     class="dark-mode light"
-                                    :class="{ selected: !settingsStore.darkMode }"
-                                    @click="setDarkMode(false)"
+                                    :class="{ selected: settingsStore.theme === 'light' }"
+                                    @click="setTheme('light')"
                                 >
                                     <span>Light</span>
                                 </div>
                                 <div
                                     class="dark-mode dark"
-                                    :class="{ selected: settingsStore.darkMode }"
-                                    @click="setDarkMode(true)"
+                                    :class="{ selected: settingsStore.theme === 'dark' }"
+                                    @click="setTheme('dark')"
                                 >
                                     <span>Dark</span>
+                                </div>
+                                <div
+                                    class="dark-mode auto"
+                                    :class="{ selected: settingsStore.theme === 'system' }"
+                                    @click="setTheme('system')"
+                                >
+                                    <span>Auto</span>
                                 </div>
                             </span>
                         </div>
@@ -697,6 +714,12 @@ export default {
     background-color: var(--window-color-dark-2);
 }
 
+.info-row.info-box .dark-mode.auto {
+    color: var(--system-font-2);
+    background-color: var(--window-color-2);
+    transition: background-color var(--dark-mode-transition);
+}
+
 /* WiFi Switch */
 .wifi-switch {
     width: 44px;
@@ -735,19 +758,19 @@ export default {
 .wallpaper-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 20px;
+    gap: 12px;
 }
 
 .wallpaper-option {
     cursor: pointer;
     border-radius: 10px;
     overflow: hidden;
-    border: 3px solid var(--window-color-2);
+    border: 3px hidden var(--window-color-2);
     transition: all 0.2s ease;
 }
 
 .wallpaper-option.selected {
-    border-color: var(--accent-color);
+    border: 3px solid var(--accent-color);
 }
 
 .wallpaper-preview {
