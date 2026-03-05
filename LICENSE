@@ -1,6 +1,10 @@
 MIT License
 
-Copyright (c) 2021 Don Chia
+Original work Copyright (c) 2021 Don Chia
+Modified work Copyright (c) 2026 Shawn
+
+VueJS OS Plus is based on vuejs-os-template
+(https://github.com/DonChiaQE/vuejs-os-template)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
