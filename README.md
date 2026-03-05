@@ -1,8 +1,8 @@
-# [VueJS OS Plus](https://main-preview-site.netlify.app/)
+# [Vue OS Plus](https://main-preview-site.netlify.app/)
 
 **A Modern, Mobile-Friendly Desktop OS Web Template Built with Vue 3**
 
-> **Note:** This is a fork of the original [vuejs-os-template](https://github.com/DonChiaQE/vuejs-os-template), significantly enhanced with new features, macOS-focused improvements, and mobile-friendly optimizations. Perfect for beginners looking to create custom OS-style web interfaces!
+> **Note:** This is a fork of the original [vuejs-os-template](https://github.com/DonChiaQE/vuejs-os-template), significantly enhanced with new templates and mobile-friendly optimizations.
 
 | [Blueprint Theme](https://blueprint-template.netlify.app/) | [Windows Theme](https://windows-template.netlify.app/) | [MacOS Theme](https://macos-template.netlify.app/) |
 | --------- | --------| ----- |
@@ -18,48 +18,53 @@
 
 ## Table of Contents
 
-- [VueJS OS Plus](#vuejs-os-plus)
+- [Vue OS Plus](#vue-os-plus)
   - [Table of Contents](#table-of-contents)
   - [Project Overview](#project-overview)
-  - [✨ What's New in This Fork](#-whats-new-in-this-fork)
   - [Features](#features)
-  - [Technologies](#technologies)
+    - [Core Features](#core-features)
+      - [Functional Features (macOS)](#functional-features-macos)
+  - [Dependencies](#dependencies)
   - [Setup Instructions](#setup-instructions)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+    - [Project Structure](#project-structure)
   - [Quick Start Guide](#quick-start-guide)
-    - [1. Register a New Window (Slots Method)](#1-register-a-new-window-slots-method)
+    - [1. Register a New Window](#1-register-a-new-window)
     - [2. Register a Custom Window](#2-register-a-custom-window)
     - [3. Switching Themes](#3-switching-themes)
+      - [macOS Theme (Default)](#macos-theme-default)
+      - [Windows Theme](#windows-theme)
+      - [Blueprint Theme](#blueprint-theme)
   - [macOS Features Guide](#macos-features-guide)
-    - [Dock Configuration](#dock-configuration)
-    - [Menu Bar](#menu-bar)
-    - [Control Center](#control-center)
     - [System Settings](#system-settings)
-    - [Wallpaper & Accent Colors](#wallpaper--accent-colors)
+    - [Wallpaper \& Accent Colours](#wallpaper--accent-colours)
+      - [Available Wallpapers](#available-wallpapers)
+      - [Setting Wallpaper Programmatically](#setting-wallpaper-programmatically)
+      - [Setting Accent Colour](#setting-accent-colour)
   - [Window API Reference](#window-api-reference)
-  - [Mobile-Friendly Features](#mobile-friendly-features)
   - [FAQ](#faq)
+    - [Can I use this for...?](#can-i-use-this-for)
+    - [Where are the CSS stored?](#where-are-the-css-stored)
+    - [How do I add custom icons?](#how-do-i-add-custom-icons)
+    - [How do I change the default theme?](#how-do-i-change-the-default-theme)
+    - [How do I add more wallpapers?](#how-do-i-add-more-wallpapers)
   - [Credits](#credits)
+    - [Original Project](#original-project)
+    - [Icons \& Assets](#icons--assets)
+    - [Fonts](#fonts)
+  - [License](#license)
+  - [Support \& Contributing](#support--contributing)
 
 ---
 
 ## Project Overview
 
-VueJS OS Plus is an enhanced, production-ready OS-style web application template built with **Vue 3**, **Pinia**, and **Vite**. This fork focuses on:
-
-- 🍎 **macOS-first experience** with authentic UI/UX
-- 📱 **Mobile-friendly** optimizations and touch support
-- 🎨 **Easy customization** for beginners
-- ⚡ **Modern tech stack** (Vue 3 + Vite + Pinia)
-- 🌙 **Dark mode** with system theme detection
-- 🖼️ **Wallpaper customization** with light/dark variants
-
-Perfect for portfolios, dashboards, web apps, or learning Vue 3!
+VueOS Plus is an OS-style web application template built with **Vue 3**, **Pinia**, and **Vite**. This project features themes for famous OS distributions, classic and modern, as well as a fully customizable template.
 
 ---
 
-## ✨ What's New in This Fork
-
-### Major Enhancements
+## Features
 
 | Feature | Description |
 |---------|-------------|
@@ -67,62 +72,44 @@ Perfect for portfolios, dashboards, web apps, or learning Vue 3!
 | **Vite Build System** | Lightning-fast HMR and build times |
 | **macOS Dock** | Configurable dock with window management |
 | **Control Center** | Quick settings for Wi-Fi, Bluetooth, Display, Sound |
-| **System Settings** | Full settings panel for wallpapers, accent colors, themes |
+| **System Settings** | Full settings panel for wallpapers, accent colours, themes |
 | **Dark Mode** | Auto-switching based on system preference or manual toggle |
 | **Wallpaper Engine** | 20+ wallpapers with smart light/dark variants |
-| **Accent Colors** | 8 customizable accent colors |
+| **Accent Colours** | 8 customizable accent colours |
 | **Mobile Optimized** | Touch-friendly interactions, responsive layout |
 | **Spotlight Search** | Quick access search (WIP) |
 | **Widget Menu** | Extensible widget system (WIP) |
 
----
-
-## Features
-
 ### Core Features
 
-- ✅ **Draggable & Resizable Windows**
-- ✅ **Window Management**
-- ✅ **App Grid**
-- ✅ **Theme System** - Switch between macOS, Windows, Blueprint
-- ✅ **Dark Mode** - System-aware with manual override
-- ✅ **Wallpaper Engine** - Multiple wallpapers with variants
-- ✅ **UI Customization**
-- ✅ **Mobile Friendly**
+- **Draggable & Resizable Windows**
+- **Window Management**
+- **App Grid**
+- **Theme System** - Switch between macOS, Windows, or a blank slate
+- **UI Customization**
+- **Mobile Friendly**
 
-### Functional Features (macOS)
+#### Functional Features (macOS)
 
 - 🍎 Apple Menu
   - 🖥️ About This Mac
   - ⚙️ System Settings
+    - Custom Wallpapers
 - 🎛️ Control Center
+- Dark Mode
+- Customizable Dock
 - 🔍 Spotlight Search (WIP)
 - 📱 Widget Menu (WIP)
 
 ---
 
-## Technologies
-
-```json
-{
-  "framework": "Vue 3.5+",
-  "state": "Pinia 3+",
-  "build": "Vite 7+",
-  "dragResize": "interactjs 1.10+",
-  "utilities": "@vueuse/core",
-  "datetime": "moment.js",
-  "icons": "Iconify (multiple sets)"
-}
-```
-
-**Full Dependencies:**
-- Vue 3
-- Pinia
-- Vite
-- interactjs
-- @vueuse/core
-- moment
-- Iconify
+## Dependencies
+- [Vue.js](https://vuejs.org/)
+- [Pinia](https://pinia.vuejs.org/)
+- [Vite](https://vitejs.dev/)
+- [interactjs](https://interactjs.io/)
+- [@vueuse/core](https://vueuse.org/)
+- [Moment.js](https://momentjs.com/)
 
 ---
 
@@ -193,10 +180,7 @@ vuejs-os-plus/
 
 ## Quick Start Guide
 
-### 1. Register a New Window (Slots Method)
-
-**Best for:** Simple windows using default styling
-
+### 1. Register a New Window
 **Step 1:** Edit `src/stores/window.js` and add to the `windows` array:
 
 ```javascript
@@ -367,66 +351,15 @@ import Navbar from './components/blueprint/Navbar.vue'
 
 ## macOS Features Guide
 
-### Dock Configuration
-
-The dock displays windows from the `dockWindows` array in the window store:
-
-```javascript
-// src/stores/window.js
-dockWindows: [
-  'LoremIpsum',
-  'MacOS',
-  'Windows',
-  'Blueprint',
-  'PhotoWindow',
-  'AboutMac',
-  'SystemSettings'
-]
-```
-
-**Features:**
-- Active app indicator (dot below open apps)
-- Click to open/focus window
-- Horizontal scroll for many apps
-- Hide/show animations
-
----
-
-### Menu Bar
-
-Located at the top of the screen with:
-
-- **Apple Menu** - System actions (About, Settings, Sleep, Restart, Shut Down, Lock, Log Out)
-- **File Menu** - Contextual file actions (New, Open, Save, Close)
-- **Status Icons** - Wi-Fi, Control Center, Spotlight
-
----
-
-### Control Center
-
-Access via top-right icon. Includes:
-
-- **Network** - Wi-Fi, Bluetooth, AirDrop toggles
-- **Display** - Brightness slider
-- **Sound** - Volume slider
-- **Dark Mode** - Toggle dark theme
-- **Stage Manager** - Window management (WIP)
-- **Screen Mirroring** - External displays (WIP)
-
----
-
 ### System Settings
-
-Full settings window accessible from Apple Menu or Dock:
-
 - **Wallpaper** - Choose from 20+ backgrounds
-- **Appearance** - Light, Dark, or System theme
-- **Accent Color** - 8 color options
-- **About** - System information
+- **Dark Mode** - Light, Dark, or Auto
+- **UI Customization** - 8 accent colours
+- **About** - Customizable information window
 
 ---
 
-### Wallpaper & Accent Colors
+### Wallpaper & Accent Colours
 
 #### Available Wallpapers
 
@@ -436,7 +369,7 @@ Full settings window accessible from Apple Menu or Dock:
 | Big Sur | Big Sur | Light/Dark |
 | Ventura | Ventura | Light/Dark |
 | Studio | Studio | Single |
-| Solid Colors | 15+ colors | Single |
+| Solid Colours | 15+ colours | Single |
 
 #### Setting Wallpaper Programmatically
 
@@ -447,13 +380,13 @@ const settingsStore = useSettingsStore()
 settingsStore.setWallpaper('monterey_light.webp')
 ```
 
-#### Setting Accent Color
+#### Setting Accent Colour
 
 ```javascript
-settingsStore.setAccentColor('var(--accent-blue)')
+settingsStore.setAccentColour('var(--accent-blue)')
 ```
 
-**Available Colors:**
+**Available Colours:**
 - Blue, Purple, Pink, Red, Orange, Yellow, Green, Grey
 
 ---
@@ -474,40 +407,6 @@ settingsStore.setAccentColor('var(--accent-blue)')
 | `iconImage` | String | Icon filename | `"placeholder.png"` |
 | `altText` | String | Icon alt text | `"My Icon"` |
 | `fullscreen` | Boolean | Fullscreen state | `false` |
-
----
-
-## Mobile-Friendly Features
-
-VueJS OS Plus includes several mobile optimizations:
-
-### Touch Support
-
-- ✅ Touch-friendly dock icons (55px × 55px minimum)
-- ✅ Touch drag for windows
-- ✅ Touch-optimized sliders in Control Center
-- ✅ Responsive navbar with horizontal scroll
-- ✅ Responsive Design
-- ✅ Overflow handling for small screens
-
-### CSS Optimizations
-
-```css
-/* Dynamic viewport height for mobile browsers */
-#app {
-  height: calc(var(--vh, 1vh) * 100);
-}
-
-/* Dock scroll handling */
-.navbar-container {
-  overflow-x: auto;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
-}
-.navbar-container::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
-}
-```
 
 ---
 
@@ -561,7 +460,6 @@ Edit `src/App.vue` CSS imports:
 @import './assets/css/macos/appgrid.css';
 ```
 
-
 ### How do I add more wallpapers?
 
 Edit `src/stores/settings.js`:
@@ -588,15 +486,6 @@ Add image to `src/assets/background/`.
 ### Original Project
 
 - **[DonChiaQE](https://github.com/DonChiaQE)** - Original [vuejs-os-template](https://github.com/DonChiaQE/vuejs-os-template)
-
-### Libraries & Frameworks
-
-- **Vue.js** - [vuejs.org](https://vuejs.org/)
-- **Pinia** - [pinia.vuejs.org](https://pinia.vuejs.org/)
-- **Vite** - [vitejs.dev](https://vitejs.dev/)
-- **interactjs** - [interactjs.io](https://interactjs.io/)
-- **@vueuse/core** - [vueuse.org](https://vueuse.org/)
-- **Moment.js** - [momentjs.com](https://momentjs.com/)
 
 ### Icons & Assets
 
