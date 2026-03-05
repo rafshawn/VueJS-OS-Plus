@@ -1,8 +1,6 @@
 # [Vue OS Plus](https://main-preview-site.netlify.app/)
 
-**A Modern, Mobile-Friendly Desktop OS Web Template Built with Vue 3**
-
-> **Note:** This is a fork of the original [vuejs-os-template](https://github.com/DonChiaQE/vuejs-os-template), significantly enhanced with new templates and mobile-friendly optimizations.
+VueOS Plus is an OS-style web application template built with **Vue 3**, **Pinia**, and **Vite**. This project features themes for famous OS distributions, classic and modern, as well as a fully customizable template.
 
 | [Blueprint Theme](https://blueprint-template.netlify.app/) | [Windows Theme](https://windows-template.netlify.app/) | [MacOS Theme](https://macos-template.netlify.app/) |
 | --------- | --------| ----- |
@@ -20,9 +18,7 @@
 
 - [Vue OS Plus](#vue-os-plus)
   - [Table of Contents](#table-of-contents)
-  - [Project Overview](#project-overview)
   - [Features](#features)
-    - [Core Features](#core-features)
       - [Functional Features (macOS)](#functional-features-macos)
   - [Dependencies](#dependencies)
   - [Setup Instructions](#setup-instructions)
@@ -38,9 +34,7 @@
       - [Blueprint Theme](#blueprint-theme)
   - [macOS Features Guide](#macos-features-guide)
     - [System Settings](#system-settings)
-    - [Wallpaper \& Accent Colours](#wallpaper--accent-colours)
-      - [Available Wallpapers](#available-wallpapers)
-      - [Setting Wallpaper Programmatically](#setting-wallpaper-programmatically)
+      - [Setting Wallpaper](#setting-wallpaper)
       - [Setting Accent Colour](#setting-accent-colour)
   - [Window API Reference](#window-api-reference)
   - [FAQ](#faq)
@@ -58,30 +52,7 @@
 
 ---
 
-## Project Overview
-
-VueOS Plus is an OS-style web application template built with **Vue 3**, **Pinia**, and **Vite**. This project features themes for famous OS distributions, classic and modern, as well as a fully customizable template.
-
----
-
 ## Features
-
-| Feature | Description |
-|---------|-------------|
-| **Vue 3 + Pinia** | Migrated from Vue 2 + Vuex for better performance and DX |
-| **Vite Build System** | Lightning-fast HMR and build times |
-| **macOS Dock** | Configurable dock with window management |
-| **Control Center** | Quick settings for Wi-Fi, Bluetooth, Display, Sound |
-| **System Settings** | Full settings panel for wallpapers, accent colours, themes |
-| **Dark Mode** | Auto-switching based on system preference or manual toggle |
-| **Wallpaper Engine** | 20+ wallpapers with smart light/dark variants |
-| **Accent Colours** | 8 customizable accent colours |
-| **Mobile Optimized** | Touch-friendly interactions, responsive layout |
-| **Spotlight Search** | Quick access search (WIP) |
-| **Widget Menu** | Extensible widget system (WIP) |
-
-### Core Features
-
 - **Draggable & Resizable Windows**
 - **Window Management**
 - **App Grid**
@@ -357,21 +328,7 @@ import Navbar from './components/blueprint/Navbar.vue'
 - **UI Customization** - 8 accent colours
 - **About** - Customizable information window
 
----
-
-### Wallpaper & Accent Colours
-
-#### Available Wallpapers
-
-| Collection | Name | Variants |
-|------------|------|----------|
-| Monterey | Monterey | Light/Dark |
-| Big Sur | Big Sur | Light/Dark |
-| Ventura | Ventura | Light/Dark |
-| Studio | Studio | Single |
-| Solid Colours | 15+ colours | Single |
-
-#### Setting Wallpaper Programmatically
+#### Setting Wallpaper
 
 ```javascript
 import { useSettingsStore } from '@/stores/settings'
