@@ -67,6 +67,12 @@
     --grey-2: #4a4a4a;
     --grey-border-2: var(--grey-2);
 
+    /* Control Center */
+    --cc-bg-clear: rgba(255, 255, 255, 0.5);
+    --cc-icon: var(--system-font-black);
+    --cc-icon-bg: rgba(140, 140, 140, 0.5);
+    --cc-border-light: var(--border-color-light);
+
     /* Transitions */
     --dark-mode-transition: 0.35s ease;
 }
@@ -75,18 +81,28 @@
 html.dark-mode {
     --system-font: var(--system-font-white);
     --system-font-2: var(--system-font-white);
+
     --border-color: var(--border-color-dark);
     --border-color-2: #1e1e1e;
+
     --accent-hover: rgba(255, 255, 255, 0.1);
+
     --window-color: var(--window-color-dark);
     --window-color-2: var(--window-color-dark-2);
     --window-transparent: var(--window-transparent-dark);
+
     --navbar-color: var(--navbar-dark);
     --topnav-active: rgba(175, 175, 175, 0.25);
+
     --basic-btn: #6d6d6d;
     --basic-btn-active: #8d8d8d;
     --grey-btn: var(--grey-2);
     --grey-btn-border: var(--grey-border-2);
+
+    --cc-bg-clear: rgba(45, 45, 45, 0.25);
+    --cc-icon: #d6d6de;
+    --cc-icon-bg: rgba(200, 200, 200, 0.2);
+    --cc-border: rgba(125, 125, 125, 0.5);
 }
 
 body {

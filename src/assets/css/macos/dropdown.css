@@ -1,6 +1,7 @@
 .dropdown-menu {
     position: fixed;
     background: var(--window-transparent);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     border: 1px solid var(--border-color);
     border-radius: 8px;
